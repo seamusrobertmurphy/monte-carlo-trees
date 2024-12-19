@@ -1,18 +1,12 @@
 ---
 title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
-author: 
-  - name: Seamus Murphy
-    orcid: 0000-0002-1792-0351 
-    email: seamusrobertmurphy@gmail.com
 abstract: > 
   A workflow for deriving [ART Tool](https://verra.org/wp-content/uploads/2024/02/VT0007-Unplanned-Deforestation-Allocation-v1.0.pdf).
 keywords:
   - REDD+
-  - VCS
-  - Verra
   - Carbon verification
-  - Jurisdictional
+  - Uncertainty
 format: 
   html:
     toc: true
@@ -21,7 +15,6 @@ format:
     toc-depth: 5
     toc-expand: 4
     theme: [minimal]
-    output-dir: docs
 highlight-style: github
 df-print: kable
 keep-md: true
@@ -46,10 +39,13 @@ easypackages::packages(
   "extrafont",
   "htmltools",
   "janitor",
+  "lattice",
   "kableExtra",
   "knitr",
+  "olsrr",
   "readxl",
   "tinytex",
+  "psych",
   prompt = F)
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
   error = TRUE, comment = NA, tidy.opts = list(width.cutoff = 60)) 
@@ -71,19 +67,19 @@ sf::sf_use_s2(use_s2 = FALSE)
 set.seed(333)
 dataset_tidy = read.csv("./data/dataset_tidy.csv")
 write.csv(dataset_tidy, "./data/dataset_tidy.csv", row.names = FALSE)
-dataset_tidy |> kbl(caption = "Table 1: Dummy dataset derived for pilot test") |> kable_styling()
+dataset_tidy |> kbl(caption = "Table 1: Dummy data derived for pilot test") |> kable_styling() 
 ```
 
-## Compute biomass
+## Compute plot biomass
 
 $$V_{j,i|sp} = \sum_{l = 1}^{L} V_{l,j,i,sp}$$
 
-|          |                            |
-|:--------:|----------------------------|
-|  $$V$$   | sum of merchantable volume ($m^3$) |
-|  $$j$$   | of species                 |
-|  $$sp$$  | plot                       |
-|  $$i$$   | stratum                    |
+|        |                                    |
+|:------:|------------------------------------|
+| $$V$$  | sum of merchantable volume ($m^3$) |
+| $$j$$  | of species                         |
+| $$sp$$ | plot ID                            |
+| $$i$$  | stratum                            |
 
 ```{r eq1}
 #| warning: false
@@ -93,8 +89,8 @@ $$V_{j,i|sp} = \sum_{l = 1}^{L} V_{l,j,i,sp}$$
 #| echo: true
 
 dataset_tidy = dataset_tidy |>
-  group_by(species_j, stratum_i, plot_sp) |>
-  mutate(vji_sp_m3 = sum(volume))
+  dplyr::group_by(species_j, stratum_i, plot_sp) |>
+  dplyr::mutate(vji_sp_m3 = sum(volume))
 
 # compute new variable 'vji_sp_m3'
 data.table::setDT(dataset_tidy)[, .(
@@ -106,7 +102,46 @@ data.table::setDT(dataset_tidy)[, .(
 
 ## Variable descriptives
 
+```{r}
+#| layout-ncol: 3
+psych::describe(dataset_tidy)
+plot_vol = lm(plot_sp ~ volume, data = dataset_tidy)
+hist(dataset_tidy$vji_sp_m3, main="Volume")
+hist(dataset_tidy$volume, main="")
+lattice::histogram(plot_sp ~ volume, data = dataset_tidy)
 
+wilcox.test(dataset_tidy$vji_sp_m3) # p<0.006
+wilcox.test(dataset_tidy$volume) # p<0.0002
+wilcox.test(dataset_tidy$plot_sp) # p<0.0002
+
+# Inspect univariate trends in residual variance 
+olsrr::ols_test_breusch_pagan(plot_vol) # p=0.0012
+lattice::densityplot(dataset_tidy$volume, type = "density")
+lattice::densityplot(dataset_tidy$plot_sp, type = "density")
+plot(plot_sp ~ volume, data = dataset_tidy, 
+ main="Linear function showing negative correlation")
+abline(plot_vol, col = "red")
+```
+
+## Simulation Regime
+
+The `LGOCV` acronym stands for "leave one group out cross validation". We must select the % of test data that is set out from the build upon which the model will be repeatedly trained. Repeat n number of times)
+
+```{r}
+monte_carlo = trainControl(
+  method = "LGOCV",
+  p      = 0.8, 
+  number = 10000) # how many simulations
+
+lm_LGOCV <- 
+  train(vji_sp_m3 ~ ., 
+          data = train_data, 
+          method = "lm",
+          na.action = na.omit,
+          trControl = LGOCV)
+
+lm_LGOCV 
+```
 
 `control <- trainControl(method = "LGOCV", number = 10, p=.9)`
 

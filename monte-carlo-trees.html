@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Seamus Murphy">
 <meta name="dcterms.date" content="2024-12-19">
-<meta name="keywords" content="REDD+, VCS, Verra, Carbon verification, Jurisdictional">
+<meta name="keywords" content="REDD+, Carbon verification, Uncertainty">
 
 <title>Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates</title>
 <style>
@@ -137,12 +136,6 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Seamus Murphy <a href="mailto:seamusrobertmurphy@gmail.com" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-1792-0351" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
-          </div>
-  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
@@ -164,7 +157,7 @@ window.Quarto = {
 <div>
   <div class="keywords">
     <div class="block-title">Keywords</div>
-    <p>REDD+, VCS, Verra, Carbon verification, Jurisdictional</p>
+    <p>REDD+, Carbon verification, Uncertainty</p>
   </div>
 </div>
 
@@ -446,6 +439,26 @@ window.Quarto = {
 </section>
 <section id="variable-descriptives" class="level2">
 <h2 class="anchored" data-anchor-id="variable-descriptives">Variable descriptives</h2>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">"Volume"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dataset_tidy<span class="sc">$</span>vji_sp_m3, <span class="at">main=</span><span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel" data-layout-ncol="5">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: center;">
+<p><img src="monte-carlo-trees_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 20.0%;justify-content: center;">
+<p><img src="monte-carlo-trees_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</div>
 <p><code>control &lt;- trainControl(method = "LGOCV", number = 10, p=.9)</code></p>
 <p>you will perform 10 repetitions of leave group validation where for each repetition 90% (p = 0.9) of the data will be sampled at random and used for training while the remaining 10% of data will be used for testing. This is also called Monte-Carlo Cross Validation. Usually more repetitions are performed with MC-CV.</p>
 <p>When using</p>
@@ -460,84 +473,84 @@ window.Quarto = {
 <p>Simulation regime</p>
 <p>see also LGOCV: <code>load(url("http://caret.r-forge.r-project.org/exampleModels.RData"))</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model_training_time_series <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"timeslice"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">initialWindow =</span> <span class="dv">36</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">horizon =</span> <span class="dv">12</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixedWindow =</span> <span class="cn">TRUE</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>model_training_10kfold <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">number =</span> <span class="dv">10</span>, <span class="at">repeats =</span> <span class="dv">10</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co"># animation of 10-kfold method:</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="at">path =</span> <span class="st">"animation.gif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>model_training_time_series <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"timeslice"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">initialWindow =</span> <span class="dv">36</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">horizon =</span> <span class="dv">12</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixedWindow =</span> <span class="cn">TRUE</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>model_training_10kfold <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">number =</span> <span class="dv">10</span>, <span class="at">repeats =</span> <span class="dv">10</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># animation of 10-kfold method:</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="at">path =</span> <span class="st">"animation.gif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="training-test-split" class="level2">
 <h2 class="anchored" data-anchor-id="training-test-split">Training-Test Split</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(dataset<span class="sc">$</span>variable_indexed, <span class="at">p =</span> <span class="fl">0.70</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>train.data <span class="ot">&lt;-</span> dataset[samples, ]</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>test.data <span class="ot">&lt;-</span> dataset[<span class="sc">-</span>samples, ]</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>model_training_time_series <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"timeslice"</span>,</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">initialWindow =</span> <span class="dv">36</span>,</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">horizon =</span> <span class="dv">12</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixedWindow =</span> <span class="cn">TRUE</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>model_training_10kfold <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">number =</span> <span class="dv">10</span>, <span class="at">repeats =</span> <span class="dv">10</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># animation of 10-kfold method:</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="at">path =</span> <span class="st">"animation.gif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">createDataPartition</span>(dataset<span class="sc">$</span>variable_indexed, <span class="at">p =</span> <span class="fl">0.70</span>, <span class="at">list =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>train.data <span class="ot">&lt;-</span> dataset[samples, ]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>test.data <span class="ot">&lt;-</span> dataset[<span class="sc">-</span>samples, ]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>model_training_time_series <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"timeslice"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">initialWindow =</span> <span class="dv">36</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">horizon =</span> <span class="dv">12</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">fixedWindow =</span> <span class="cn">TRUE</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>model_training_10kfold <span class="ot">&lt;-</span> <span class="fu">trainControl</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"repeatedcv"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">number =</span> <span class="dv">10</span>, <span class="at">repeats =</span> <span class="dv">10</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># animation of 10-kfold method:</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">include_graphics</span>(<span class="at">path =</span> <span class="st">"animation.gif"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="simulation-fitting" class="level2">
 <h2 class="anchored" data-anchor-id="simulation-fitting">Simulation Fitting</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model 1 - NDMI - model specification</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>svm_ndmi_linear <span class="ot">&lt;-</span> <span class="fu">train</span>(pi_mpb_killed <span class="sc">~</span> ndmi,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> beetle_train.data,</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"svmLinear"</span>,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> model_training_10kfold,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneLength =</span> <span class="dv">10</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model 1 - NDMI - model specification</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>svm_ndmi_linear <span class="ot">&lt;-</span> <span class="fu">train</span>(pi_mpb_killed <span class="sc">~</span> ndmi,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> beetle_train.data,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"svmLinear"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">trControl =</span> model_training_10kfold,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">preProcess =</span> <span class="fu">c</span>(<span class="st">"center"</span>, <span class="st">"scale"</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tuneLength =</span> <span class="dv">10</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="simulation-validation" class="level2">
 <h2 class="anchored" data-anchor-id="simulation-validation">Simulation Validation</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_ndmi_linear, <span class="at">data =</span> beetle_train.data)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae <span class="ot">&lt;-</span> <span class="fu">mae</span>(beetle_ndmi_pred_train, beetle_train.data<span class="sc">$</span>pi_mpb_killed)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae_rel <span class="ot">&lt;-</span> (beetle_ndmi_pred_train_mae <span class="sc">/</span> <span class="fu">mean</span>(beetle_train.data<span class="sc">$</span>pi_mpb_killed)) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae_rel</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse <span class="ot">&lt;-</span> <span class="fu">rmse</span>(beetle_ndmi_pred_train, beetle_train.data<span class="sc">$</span>pi_mpb_killed)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse_rel <span class="ot">&lt;-</span> (beetle_ndmi_pred_train_rmse <span class="sc">/</span> <span class="fu">mean</span>(beetle_train.data<span class="sc">$</span>pi_mpb_killed)) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse_rel</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_R2 <span class="ot">&lt;-</span> <span class="fu">R2</span>(beetle_ndmi_pred_train, beetle_train.data<span class="sc">$</span>pi_mpb_killed)</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_R2</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">TheilU</span>(beetle_train.data<span class="sc">$</span>pi_mpb_killed, beetle_ndmi_pred_train, <span class="at">type =</span> <span class="dv">2</span>)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_Ubias <span class="ot">&lt;-</span> ((beetle_ndmi_pred_train_mae) <span class="sc">*</span> <span class="dv">20</span>) <span class="sc">/</span> ((beetle_ndmi_pred_train_mae)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_Ubias</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_ndmi_linear, <span class="at">data =</span> darkwoods_beetle_plots_data)</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_test_rmse <span class="ot">&lt;-</span> <span class="fu">rmse</span>(beetle_ndmi_pred_test, darkwoods_beetle_plots_data<span class="sc">$</span>pi_mpb_killed)</span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_test_rmse <span class="sc">/</span> beetle_ndmi_pred_train_rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_ndmi_linear, <span class="at">data =</span> beetle_train.data)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae <span class="ot">&lt;-</span> <span class="fu">mae</span>(beetle_ndmi_pred_train, beetle_train.data<span class="sc">$</span>pi_mpb_killed)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae_rel <span class="ot">&lt;-</span> (beetle_ndmi_pred_train_mae <span class="sc">/</span> <span class="fu">mean</span>(beetle_train.data<span class="sc">$</span>pi_mpb_killed)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_mae_rel</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse <span class="ot">&lt;-</span> <span class="fu">rmse</span>(beetle_ndmi_pred_train, beetle_train.data<span class="sc">$</span>pi_mpb_killed)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse_rel <span class="ot">&lt;-</span> (beetle_ndmi_pred_train_rmse <span class="sc">/</span> <span class="fu">mean</span>(beetle_train.data<span class="sc">$</span>pi_mpb_killed)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_rmse_rel</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_R2 <span class="ot">&lt;-</span> <span class="fu">R2</span>(beetle_ndmi_pred_train, beetle_train.data<span class="sc">$</span>pi_mpb_killed)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_R2</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">TheilU</span>(beetle_train.data<span class="sc">$</span>pi_mpb_killed, beetle_ndmi_pred_train, <span class="at">type =</span> <span class="dv">2</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_Ubias <span class="ot">&lt;-</span> ((beetle_ndmi_pred_train_mae) <span class="sc">*</span> <span class="dv">20</span>) <span class="sc">/</span> ((beetle_ndmi_pred_train_mae)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_train_Ubias</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_test <span class="ot">&lt;-</span> <span class="fu">predict</span>(svm_ndmi_linear, <span class="at">data =</span> darkwoods_beetle_plots_data)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_test_rmse <span class="ot">&lt;-</span> <span class="fu">rmse</span>(beetle_ndmi_pred_test, darkwoods_beetle_plots_data<span class="sc">$</span>pi_mpb_killed)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>beetle_ndmi_pred_test_rmse <span class="sc">/</span> beetle_ndmi_pred_train_rmse</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s assume 𝑁N is the size of the dataset, 𝑘k is the number of the 𝑘k-fold subsets , 𝑛𝑡nt is the size of the training set and 𝑛𝑣nv is the size of the validation set. Therefore, 𝑁=𝑘×𝑛𝑣N=k×nv for 𝑘k-fold cross-validation and 𝑁=𝑛𝑡+𝑛𝑣N=nt+nv for Monte Carlo cross-validation.</p>
 <p>𝑘k-fold cross-validation (kFCV) divides the 𝑁N data points into 𝑘k mutually exclusive subsets of equal size. The process then leaves out one of the 𝑘k subsets as a validation set and trains on the remaining subsets. This process is repeated 𝑘k times, leaving out one of the 𝑘k subsets each time. The size of 𝑘k can range from 𝑁N to 22 (𝑘=𝑁k=N is called leave-one-out cross validation). The authors in [2] suggest setting 𝑘=5k=5 or 1010.</p>

@@ -1,18 +1,12 @@
 ---
 title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
-author: 
-  - name: Seamus Murphy
-    orcid: 0000-0002-1792-0351 
-    email: seamusrobertmurphy@gmail.com
 abstract: > 
   A workflow for deriving [ART Tool](https://verra.org/wp-content/uploads/2024/02/VT0007-Unplanned-Deforestation-Allocation-v1.0.pdf).
 keywords:
   - REDD+
-  - VCS
-  - Verra
   - Carbon verification
-  - Jurisdictional
+  - Uncertainty
 format: 
   html:
     toc: true
@@ -21,7 +15,6 @@ format:
     toc-depth: 5
     toc-expand: 4
     theme: [minimal]
-    output-dir: docs
 highlight-style: github
 df-print: kable
 keep-md: true
@@ -228,12 +221,12 @@ dataset_tidy |> kbl(caption = "Table 1: Dummy dataset derived for pilot test") |
 
 $$V_{j,i|sp} = \sum_{l = 1}^{L} V_{l,j,i,sp}$$
 
-|          |                            |
-|:--------:|----------------------------|
-|  $$V$$   | sum of merchantable volume ($m^3$) |
-|  $$j$$   | of species                 |
-|  $$sp$$  | plot                       |
-|  $$i$$   | stratum                    |
+|        |                                    |
+|:------:|------------------------------------|
+| $$V$$  | sum of merchantable volume ($m^3$) |
+| $$j$$  | of species                         |
+| $$sp$$ | plot                               |
+| $$i$$  | stratum                            |
 
 
 
@@ -318,6 +311,38 @@ data.table::setDT(dataset_tidy)[, .(
 
 
 ## Variable descriptives
+
+
+
+::: {.cell layout-ncol="5"}
+
+```{.r .cell-code}
+hist(dataset_tidy$vji_sp_m3, main="Volume")
+```
+
+::: {.cell-output-display}
+![](monte-carlo-trees_files/figure-html/unnamed-chunk-1-1.png){width=672}
+:::
+
+```{.r .cell-code}
+hist(dataset_tidy$vji_sp_m3, main="")
+```
+
+::: {.cell-output-display}
+![](monte-carlo-trees_files/figure-html/unnamed-chunk-1-2.png){width=672}
+:::
+
+```{.r .cell-code}
+hist(dataset_tidy$vji_sp_m3, main="")
+hist(dataset_tidy$vji_sp_m3, main="")
+hist(dataset_tidy$vji_sp_m3, main="")
+hist(dataset_tidy$vji_sp_m3, main="")
+hist(dataset_tidy$vji_sp_m3, main="")
+hist(dataset_tidy$vji_sp_m3, main="")
+hist(dataset_tidy$vji_sp_m3, main="")
+hist(dataset_tidy$vji_sp_m3, main="")
+```
+:::
 
 
 
