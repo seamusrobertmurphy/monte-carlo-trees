@@ -230,18 +230,14 @@ beetle_ndmi_pred_test_rmse <- rmse(beetle_ndmi_pred_test, darkwoods_beetle_plots
 beetle_ndmi_pred_test_rmse / beetle_ndmi_pred_train_rmse
 ```
 
-Let's assume 𝑁N is the size of the dataset, 𝑘k is the number of the 𝑘k-fold subsets , 𝑛𝑡nt is the size of the training set and 𝑛𝑣nv is the size of the validation set. Therefore, 𝑁=𝑘×𝑛𝑣N=k×nv for 𝑘k-fold cross-validation and 𝑁=𝑛𝑡+𝑛𝑣N=nt+nv for Monte Carlo cross-validation.
+**Monte Carlo cross-validation** (MCCV) involves randomly dividing the dataset into two parts: a training subset and a validation subset, without reusing data points. The model is trained on the training subset, denoted as \( n_t \), and assessed on the validation subset, \( n_v \). While there are \( \binom{N}{n_t} \) distinct ways to form the training subsets, MCCV bypasses the computational burden of evaluating all these combinations by sampling a smaller number of iterations. Zhang \[3\] demonstrated that performing MCCV for \( N \) iterations yields results comparable to exhaustive cross-validation over all possible subsets. However, studies investigating MCCV for large dataset sizes (\( N \)) remain limited.
 
-𝑘k-fold cross-validation (kFCV) divides the 𝑁N data points into 𝑘k mutually exclusive subsets of equal size. The process then leaves out one of the 𝑘k subsets as a validation set and trains on the remaining subsets. This process is repeated 𝑘k times, leaving out one of the 𝑘k subsets each time. The size of 𝑘k can range from 𝑁N to 22 (𝑘=𝑁k=N is called leave-one-out cross validation). The authors in \[2\] suggest setting 𝑘=5k=5 or 1010.
+The trade-off between bias and variance in MCCV is influenced by the choice of \( k \) (iterations) and \( n_t \) (training subset size). Increasing \( k \) or \( n_t \) tends to reduce bias but increases variance. Larger training subsets lead to greater similarity across iterations, which can result in overfitting to the training data. For a deeper analysis, see \[2\]. The bias-variance characteristics of \( k \)-fold cross-validation (kFCV) and MCCV differ, but their bias levels can be aligned by selecting appropriate values for \( k \) and \( n_t \). A detailed comparison of the bias and variance for both approaches can be found in \[1\], where MCCV is referred to as the "repeated-learning testing-model."
 
-**Monte Carlo cross-validation** (MCCV) simply splits the 𝑁N data points into the two subsets 𝑛𝑡nt and 𝑛𝑣nv by sampling, without replacement, 𝑛𝑡nt data points. The model is then trained on subset 𝑛𝑡nt and validated on subset 𝑛𝑣nv.There exist (𝑁𝑛𝑡)(Nnt) unique training sets, but MCCV avoids the need to run this many iterations. Zhang \[3\] shows that running MCCV for 𝑁2N2 iterations has results close to cross validation over all (𝑁𝑛𝑡)(Nnt) unique training sets. It should be noted that the literature lacks research for large N.
+---
 
-The choice of 𝑘k and 𝑛𝑡nt affects the bias/variance trade off. The larger 𝑘k or 𝑛𝑡nt, the lower the bias and the higher the variance. Larger training sets are more similar between iterations, hence over fitting to the training data. See \[2\] for more on this discussion. The bias and variance of kFCV and MCCV are different, but the bias of the two methods can be made equal by choosing appropriate levels of 𝑘k and 𝑛𝑡nt. The values of the bias and variance for both methods are shown in \[1\] (this paper refers to MCCV as repeated-learning testing-model).
+\[1\] Burman, P. (1989). A comparative study of ordinary cross-validation, \( v \)-fold cross-validation, and the repeated learning testing-model methods. *Biometrika*, **76**, 503–514.
 
-------------------------------------------------------------------------
+\[2\] Hastie, T., Tibshirani, R., & Friedman, J. (2011). *The Elements of Statistical Learning: Data Mining, Inference, and Prediction*. 2nd ed. New York: Springer.
 
-\[1\] Burman, P. (1989). A Comparative study of ordinary cross-validation, 𝑣v-fold cross validation and the repeated learing testing-model methods. *Bometrika* **76** 503-514.
-
-\[2\] Hastie, T., Tibshirani, R. and Friedman, J. (2011). *The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Second ed.* New York: Springer.
-
-\[3\] Zhang, P. (1993). Model Selection Via Muiltfold Cross Validation. *Ann. Stat.* **21** 299–313
+\[3\] Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of Statistics*, **21**, 299–313.
