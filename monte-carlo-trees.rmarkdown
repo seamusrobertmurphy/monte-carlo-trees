@@ -56,7 +56,11 @@ options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 sf::sf_use_s2(use_s2 = FALSE)
 ```
 
+
+
 # Introduction
+
+
 
 ```{r}
 #| eval: true
@@ -73,9 +77,13 @@ knitr::include_graphics(path = "animation.gif")
 ```
 
 
+
+
 #### Scope of Work
 
 ## Import data {#sec-1.1}
+
+
 
 ```{r dummy-import}
 #| warning: false
@@ -92,7 +100,11 @@ dataset |> kbl(
 str(dataset)
 ```
 
+
+
 ## Probability density functions
+
+
 
 ```{r}
 #| layout-ncol: 2
@@ -142,9 +154,13 @@ yfit <- yfit*diff(h$mids[1:2])*length(dataset$agb)
 lines(xfit, yfit, col="blue", lwd=2)
 ```
 
+
+
 ## Simulation Regime
 
 The `LGOCV` acronym stands for "leave one group out cross validation". We must select the % of test data that is set out from the build upon which the model will be repeatedly trained.
+
+
 
 ```{r}
 # Cross-validation split for bias detection
@@ -169,9 +185,13 @@ lm_monte_carlo = train(
 lm_monte_carlo 
 ```
 
+
+
 ## Plot residuals
 
 To enable access to these predictions, we need to instruct `caret` to retain the resampled predictions by setting `savePredictions = "final"` in our `trainControl()` function. It's important to be aware that if you’re working with a large dataset or numerous resampling iterations, the resulting `train()` object may grow significantly in size. This happens because `caret` must store a record of every row, including both the observed values and predictions, for each resampling iteration. By visualizing the results, we can offer insights into the performance of our model on the resampled data.
+
+
 
 ```{r}
 monte_carlo_viz = trainControl(
@@ -199,7 +219,11 @@ lm_monte_carlo_viz$pred |>
 
 
 
+
+
 ## Uncertainty Estimates
+
+
 
 ```{r}
 #| eval: false
@@ -230,6 +254,8 @@ beetle_ndmi_pred_test_rmse <- rmse(beetle_ndmi_pred_test, darkwoods_beetle_plots
 beetle_ndmi_pred_test_rmse / beetle_ndmi_pred_train_rmse
 ```
 
+
+
 Let's assume 𝑁N is the size of the dataset, 𝑘k is the number of the 𝑘k-fold subsets , 𝑛𝑡nt is the size of the training set and 𝑛𝑣nv is the size of the validation set. Therefore, 𝑁=𝑘×𝑛𝑣N=k×nv for 𝑘k-fold cross-validation and 𝑁=𝑛𝑡+𝑛𝑣N=nt+nv for Monte Carlo cross-validation.
 
 𝑘k-fold cross-validation (kFCV) divides the 𝑁N data points into 𝑘k mutually exclusive subsets of equal size. The process then leaves out one of the 𝑘k subsets as a validation set and trains on the remaining subsets. This process is repeated 𝑘k times, leaving out one of the 𝑘k subsets each time. The size of 𝑘k can range from 𝑁N to 22 (𝑘=𝑁k=N is called leave-one-out cross validation). The authors in \[2\] suggest setting 𝑘=5k=5 or 1010.
@@ -245,3 +271,4 @@ The choice of 𝑘k and 𝑛𝑡nt affects the bias/variance trade off. The larg
 \[2\] Hastie, T., Tibshirani, R. and Friedman, J. (2011). *The Elements of Statistical Learning: Data Mining, Inference, and Prediction. Second ed.* New York: Springer.
 
 \[3\] Zhang, P. (1993). Model Selection Via Muiltfold Cross Validation. *Ann. Stat.* **21** 299–313
+
