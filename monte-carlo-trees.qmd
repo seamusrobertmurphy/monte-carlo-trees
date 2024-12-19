@@ -2,13 +2,13 @@
 title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
 abstract: > 
-  A workflow for deriving [ART Tool](https://verra.org/wp-content/uploads/2024/02/VT0007-Unplanned-Deforestation-Allocation-v1.0.pdf).
+  A tentative workflow for estimating uncertainty using Monte Carlo simulation
 keywords:
   - REDD+
   - Carbon verification
   - Uncertainty
 format: 
-  html:
+  docx:
     toc: true
     toc-location: right
     toc-title: "**Contents**"
@@ -31,6 +31,7 @@ output-dir: docs
 #| echo: false
 
 #install.packages("easypackages")
+#install.packages("remotes")
 easypackages::packages(
   "allodb",
   "animation",
@@ -40,18 +41,31 @@ easypackages::packages(
   "dplyr",
   "extrafont",
   "FAwR",
+  "ggplot2",
   "htmltools",
   "janitor",
   "lattice",
   "kableExtra",
   "knitr",
   "olsrr",
-  "readxl",
-  "tinytex",
   "psych",
+  "RColorBrewer",
+  "readxl",
+  "tidymodels",
+  "tidyverse",
+  "tinytex",
+  "tune",
   prompt = F)
-knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
-  error = TRUE, comment = NA, tidy.opts = list(width.cutoff = 60)) 
+
+knitr::opts_chunk$set(
+  echo    = TRUE, 
+  message = FALSE, 
+  warning = FALSE,
+  error   = FALSE, 
+  comment = NA, 
+  tidy.opts = list(width.cutoff = 60), 
+  tidy = "styler"
+)
 options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 sf::sf_use_s2(use_s2 = FALSE)
 ```
@@ -59,21 +73,14 @@ sf::sf_use_s2(use_s2 = FALSE)
 # Introduction
 
 ```{r}
-#| eval: true
-
-cv.ani(
-  x   = runif(150),
-  k   = 10,
-  col = c("green", "red", "blue"),
-  pch = c(4, 1)
-)
-
+#| echo: false
 # animation of 10-kfold method:
-knitr::include_graphics(path = "animation.gif")
+knitr::include_graphics("./animation.gif")
 ```
 
-
 #### Scope of Work
+
+Excel tool design published \[here\] (https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx)
 
 ## Import data {#sec-1.1}
 
@@ -86,23 +93,24 @@ set.seed(333)
 #data(ufc) # spuRs::vol.m3(dataset$dbh.cm, dataset$height.m, multiplier = 0.5)
 data(scbi_stem1)
 dataset   = scbi_stem1
-dataset |> kbl(
-  caption = "Table 1: Dataset from Smithsonian Institute provided by allodb package") |>
+head(dataset) |> kbl(
+  caption = "Table 1: Dataset from Smithsonian Institute provided by allodb package (n = 2287") |>
   kable_styling() 
+psych::describe(dataset)
 str(dataset)
 ```
 
 ## Probability density functions
 
 ```{r}
-#| layout-ncol: 2
+#| layout-ncol: 3
 
 # add allometry database
 data(equations)
 data("equations_metadata")
 show_cols   = c("equation_id", "equation_taxa", "equation_allometry")
 eq_tab_acer = new_equations(subset_taxa = "Acer")
-head(eq_tab_acer[, show_cols])
+kable(head(eq_tab_acer[, show_cols]))
 
 # Compute above ground biomass
 dataset$agb = allodb::get_biomass(
@@ -114,8 +122,8 @@ dataset$agb = allodb::get_biomass(
 
 # examine dbh ~ agb function
 dbh_agb = lm(dbh ~ agb, data = dataset)
-olsrr::ols_test_breusch_pagan(lm(dbh_agb)) #<0.0000
-lattice::histogram(dbh ~ agb, data = dataset)
+#olsrr::ols_test_breusch_pagan(lm(dbh_agb)) #<0.0000
+#h = lattice::histogram(dbh ~ agb, data = dataset)
 plot(
   x    = dataset$dbh,
   y    = dataset$agb,
@@ -123,23 +131,21 @@ plot(
   xlab = "DBH (cm)",
   ylab = "AGB (kg)"
 )
-abline(dbh_agb, col = "red")
 
 # examine univariate distributions
-psych::describe(dataset)
-wilcox.test(dataset$dbh) # p<0.00001
-wilcox.test(dataset$agb) # p<0.00001
-h = hist(dataset$dbh, breaks=10, col="red")
+h1 = hist(dataset$dbh, breaks=10, col="red")
 xfit<-seq(min(dataset$dbh),max(dataset$dbh),length=40)
-yfit<-dnorm(xfit,mean=mean(x),sd=sd(dataset$dbh))
-yfit <- yfit*diff(h$mids[1:2])*length(dataset$dbh)
+yfit<-dnorm(xfit,mean=mean(dataset$dbh),sd=sd(dataset$dbh))
+yfit <- yfit*diff(h1$mids[1:2])*length(dataset$dbh)
 lines(xfit, yfit, col="blue", lwd=2)
 
-h = hist(dataset$agb, breaks=10, col="red")
+h2 = hist(dataset$agb, breaks=10, col="red")
 xfit<-seq(min(dataset$agb),max(dataset$agb),length=40)
-yfit<-dnorm(xfit,mean=mean(x),sd=sd(dataset$agb))
-yfit <- yfit*diff(h$mids[1:2])*length(dataset$agb)
+yfit<-dnorm(xfit,mean=mean(dataset$agb),sd=sd(dataset$agb))
+yfit <- yfit*diff(h2$mids[1:2])*length(dataset$agb)
 lines(xfit, yfit, col="blue", lwd=2)
+wilcox.test(dataset$dbh) # p<0.00001
+wilcox.test(dataset$agb) # p<0.00001
 ```
 
 ## Simulation Regime
@@ -155,14 +161,14 @@ The `LGOCV` acronym stands for "leave one group out cross validation". We must s
 # Simulation pattern & regime
 monte_carlo = trainControl(
   method    = "LGOCV",
-  number    = 100,     # number of simulations
+  number    = 10,     # number of simulations
   p         = 0.8)     # percentage resampled
 
 
 # Training model fit with all covariates (".") & the simulation
 lm_monte_carlo = train(
-  agb ~ ., 
   data      = dataset, 
+  agb ~ ., 
   na.action = na.omit,
   trControl = monte_carlo)
 
@@ -181,13 +187,13 @@ monte_carlo_viz = trainControl(
   savePredictions = "final") 
 
 lm_monte_carlo_viz = train(
-  price_log ~ . -price, 
-  data      = train_data, 
+  agb ~ ., 
+  data      = dataset, 
   method    = "lm",
   na.action = na.omit,
   trControl = monte_carlo_viz)
 
-lm_monte_carlo_viz$pred  # residuals 
+head(lm_monte_carlo_viz$pred)  # residuals 
 
 lm_monte_carlo_viz$pred |> 
   ggplot(aes(x=pred,y=obs)) +
@@ -196,48 +202,21 @@ lm_monte_carlo_viz$pred |>
     coord_obs_pred()
 ```
 
-
-
-
 ## Uncertainty Estimates
 
-```{r}
-#| eval: false
+**Monte Carlo cross-validation** (MCCV) involves randomly dividing the dataset into two parts: a training subset and a validation subset, without reusing data points. The model is trained on the training subset, denoted as ( n_t ), and assessed on the validation subset, ( n_v ). While there are ( \binom{N}{n_t} ) distinct ways to form the training subsets, MCCV bypasses the computational burden of evaluating all these combinations by sampling a smaller number of iterations. Zhang \[3\] demonstrated that performing MCCV for ( N ) iterations yields results comparable to exhaustive cross-validation over all possible subsets. However, studies investigating MCCV for large dataset sizes (( N )) remain limited.
 
-beetle_ndmi_pred_train <- predict(svm_ndmi_linear, data = beetle_train.data)
-beetle_ndmi_pred_train_mae <- mae(beetle_ndmi_pred_train, beetle_train.data$pi_mpb_killed)
-beetle_ndmi_pred_train_mae
+The trade-off between bias and variance in MCCV is influenced by the choice of ( k ) (iterations) and ( n_t ) (training subset size). Increasing ( k ) or ( n_t ) tends to reduce bias but increases variance. Larger training subsets lead to greater similarity across iterations, which can result in overfitting to the training data. For a deeper analysis, see \[2\]. The bias-variance characteristics of ( k )-fold cross-validation (kFCV) and MCCV differ, but their bias levels can be aligned by selecting appropriate values for ( k ) and ( n_t ). A detailed comparison of the bias and variance for both approaches can be found in \[1\], where MCCV is referred to as the "repeated-learning testing-model."
 
-beetle_ndmi_pred_train_mae_rel <- (beetle_ndmi_pred_train_mae / mean(beetle_train.data$pi_mpb_killed)) * 100
-beetle_ndmi_pred_train_mae_rel
+------------------------------------------------------------------------
 
-beetle_ndmi_pred_train_rmse <- rmse(beetle_ndmi_pred_train, beetle_train.data$pi_mpb_killed)
-beetle_ndmi_pred_train_rmse
-
-beetle_ndmi_pred_train_rmse_rel <- (beetle_ndmi_pred_train_rmse / mean(beetle_train.data$pi_mpb_killed)) * 100
-beetle_ndmi_pred_train_rmse_rel
-
-beetle_ndmi_pred_train_R2 <- R2(beetle_ndmi_pred_train, beetle_train.data$pi_mpb_killed)
-beetle_ndmi_pred_train_R2
-
-TheilU(beetle_train.data$pi_mpb_killed, beetle_ndmi_pred_train, type = 2)
-
-beetle_ndmi_pred_train_Ubias <- ((beetle_ndmi_pred_train_mae) * 20) / ((beetle_ndmi_pred_train_mae)^2)
-beetle_ndmi_pred_train_Ubias
-
-beetle_ndmi_pred_test <- predict(svm_ndmi_linear, data = darkwoods_beetle_plots_data)
-beetle_ndmi_pred_test_rmse <- rmse(beetle_ndmi_pred_test, darkwoods_beetle_plots_data$pi_mpb_killed)
-beetle_ndmi_pred_test_rmse / beetle_ndmi_pred_train_rmse
-```
-
-**Monte Carlo cross-validation** (MCCV) involves randomly dividing the dataset into two parts: a training subset and a validation subset, without reusing data points. The model is trained on the training subset, denoted as \( n_t \), and assessed on the validation subset, \( n_v \). While there are \( \binom{N}{n_t} \) distinct ways to form the training subsets, MCCV bypasses the computational burden of evaluating all these combinations by sampling a smaller number of iterations. Zhang \[3\] demonstrated that performing MCCV for \( N \) iterations yields results comparable to exhaustive cross-validation over all possible subsets. However, studies investigating MCCV for large dataset sizes (\( N \)) remain limited.
-
-The trade-off between bias and variance in MCCV is influenced by the choice of \( k \) (iterations) and \( n_t \) (training subset size). Increasing \( k \) or \( n_t \) tends to reduce bias but increases variance. Larger training subsets lead to greater similarity across iterations, which can result in overfitting to the training data. For a deeper analysis, see \[2\]. The bias-variance characteristics of \( k \)-fold cross-validation (kFCV) and MCCV differ, but their bias levels can be aligned by selecting appropriate values for \( k \) and \( n_t \). A detailed comparison of the bias and variance for both approaches can be found in \[1\], where MCCV is referred to as the "repeated-learning testing-model."
-
----
-
-\[1\] Burman, P. (1989). A comparative study of ordinary cross-validation, \( v \)-fold cross-validation, and the repeated learning testing-model methods. *Biometrika*, **76**, 503–514.
+\[1\] Burman, P. (1989). A comparative study of ordinary cross-validation, ( v )-fold cross-validation, and the repeated learning testing-model methods. *Biometrika*, **76**, 503–514.
 
 \[2\] Hastie, T., Tibshirani, R., & Friedman, J. (2011). *The Elements of Statistical Learning: Data Mining, Inference, and Prediction*. 2nd ed. New York: Springer.
 
 \[3\] Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of Statistics*, **21**, 299–313.
+
+```{r}
+#| eval: true
+devtools::session_info()
+```
