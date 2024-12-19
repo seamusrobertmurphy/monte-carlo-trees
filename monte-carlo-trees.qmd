@@ -9,18 +9,12 @@ keywords:
   - Uncertainty
 format: 
   docx:
-    toc: true
-    toc-location: right
-    toc-title: "**Contents**"
-    toc-depth: 5
-    toc-expand: 4
+    toc: false
     theme: [minimal]
+prefer-html: true
 highlight-style: github
 df-print: kable
 keep-md: true
-prefer-html: true
-engine: knitr
-output-dir: docs
 ---
 
 ```{r setup}
@@ -55,6 +49,8 @@ easypackages::packages(
   "tidyverse",
   "tinytex",
   "tune",
+  "webshot",
+  "webshot2",
   prompt = F)
 
 knitr::opts_chunk$set(
@@ -63,9 +59,9 @@ knitr::opts_chunk$set(
   warning = FALSE,
   error   = FALSE, 
   comment = NA, 
-  tidy.opts = list(width.cutoff = 60), 
-  tidy = "styler"
+  tidy.opts = list(width.cutoff = 60)
 )
+
 options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 sf::sf_use_s2(use_s2 = FALSE)
 ```
@@ -74,8 +70,15 @@ sf::sf_use_s2(use_s2 = FALSE)
 
 ```{r}
 #| echo: false
+#| layout-ncols: 5
 # animation of 10-kfold method:
-knitr::include_graphics("./animation.gif")
+#knitr::include_graphics("./animation.gif")
+cv.ani(
+  x = runif(150),
+  k = 10,
+  col = c("green", "red", "blue"),
+  pch = c(4, 1)
+)
 ```
 
 #### Scope of Work
