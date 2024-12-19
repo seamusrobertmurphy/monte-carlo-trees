@@ -1,7 +1,7 @@
 ---
 title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
-abstract: > 
+subtitle: > 
   A tentative workflow for estimating uncertainty using Monte Carlo simulation
 keywords:
   - REDD+
@@ -9,49 +9,65 @@ keywords:
   - Uncertainty
 format: 
   docx:
-    toc: false
-    theme: [minimal]
-prefer-html: true
-highlight-style: github
+    toc: true
+    toc-depth: 5
+    number-sections: true
+    highlight-style: github
 df-print: kable
 keep-md: true
+prefer-html: true
+editor: 
+  markdown: 
+    wrap: sentence
 ---
+
+## Environment setup
 
 ```{r setup}
 #| warning: false
 #| message: false
 #| error: false
-#| include: false
-#| echo: false
+#| include: true
+#| echo: true
+# some parent packages need github sourcing 
+#install.packages(c("glue","remotes"))
+#remotes::install_github("ropensci/allodb") 
 
-#install.packages("easypackages")
-#install.packages("remotes")
+# note: warning messages turned off for this setup chunk
 easypackages::packages(
-  "allodb",
   "animation",
   "BIOMASS",
   "caret",
   "dataMaid",
+  "DescTools",
   "dplyr",
   "extrafont",
   "FAwR",
+  "ForestToolsRS",
   "ggplot2",
   "htmltools",
   "janitor",
+  "jsonlite",
   "lattice",
   "kableExtra",
+  "kernlab",
   "knitr",
+  "MLmetrics",
   "olsrr",
+  "plotly",
   "psych",
   "RColorBrewer",
   "readxl",
+  "tibble",
   "tidymodels",
   "tidyverse",
   "tinytex",
   "tune",
+  "useful",
   "webshot",
   "webshot2",
-  prompt = F)
+  prompt = F
+  )
 
 knitr::opts_chunk$set(
   echo    = TRUE, 
@@ -66,36 +82,70 @@ options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
 sf::sf_use_s2(use_s2 = FALSE)
 ```
 
-# Introduction
+## Introduction
 
 ```{r}
 #| echo: false
 #| layout-ncols: 5
 # animation of 10-kfold method:
-#knitr::include_graphics("./animation.gif")
-cv.ani(
-  x = runif(150),
-  k = 10,
-  col = c("green", "red", "blue"),
-  pch = c(4, 1)
-)
+knitr::include_graphics("./animation.gif")
+#cv.ani(x = runif(150),k = 10,col = c("green", "red", "blue"),pch = c(4, 1))
 ```
 
-#### Scope of Work
+Figure 1: Visualization of cross-validation regime similar to Monte Carlo simulation.
+Note differences in replacement, repeatedness and odd vs
 
-Excel tool design published \[here\] (https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx)
+The ART-TREES (Architecture for REDD+ Transactions – The REDD+ Environmental Excellence Standard) program sets rigorous methodological requirements for quantifying emissions reductions and removals in REDD+ projects.
+These standards emphasize accuracy, transparency, consistency, and completeness in carbon accounting, making the integration of advanced tools and methodologies essential.
+This pilot test script aligns with these principles, focusing on the application of Monte Carlo simulations, machine learning models, and database management systems to meet ART-TREES requirements effectively.
+
+The consultant, Seamus Murphy, will provide technical expertise across three key projects in the Ecosystem Services division's REDD+ portfolio, addressing urgent staffing needs.
+These activities include developing uncertainty estimation pathways consistent with ART-TREES, implementing jurisdictional-scale risk mapping, and ensuring that carbon accounting systems align with internationally accepted best practices.
+By leveraging Monte Carlo simulations and other state-of-the-art tools, this work will contribute to robust Monitoring, Reporting, and Verification (MRV) systems required under ART-TREES.
+
+This script outlines a structured approach to fulfilling project deliverables while adhering to the ART-TREES methodological framework, ensuring that all activities contribute to credible and scalable REDD+ outcomes.
+
+### Scope of Work
+
+This report aligns with specific deliverables relating to Monte Carlo support contracted under the project **Guyana (SPEC IN FOREST CARB MON - 10026.DRCT.00000.00000)**.
+In addition, this tentative workflow aims to align with ART-TREES methodological requirements of transparency, rigor, and alignment with jurisdictional and international standards.
+In addition, this report seeks feedback on the style of documentation of tools in efforts to address the contract's capacity building targets.
+Specifically, these include the following objectives:
+
+**Monte Carlo Simulation for Uncertainty Estimation**
+
+-   Develop Monte Carlo simulation pathways to quantify uncertainty in emission factors and activity data, ensuring consistency with ART-TREES’s emphasis on robust uncertainty analysis.
+
+-   Use R or other software to create systems that streamline data workflows and enhance accessibility for MRV purposes.
+    Monte Carlo Simulation for Uncertainty Estimation
+
+-   Document methodologies and provide results in formats compliant with ART-TREES reporting standards.
+
+**Reporting and Training Materials**
+
+-   Prepare technical reports that detail uncertainty estimation methods and database management workflows.
+
+-   Develop and deliver training materials to strengthen stakeholder capacity to use ART-TREES-aligned tools and methodologies.
+
+Quoting directly, `The hiring of a REDD+ consultant aims at filling urgent staffing needs and the scope of work for the consultant (Seamus Murphy) includes continuous support on 3 Winrock projects from the Ecosystem Services division REDD+ portfolio. The tasks and activities will be determined on an as needed basis according specific project demands, however, some keys activities include Guyana (SPEC IN FOREST CARB MON - 10026.DRCT.00000.00000).`
+
+Current excel tool design published [here](https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx)
 
 ## Import data {#sec-1.1}
+
+This section outlines the tools for importing and preparing forestry and biomass data for analysis, a key step in building ART-TREES-compliant MRV systems.
+Using the `allodb` package, we load a global allometry database and a dummy dataset from the Smithsonian Institute ForestGEO project.
 
 ```{r dummy-import}
 #| warning: false
 #| message: false
 #| error: false
 #| echo: true
+library("allodb") # https://docs.ropensci.org/allodb/
 set.seed(333)
 #data(ufc) # spuRs::vol.m3(dataset$dbh.cm, dataset$height.m, multiplier = 0.5)
 data(scbi_stem1)
-dataset   = scbi_stem1
+dataset = scbi_stem1
 head(dataset) |> kbl(
   caption = "Table 1: Dataset from Smithsonian Institute provided by allodb package (n = 2287") |>
   kable_styling() 
@@ -104,6 +154,13 @@ str(dataset)
 ```
 
 ## Probability density functions
+
+Accurate selection of probability density functions (PDFs) is essential for modeling uncertainties in carbon stocks and activity data.
+This section describes methodologies for fitting PDFs to data, ensuring results are robust and aligned with ART-TREES best practices.
+
+-   Use of statistical tests for goodness-of-fit validation.
+
+-   Integration of domain expertise to refine parameter selection.
 
 ```{r}
 #| layout-ncol: 3
@@ -153,7 +210,17 @@ wilcox.test(dataset$agb) # p<0.00001
 
 ## Simulation Regime
 
-The `LGOCV` acronym stands for "leave one group out cross validation". We must select the % of test data that is set out from the build upon which the model will be repeatedly trained.
+This section introduces the design of the Monte Carlo simulation regime, including:
+
+-   Simulation parameters are defined to balance computational efficiency and statistical robustness.
+
+-   Cross-validation techniques are employed to evaluate model performance and identify bias or variance.
+
+The `LGOCV` acronym used in the `caret` package functions below stands for "leave one group out cross validation".
+We must select the % of test data that is set out from the build upon which the model will be repeatedly trained.
+Note, the following code applies functions to full dataset without explicit training-test split.
+**Questions remains on whether we require cross-validation uncertainty estimate to review internal bias, and whether we would like to develop Monte Carlo tools for spatial uncertainty used in Activity Data analysis**.
+For your consideration, the consultant has previously developed Monte Carlo tools for LULC applications, saved [here](https://github.com/seamusrobertmurphy/02-lulc-classification)
 
 ```{r}
 # Cross-validation split for bias detection
@@ -180,7 +247,10 @@ lm_monte_carlo
 
 ## Plot residuals
 
-To enable access to these predictions, we need to instruct `caret` to retain the resampled predictions by setting `savePredictions = "final"` in our `trainControl()` function. It's important to be aware that if you’re working with a large dataset or numerous resampling iterations, the resulting `train()` object may grow significantly in size. This happens because `caret` must store a record of every row, including both the observed values and predictions, for each resampling iteration. By visualizing the results, we can offer insights into the performance of our model on the resampled data.
+To enable access to these predictions, we need to instruct `caret` to retain the resampled predictions by setting `savePredictions = "final"` in our `trainControl()` function.
+It's important to be aware that if you’re working with a large dataset or numerous resampling iterations, the resulting `train()` object may grow significantly in size.
+This happens because `caret` must store a record of every row, including both the observed values and predictions, for each resampling iteration.
+By visualizing the results, we can offer insights into the performance of our model on the resampled data.
 
 ```{r}
 monte_carlo_viz = trainControl(
@@ -207,17 +277,105 @@ lm_monte_carlo_viz$pred |>
 
 ## Uncertainty Estimates
 
-**Monte Carlo cross-validation** (MCCV) involves randomly dividing the dataset into two parts: a training subset and a validation subset, without reusing data points. The model is trained on the training subset, denoted as ( n_t ), and assessed on the validation subset, ( n_v ). While there are ( \binom{N}{n_t} ) distinct ways to form the training subsets, MCCV bypasses the computational burden of evaluating all these combinations by sampling a smaller number of iterations. Zhang \[3\] demonstrated that performing MCCV for ( N ) iterations yields results comparable to exhaustive cross-validation over all possible subsets. However, studies investigating MCCV for large dataset sizes (( N )) remain limited.
+This section discusses the trade-offs and methodological choices in uncertainty estimation using Monte Carlo simulations.
+It aligns with ART-TREES principles by:
 
-The trade-off between bias and variance in MCCV is influenced by the choice of ( k ) (iterations) and ( n_t ) (training subset size). Increasing ( k ) or ( n_t ) tends to reduce bias but increases variance. Larger training subsets lead to greater similarity across iterations, which can result in overfitting to the training data. For a deeper analysis, see \[2\]. The bias-variance characteristics of ( k )-fold cross-validation (kFCV) and MCCV differ, but their bias levels can be aligned by selecting appropriate values for ( k ) and ( n_t ). A detailed comparison of the bias and variance for both approaches can be found in \[1\], where MCCV is referred to as the "repeated-learning testing-model."
+-   Quantifying confidence intervals for emissions estimates.
+
+-   Addressing potential biases in the modeling process.
+
+-   Ensuring robustness in uncertainty reporting.
+
+***Working Notes...***
+
+References to key studies on cross-validation methods provide a theoretical foundation for the approach.**Monte Carlo cross-validation** (MCCV) involves randomly dividing the dataset into two parts: a training subset and a validation subset, without reusing data points.
+The model is trained on the training subset, denoted as ( n_t ), and assessed on the validation subset, ( n_v ).
+While there are ( \binom{N}{n_t} ) distinct ways to form the training subsets, MCCV bypasses the computational burden of evaluating all these combinations by sampling a smaller number of iterations.
+Zhang \[3\] demonstrated that performing MCCV for ( N ) iterations yields results comparable to exhaustive cross-validation over all possible subsets.
+However, studies investigating MCCV for large dataset sizes (( N )) remain limited.
+
+The trade-off between bias and variance in MCCV is influenced by the choice of ( k ) (iterations) and ( n_t ) (training subset size).
+Increasing ( k ) or ( n_t ) tends to reduce bias but increases variance.
+Larger training subsets lead to greater similarity across iterations, which can result in overfitting to the training data.
+For a deeper analysis, see \[2\].
+The bias-variance characteristics of ( k )-fold cross-validation (kFCV) and MCCV differ, but their bias levels can be aligned by selecting appropriate values for ( k ) and ( n_t ).
+A detailed comparison of the bias and variance for both approaches can be found in \[1\], where MCCV is referred to as the "repeated-learning testing-model."
+
+Monte Carlo Simulation in LULC Classification of Activity Data Assessment:
+
+```{r}
+#| eval: false
+library(ForesToolboxRS)
+dir.create("./data/testdata")
+download.file("https://github.com/ytarazona/ft_data/raw/main/data/LC08_232066_20190727_SR.zip",destfile = "testdata/LC08_232066_20190727_SR.zip")
+unzip("testdata/LC08_232066_20190727_SR.zip", exdir = "testdata") download.file("https://github.com/ytarazona/ft_data/raw/main/data/signatures.zip", destfile = "testdata/signatures.zip")
+unzip("testdata/signatures.zip", exdir = "testdata")
+
+image <- stack("./data/testdata/LC08_232066_20190727_SR.tif")
+sig <- read_sf("./data/testdata/signatures.shp")
+classRF <- mla(img = image, model = "randomForest", endm = sig, training_split = 80)
+
+# Results
+print(classRF)
+```
+
+```{r}
+#| eval: false
+# Classification
+colmap <- c("#0000FF","#228B22","#FF1493", "#00FF00")
+plot(classRF$Classification, main = "RandomForest Classification", col = colmap, axes = TRUE)
+```
+
+![](02-lulc-classification/figure-html/unnamed-chunk-3-1.png)
+
+![](02-lulc-classification_files/figure-html/unnamed-chunk-5-1.png){width="672"}
+
+```{r}
+#| eval: false
+#| # Calibration result
+plot(
+  cal_ml$svm_mccv,
+  main = "Monte Carlo Cross-Validation calibration",
+  col = "darkmagenta",
+  type = "b",
+  ylim = c(0, 0.4),
+  ylab = "Error between 0 and 1",
+  xlab = "Number of iterations"
+)
+lines(cal_ml$randomForest_mccv, col = "red", type = "b")
+lines(cal_ml$naiveBayes_mccv, col = "green", type = "b")
+lines(cal_ml$knn_mccv, col = "blue", type = "b")
+legend(
+  "topleft",
+  c(
+    "Support Vector Machine",
+    "Random Forest",
+    "Naive Bayes",
+    "K-nearest Neighbors"
+  ),
+  col = c("darkmagenta", "red", "green", "blue"),
+  lty = 1,
+  cex = 0.7
+)
+```
+
+![](02-lulc-classification/figure-html/unnamed-chunk-5-1.png)
 
 ------------------------------------------------------------------------
 
-\[1\] Burman, P. (1989). A comparative study of ordinary cross-validation, ( v )-fold cross-validation, and the repeated learning testing-model methods. *Biometrika*, **76**, 503–514.
+\[1\] Burman, P. (1989).
+A comparative study of ordinary cross-validation, ( v )-fold cross-validation, and the repeated learning testing-model methods.
+*Biometrika*, **76**, 503–514.
 
-\[2\] Hastie, T., Tibshirani, R., & Friedman, J. (2011). *The Elements of Statistical Learning: Data Mining, Inference, and Prediction*. 2nd ed. New York: Springer.
+\[2\] Hastie, T., Tibshirani, R., & Friedman, J.
+(2011).
+*The Elements of Statistical Learning: Data Mining, Inference, and Prediction*.
+2nd ed.
+New York: Springer.
 
-\[3\] Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of Statistics*, **21**, 299–313.
+\[3\] Zhang, P. (1993).
+Model selection via multifold cross-validation.
+*Annals of Statistics*, **21**, 299–313.
 
 ```{r}
 #| eval: true
