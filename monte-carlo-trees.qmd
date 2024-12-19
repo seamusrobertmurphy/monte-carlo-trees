@@ -21,6 +21,7 @@ format:
     toc-depth: 5
     toc-expand: 4
     theme: [minimal]
+    output-dir: docs
 highlight-style: github
 df-print: kable
 keep-md: true
