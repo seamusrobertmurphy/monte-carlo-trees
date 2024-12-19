@@ -35,12 +35,291 @@ output-dir: docs
 
 
 
+# Introduction
+
+#### Scope of Work
+
+## Import data {#sec-1.1}
 
 
 
+::: {.cell}
+
+```{.r .cell-code}
+set.seed(333)
+dataset_tidy = read.csv("./data/dataset_tidy.csv")
+write.csv(dataset_tidy, "./data/dataset_tidy.csv", row.names = FALSE)
+dataset_tidy |> kbl(caption = "Table 1: Dummy dataset derived for pilot test") |> kable_styling()
+```
+
+::: {.cell-output-display}
+
+`````{=html}
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<caption>Table 1: Dummy dataset derived for pilot test</caption>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> stratum_i </th>
+   <th style="text-align:right;"> plot_sp </th>
+   <th style="text-align:left;"> species_j </th>
+   <th style="text-align:left;"> tree_l </th>
+   <th style="text-align:right;"> volume </th>
+   <th style="text-align:right;"> bcef_r </th>
+   <th style="text-align:right;"> cf </th>
+   <th style="text-align:right;"> d </th>
+   <th style="text-align:right;"> a_sp </th>
+   <th style="text-align:right;"> a_sp_m2 </th>
+   <th style="text-align:right;"> a_I_m2 </th>
+   <th style="text-align:right;"> a_I_ha </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp1 </td>
+   <td style="text-align:left;"> t1 </td>
+   <td style="text-align:right;"> 3.30 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp1 </td>
+   <td style="text-align:left;"> t2 </td>
+   <td style="text-align:right;"> 4.80 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp1 </td>
+   <td style="text-align:left;"> t3 </td>
+   <td style="text-align:right;"> 4.08 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Sp4 </td>
+   <td style="text-align:left;"> t1 </td>
+   <td style="text-align:right;"> 1.50 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Sp4 </td>
+   <td style="text-align:left;"> t2 </td>
+   <td style="text-align:right;"> 1.68 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp1 </td>
+   <td style="text-align:left;"> t1 </td>
+   <td style="text-align:right;"> 1.38 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp2 </td>
+   <td style="text-align:left;"> t2 </td>
+   <td style="text-align:right;"> 3.24 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp3 </td>
+   <td style="text-align:left;"> t3 </td>
+   <td style="text-align:right;"> 3.72 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp4 </td>
+   <td style="text-align:left;"> t4 </td>
+   <td style="text-align:right;"> 2.94 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp5 </td>
+   <td style="text-align:left;"> t5 </td>
+   <td style="text-align:right;"> 3.36 </td>
+   <td style="text-align:right;"> 0.7 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:right;"> 0.1 </td>
+   <td style="text-align:right;"> 1000 </td>
+   <td style="text-align:right;"> 5000 </td>
+   <td style="text-align:right;"> 0.5 </td>
+  </tr>
+</tbody>
+</table>
+
+`````
+
+:::
+:::
 
 
-## When using
+
+## Compute biomass
+
+$$V_{j,i|sp} = \sum_{l = 1}^{L} V_{l,j,i,sp}$$
+
+|          |                            |
+|:--------:|----------------------------|
+|  $$V$$   | sum of merchantable volume ($m^3$) |
+|  $$j$$   | of species                 |
+|  $$sp$$  | plot                       |
+|  $$i$$   | stratum                    |
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+dataset_tidy = dataset_tidy |>
+  group_by(species_j, stratum_i, plot_sp) |>
+  mutate(vji_sp_m3 = sum(volume))
+
+# compute new variable 'vji_sp_m3'
+data.table::setDT(dataset_tidy)[, .(
+  vji_sp_m3 = sum(volume)
+  ),
+  by = .(stratum_i, plot_sp, species_j)
+] |> kbl() |> kable_styling()
+```
+
+::: {.cell-output-display}
+
+`````{=html}
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:right;"> stratum_i </th>
+   <th style="text-align:right;"> plot_sp </th>
+   <th style="text-align:left;"> species_j </th>
+   <th style="text-align:right;"> vji_sp_m3 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp1 </td>
+   <td style="text-align:right;"> 12.18 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Sp4 </td>
+   <td style="text-align:right;"> 3.18 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp1 </td>
+   <td style="text-align:right;"> 1.38 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp2 </td>
+   <td style="text-align:right;"> 3.24 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp3 </td>
+   <td style="text-align:right;"> 3.72 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp4 </td>
+   <td style="text-align:right;"> 2.94 </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Sp5 </td>
+   <td style="text-align:right;"> 3.36 </td>
+  </tr>
+</tbody>
+</table>
+
+`````
+
+:::
+:::
+
+
+
+## Variable descriptives
+
+
 
 `control <- trainControl(method = "LGOCV", number = 10, p=.9)`
 
