@@ -32,11 +32,14 @@ output-dir: docs
 
 #install.packages("easypackages")
 easypackages::packages(
+  "allodb",
   "animation",
   "BIOMASS",
+  "caret",
   "dataMaid",
   "dplyr",
   "extrafont",
+  "FAwR",
   "htmltools",
   "janitor",
   "lattice",
@@ -55,6 +58,21 @@ sf::sf_use_s2(use_s2 = FALSE)
 
 # Introduction
 
+```{r}
+#| eval: false
+
+cv.ani(
+  x = runif(150),
+  k = 10,
+  col = c("green", "red", "blue"),
+  pch = c(4, 1)
+)
+
+# animation of 10-kfold method:
+knitr::include_graphics(path = "animation.gif")
+```
+
+
 #### Scope of Work
 
 ## Import data {#sec-1.1}
@@ -65,169 +83,123 @@ sf::sf_use_s2(use_s2 = FALSE)
 #| error: false
 #| echo: true
 set.seed(333)
-dataset_tidy = read.csv("./data/dataset_tidy.csv")
-write.csv(dataset_tidy, "./data/dataset_tidy.csv", row.names = FALSE)
-dataset_tidy |> kbl(caption = "Table 1: Dummy data derived for pilot test") |> kable_styling() 
+#data(ufc) # spuRs::vol.m3(dataset$dbh.cm, dataset$height.m, multiplier = 0.5)
+data(scbi_stem1)
+dataset   = scbi_stem1
+dataset |> kbl(
+  caption = "Table 1: Dataset from Smithsonian Institute provided by allodb package") |>
+  kable_styling() 
+str(dataset)
 ```
 
-## Compute plot biomass
-
-$$V_{j,i|sp} = \sum_{l = 1}^{L} V_{l,j,i,sp}$$
-
-|        |                                    |
-|:------:|------------------------------------|
-| $$V$$  | sum of merchantable volume ($m^3$) |
-| $$j$$  | of species                         |
-| $$sp$$ | plot ID                            |
-| $$i$$  | stratum                            |
-
-```{r eq1}
-#| warning: false
-#| message: false
-#| error: false
-#| eval: true
-#| echo: true
-
-dataset_tidy = dataset_tidy |>
-  dplyr::group_by(species_j, stratum_i, plot_sp) |>
-  dplyr::mutate(vji_sp_m3 = sum(volume))
-
-# compute new variable 'vji_sp_m3'
-data.table::setDT(dataset_tidy)[, .(
-  vji_sp_m3 = sum(volume)
-  ),
-  by = .(stratum_i, plot_sp, species_j)
-] |> kbl() |> kable_styling()
-```
-
-## Variable descriptives
+## Probability density functions
 
 ```{r}
-#| layout-ncol: 3
-psych::describe(dataset_tidy)
-plot_vol = lm(plot_sp ~ volume, data = dataset_tidy)
-hist(dataset_tidy$vji_sp_m3, main="Volume")
-hist(dataset_tidy$volume, main="")
-lattice::histogram(plot_sp ~ volume, data = dataset_tidy)
+#| layout-ncol: 2
 
-wilcox.test(dataset_tidy$vji_sp_m3) # p<0.006
-wilcox.test(dataset_tidy$volume) # p<0.0002
-wilcox.test(dataset_tidy$plot_sp) # p<0.0002
+# add allometry database
+data(equations)
+data("equations_metadata")
+show_cols   = c("equation_id", "equation_taxa", "equation_allometry")
+eq_tab_acer = new_equations(subset_taxa = "Acer")
+head(eq_tab_acer[, show_cols])
 
-# Inspect univariate trends in residual variance 
-olsrr::ols_test_breusch_pagan(plot_vol) # p=0.0012
-lattice::densityplot(dataset_tidy$volume, type = "density")
-lattice::densityplot(dataset_tidy$plot_sp, type = "density")
-plot(plot_sp ~ volume, data = dataset_tidy, 
- main="Linear function showing negative correlation")
-abline(plot_vol, col = "red")
+# Compute above ground biomass
+dataset$agb = allodb::get_biomass(
+    dbh     = dataset$dbh,
+    genus   = dataset$genus,
+    species = dataset$species,
+    coords  = c(-78.2, 38.9)
+  )
+
+# examine dbh ~ agb function
+dbh_agb = lm(dbh ~ agb, data = dataset)
+olsrr::ols_test_breusch_pagan(lm(dbh_agb)) #<0.0000
+lattice::histogram(dbh ~ agb, data = dataset)
+plot(
+  x    = dataset$dbh,
+  y    = dataset$agb,
+  col  = factor(scbi_stem1$genus),
+  xlab = "DBH (cm)",
+  ylab = "AGB (kg)"
+)
+abline(dbh_agb, col = "red")
+
+# examine univariate distributions
+psych::describe(dataset)
+wilcox.test(dataset$dbh) # p<0.00001
+wilcox.test(dataset$agb) # p<0.00001
+h = hist(dataset$dbh, breaks=10, col="red")
+xfit<-seq(min(dataset$dbh),max(dataset$dbh),length=40)
+yfit<-dnorm(xfit,mean=mean(x),sd=sd(dataset$dbh))
+yfit <- yfit*diff(h$mids[1:2])*length(dataset$dbh)
+lines(xfit, yfit, col="blue", lwd=2)
+
+h = hist(dataset$agb, breaks=10, col="red")
+xfit<-seq(min(dataset$agb),max(dataset$agb),length=40)
+yfit<-dnorm(xfit,mean=mean(x),sd=sd(dataset$agb))
+yfit <- yfit*diff(h$mids[1:2])*length(dataset$agb)
+lines(xfit, yfit, col="blue", lwd=2)
 ```
 
 ## Simulation Regime
 
-The `LGOCV` acronym stands for "leave one group out cross validation". We must select the % of test data that is set out from the build upon which the model will be repeatedly trained. Repeat n number of times)
+The `LGOCV` acronym stands for "leave one group out cross validation". We must select the % of test data that is set out from the build upon which the model will be repeatedly trained.
 
 ```{r}
+# Cross-validation split for bias detection
+#samples     = caret::createDataPartition(dataset_tidy$volume, p = 0.80, list = FALSE)
+#train_data  = dataset_tidy[samples, ]
+#test_data   = dataset_tidy[-samples, ]
+
+# Simulation pattern & regime
 monte_carlo = trainControl(
-  method = "LGOCV",
-  p      = 0.8, 
-  number = 10000) # how many simulations
+  method    = "LGOCV",
+  number    = 100,     # number of simulations
+  p         = 0.8)     # percentage resampled
 
-lm_LGOCV <- 
-  train(vji_sp_m3 ~ ., 
-          data = train_data, 
-          method = "lm",
-          na.action = na.omit,
-          trControl = LGOCV)
 
-lm_LGOCV 
+# Training model fit with all covariates (".") & the simulation
+lm_monte_carlo = train(
+  agb ~ ., 
+  data      = dataset, 
+  na.action = na.omit,
+  trControl = monte_carlo)
+
+lm_monte_carlo 
 ```
 
-`control <- trainControl(method = "LGOCV", number = 10, p=.9)`
+## Plot residuals
 
-you will perform 10 repetitions of leave group validation where for each repetition 90% (p = 0.9) of the data will be sampled at random and used for training while the remaining 10% of data will be used for testing. This is also called Monte-Carlo Cross Validation. Usually more repetitions are performed with MC-CV.
-
-When using
-
-`control <- trainControl(method = "cv", number = 10)`
-
-the data set will be split into 10 parts and 10 resampling iterations will be performed. In each iteration 9 parts will be used for training and the remaining part will be used for testing. This will progress until all the parts are used once for testing. This is called K-fold cross validation. In this case K is 10.
-
-In each case around 90% of the data will be used for training in each resampling iteration.
-
-**EDIT**: I have changed the above code
-
-`control <- trainControl(method = "cv", number = 10, p=.9)`
-
-to
-
-`control <- trainControl(method = "LGOCV", number = 10, p=.9)`
-
-since if you specify `cv` you will actually preform k-fold CV and the p argument will be ignored. So in order to perform leave group out cross validation you must specify `method = "LGOCV"` and then the `p` argument will be used to determine the train/test split ratio.
-
-Simulation regime
-
-see also LGOCV: `load(url("http://caret.r-forge.r-project.org/exampleModels.RData"))`
+To enable access to these predictions, we need to instruct `caret` to retain the resampled predictions by setting `savePredictions = "final"` in our `trainControl()` function. It's important to be aware that if you’re working with a large dataset or numerous resampling iterations, the resulting `train()` object may grow significantly in size. This happens because `caret` must store a record of every row, including both the observed values and predictions, for each resampling iteration. By visualizing the results, we can offer insights into the performance of our model on the resampled data.
 
 ```{r}
-#| eval: false
+monte_carlo_viz = trainControl(
+  method    = "LGOCV", 
+  p         = 0.8,            
+  number    = 1,  # just for saving previous results
+  savePredictions = "final") 
 
-model_training_time_series <- trainControl(
-  method = "timeslice",
-  initialWindow = 36,
-  horizon = 12,
-  fixedWindow = TRUE
-)
+lm_monte_carlo_viz = train(
+  price_log ~ . -price, 
+  data      = train_data, 
+  method    = "lm",
+  na.action = na.omit,
+  trControl = monte_carlo_viz)
 
-model_training_10kfold <- trainControl(
-  method = "repeatedcv",
-  number = 10, repeats = 10
-)
-# animation of 10-kfold method:
-knitr::include_graphics(path = "animation.gif")
+lm_monte_carlo_viz$pred  # residuals 
+
+lm_monte_carlo_viz$pred |> 
+  ggplot(aes(x=pred,y=obs)) +
+    geom_point(shape=1) + 
+    geom_abline(slope=1, colour='blue')  +
+    coord_obs_pred()
 ```
 
-## Training-Test Split
-
-```{r}
-#| eval: false
-
-samples <- createDataPartition(dataset$variable_indexed, p = 0.70, list = FALSE)
-train.data <- dataset[samples, ]
-test.data <- dataset[-samples, ]
 
 
-model_training_time_series <- trainControl(
-  method = "timeslice",
-  initialWindow = 36,
-  horizon = 12,
-  fixedWindow = TRUE
-)
 
-model_training_10kfold <- trainControl(
-  method = "repeatedcv",
-  number = 10, repeats = 10
-)
-# animation of 10-kfold method:
-knitr::include_graphics(path = "animation.gif")
-```
-
-## Simulation Fitting
-
-```{r}
-#| eval: false
-
-# model 1 - NDMI - model specification
-svm_ndmi_linear <- train(pi_mpb_killed ~ ndmi,
-  data = beetle_train.data,
-  method = "svmLinear",
-  trControl = model_training_10kfold,
-  preProcess = c("center", "scale"),
-  tuneLength = 10
-)
-```
-
-## Simulation Validation
+## Uncertainty Estimates
 
 ```{r}
 #| eval: false
