@@ -11,6 +11,7 @@ df-print: kable
 keep-md: true
 bibliography: references.bib
 csl: american-chemical-society.csl
+output-dir: docs
 ---
 
 ```{r setup-1}
