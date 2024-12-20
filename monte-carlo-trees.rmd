@@ -3,8 +3,9 @@ title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
 subtitle: "Tentative workflow and toolset for estimating uncertainty using Monte Carlo simulation"
 output: 
-    word_document:
-        highlight: pygments
+  solarizeddocx::document: default
+bibliography: references.bib
+csl: american-chemical-society.csl
 ---
 
 ## Environment setup
@@ -25,7 +26,7 @@ easypackages::packages(
   "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
   "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
   "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
-  "rmarkdown", "readxl", "tibble", "tidymodels", "tidyverse",
+  "rmarkdown", "readxl", "solarizeddox", "tibble", "tidymodels", "tidyverse",
   "tinytex", "tune", "useful", "webshot", "webshot2",
   prompt = F
   )
@@ -51,39 +52,127 @@ sf::sf_use_s2(use_s2 = FALSE)
 # animation of 10-kfold method:
 #knitr::include_graphics("./animation.gif")
 #cv.ani(x = runif(150),k = 10,col = c("green", "red", "blue"),pch = c(4, 1))
+#Figure 1: Visualization of cross-validation regime similar to Monte Carlo simulation. Note differences in replacement, repeatedness and odd vs
 ```
 
-Figure 1: Visualization of cross-validation regime similar to Monte Carlo simulation. Note differences in replacement, repeatedness and odd vs
-
-The ART-TREES (Architecture for REDD+ Transactions – The REDD+ Environmental Excellence Standard) program sets rigorous methodological requirements for quantifying emissions reductions and removals in REDD+ projects. These standards emphasize accuracy, transparency, consistency, and completeness in carbon accounting, making the integration of advanced tools and methodologies essential. This pilot test script aligns with these principles, focusing on the application of Monte Carlo simulations, machine learning models, and database management systems to meet ART-TREES requirements effectively.
-
-The consultant, Seamus Murphy, will provide technical expertise across three key projects in the Ecosystem Services division's REDD+ portfolio, addressing urgent staffing needs. These activities include developing uncertainty estimation pathways consistent with ART-TREES, implementing jurisdictional-scale risk mapping, and ensuring that carbon accounting systems align with internationally accepted best practices. By leveraging Monte Carlo simulations and other state-of-the-art tools, this work will contribute to robust Monitoring, Reporting, and Verification (MRV) systems required under ART-TREES.
-
-This script outlines a structured approach to fulfilling project deliverables while adhering to the ART-TREES methodological framework, ensuring that all activities contribute to credible and scalable REDD+ outcomes.
-
-### Scope of Work
-
-This report aligns with specific deliverables relating to Monte Carlo support contracted under the project **Guyana (SPEC IN FOREST CARB MON - 10026.DRCT.00000.00000)**. In addition, this tentative workflow aims to align with ART-TREES methodological requirements of transparency, rigor, and alignment with jurisdictional and international standards. In addition, this report seeks feedback on the style of documentation of tools in efforts to address the contract's capacity building targets. Specifically, these include the following objectives:
+The ART-TREES Standard V2.0[@artREDDEnvironmentalExcellence2021]cites methodological requirements for calculating uncertainty in emission factors and activity data, ensuring robust assessment and reporting of accuracy and model bias. Contracted with the project **Guyana 10026.DRCT.00000.00000**, the Guyana team will provide the following deliverables:
 
 **Monte Carlo Simulation for Uncertainty Estimation**
 
--   Develop Monte Carlo simulation pathways to quantify uncertainty in emission factors and activity data, ensuring consistency with ART-TREES’s emphasis on robust uncertainty analysis.
-
+-   Develop Monte Carlo simulation pathways to quantify uncertainty in emission factors and activity data, ensuring consistency with ART-TREES’s emphasis on robust uncertainty analysis and corrective bias assessment.
 -   Use R or other software to create systems that streamline data workflows and enhance accessibility for MRV purposes. Monte Carlo Simulation for Uncertainty Estimation
-
 -   Document methodologies and provide results in formats compliant with ART-TREES reporting standards.
 
 **Reporting and Training Materials**
 
 -   Prepare technical reports that detail uncertainty estimation methods and database management workflows.
-
 -   Develop and deliver training materials to strengthen stakeholder capacity to use ART-TREES-aligned tools and methodologies.
 
-Quoting directly, `The hiring of a REDD+ consultant aims at filling urgent staffing needs and the scope of work for the consultant (Seamus Murphy) includes continuous support on 3 Winrock projects from the Ecosystem Services division REDD+ portfolio. The tasks and activities will be determined on an as needed basis according specific project demands, however, some keys activities include Guyana (SPEC IN FOREST CARB MON - 10026.DRCT.00000.00000).`
+### ART Requirements for Monte Carlo Methods
 
-Current excel tool design published [here](https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx)
+To reduce risk of over-crediting, the TREES 2.0 Standard (August 2021) [@artREDDEnvironmentalExcellence2021] outlines requirements for reporting uncertainty in emissions and removals, and adjusting estimates where uncertainty levels exceed the defined threshold of a half-width of a 90% confidence interval between the upper and lower bounds (Relative RMSE ≤ 10%). Monte Carlo simulations are identified as an appropriate methodology due to their capacity to model variance and provide conservative estimates from large-scale higly-variable datasets. Specifically, "Monte Carlo simulations shall use the 90% confidence interval and a simulation n of 10,000" (p.45).
 
-## Import data {#sec-1.1}
+**Aggregation of Uncertainty Across Crediting Periods**\
+The TREES Standard provides a level of flexibility in allowing participants to aggregate uncertainty deductions across multiple crediting periods. At the end of each crediting period, participants may calculate a consolidated uncertainty deduction based on the summed gross emissions reductions and removals achieved over their entire ART participation. If prior uncertainty deductions exceeded the aggregated deduction sum for the total period, the over-deducted credits will be issued into the participant’s registry account. This approach aims to incentivize participants to refine data quality and uncertainty estimates.
+
+**Exemption for Allometric Estimates**\
+An exemption from requirements for Monte Carlo simulations is granted to allometric modeled estimates. The TREES Standards V2.0 states that "such errors are considered consistent between emissions in the crediting level and crediting periods" which therefore do not materially influence the net results.
+
+**Inclusion of Biomass Map Uncertainty**\
+Conversely, uncertainty must be assessed and reported for emissions factors derived from biomass maps, as these datasets directly impact the accuracy of emission estimates. TREES participants are encouraged to adopt best practices, such as those outlined in the CEOS LPV Biomass Protocol 2021, to enhance calibration, validation, and reliability of spatially explicit datasets. In this guidance document, key recommendations for good practices include appropriate scaling, temporally & spatially consistent reference data and remote sensing, and the use of approved error metrics (90% CI or RMSE). In particular, three likely sources of uncertainty in biomass estimation are highlighted separately for consideration in assessing and calibrating predictions [@duncansonAbovegroundWoodyBiomass2021].
+
+-   Measurement Uncertainty in tree measurements (i.e DBH and height).
+-   Allometric Model Errors in statistically inferring biomass from from tree measurements
+-   Sampling & Spatial Uncertainty arising from autocorrelation & over-fitting
+
+**Calculating Uncertainty Deductions**\
+Cited on page 46 of the TREES Standards V2.0, calculations of uncertainty deductions are derived using the following formulae:
+
+**EQ 10**$$
+UNC_t = (GHG ER_t + GHG REMV_t) \times UA_t
+$$
+
+|              |                                                                   |
+|------------------------|------------------------------------------------|
+| $UNC_t$      | Uncertainty deduction for year $t$ ($tCO_2e$)                     |
+| $GHG ER_t$   | Gross greenhouse gas emissions reductions for year $t$ ($tCO_2e$) |
+| $GHG REMV_t$ | Gross greenhouse gas removals for year $t$ ($tCO_2e$)             |
+| $UA_t$       | The uncertainty adjustment factor for year $t$                    |
+
+: Table 1: Parameters used in Equation 10
+
+**EQ 11**
+
+The uncertainty adjustment factor ($UAdj_t$) quantifies the proportional adjustment to emissions reductions and removals based on statistical uncertainty. It is defined as:
+
+$$
+UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}
+$$
+
+|                       |                                                                 |
+|------------------------|------------------------------------------------|
+| $90\%\text{ C I}_{t}$ | The half-width of 90% confidence interval as percentage of mean |
+| $1.645006$            | $t$ value for a 90% confidence interval                         |
+| $0.524417$            | A scaling constant to adjust the proportion.                    |
+
+: Table 2: Parameters used in Equation 11
+
+### Current Methods
+
+In Appendix I, annotated results are presented from a rapid literature review of current methodologies and discussions of Monte Carlo simulations of biomass estimations used in REDD+ studies and programs. The search was conducted using keywords including "Monte Carlo simulations," "biomass estimation," "carbon stock uncertainty," and "REDD+ projects". Variants and combinations of these terms, including "forest carbon accounting" and "allometric uncertainty," were also explored. Data sources were visited among Scopus, Web of Science, and Google Scholar,and specialized journals in forestry, remote sensing, and carbon management. The temporal window of the review focused on studies published in the last two decades (2003–2023), reflecting the period during which Monte Carlo methods gained prominence in forest biomass estimation and REDD+ research evolved into a critical global framework. Additional attention was given to high-impact reviews and meta-analyses that provide state-of-the-art evaluations of the field.
+
+| **Parameter**          | **Description**                                                                             |
+|------------------|------------------------------------------------------|
+| **Keywords**           | Monte Carlo simulations                                                                     |
+|                        | Biomass estimation                                                                          |
+|                        | Carbon stock uncertainty                                                                    |
+|                        | REDD+ projects                                                                              |
+|                        | Forest carbon accounting                                                                    |
+|                        | Allometric uncertainty                                                                      |
+| **Data Sources**       | Scopus                                                                                      |
+|                        | Web of Science                                                                              |
+|                        | Google Scholar                                                                              |
+|                        | Grey Literature from REDD+ working groups (i.e. UNFCCC, IPCC)                               |
+| **Temporal Window**    | 2003–2023                                                                                   |
+| **Focus Areas**        | Applications of Monte Carlo simulations in biomass and carbon stock estimations.            |
+|                        | Addressing uncertainty in input data (e.g., allometric equations, plot-level measurements). |
+|                        | Integration of Monte Carlo methods in REDD+ policy frameworks and carbon accounting.        |
+| **Inclusion Criteria** | Peer-reviewed articles and high-impact reviews                                              |
+|                        | Case studies and empirical research involving REDD+ projects.                               |
+|                        | Discussions of methodological advancements or critiques of Monte Carlo approaches.          |
+
+: Table 3: Search parameters used in a review of Monte Carlo tools in REDD+ reporting.
+
+| **REDD+ scheme**[^1] | **Monte Carlo applied**                    | **Region**                 | **Key Findings**                                                                                                  | **Ref**         |
+|----------|---------------|------------|--------------------------|----------|
+| ADD                  | Uncertainty of SAAB estimate               | Rondônia, Brazil           | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. | @brown1995a     |
+| ADD                  | AGB Uncertainty                            | Kenya, Mozambique          | Assessed mixed-effects models in estimating mangrove biomass.                                                     | @cohen2013a     |
+| ADD                  | Blanket uncertainty propagation            | Ghana                      | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing.                   | @chen2015b      |
+| ADD                  | Plot-based uncertainty                     | New Zealand                | Cross-plot variance greatest magnitude of uncertainty                                                             | @holdaway2014a  |
+| JNR                  | Multi-scale AGB uncertainty modeling       | Minnesota, USA             | Cross-scale tests showing effects of spatial resolution on AGB uncertainty.                                       | @chen2016a      |
+| NA                   | Allometric uncertainty modeling            | Panama                     | Allometric models identified as largest source of biomass estimation error.                                       | @chave2004error |
+| ADD                  | Sampling and allometric uncertainty        | Tapajos Nat Forest, Brazil | Significance of allometric models on uncertainty of root biomass, 95% CI, 21 plots.                               | @keller2001a    |
+| ADD                  | Uncertainty of volume estimates            | Santa Catarina, Brazil     | Negligible effects of residual uncertainty on large-area estimates                                                | @mcroberts2015a |
+| NA                   | Uncertainty metrics in model selection     | Oregon, USA                | Uncertainty estimates call for local validation or new local model development                                    | @melson2011a    |
+| ADD                  | AGB model uncertainty                      | French Guiana              |  AGB sub-model errors dominate uncertainty; height and wood-specific gravity errors are minor but can cause bias. | @molto2013a     |
+| IFM                  | Emission factor uncertainty                | Central Africa             | Model selection is the largest error source (40%); weighting models reduces uncertainty in emission factors.      | @picard2015a    |
+| NA                   | Uncertainty in ecosystem nutrient estimate | New Hampshire, USA         | Identified 8% uncertainty in nitrogen budgets, mainly from plot variability (6%) and allometric errors (5%).      | @yanai2010a     |
+
+: Table 4: Results of a review of literature on Monte Carlo methodologies in REDD+ projects.
+
+[^1]: ADD: Avoided Deforestation and Degradation, JNR: Jurisdictional & Nested REDD+, IFM: Improved Forest Management
+
+### SimVoi Design
+
+-   Details of the design and parameters of the existing excel tool are available [here](https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx) and [here](https://winrock.org/wp-content/uploads/2018/02/UncertaintyReport-12.26.17.pdf?utm_source=chatgpt.com).
+
+<div>
+
+## Demonstration script
+
+</div>
+
+### Import data {#sec-1.1}
 
 This section outlines the tools for importing and preparing forestry and biomass data for analysis, a key step in building ART-TREES-compliant MRV systems. Using the `allodb` package, we load a global allometry database and a dummy dataset from the Smithsonian Institute ForestGEO project.
 
@@ -105,7 +194,7 @@ str(dataset)
 
 Tables 1-3: Smithsonian Institute GEOForest dataset from `allodb` package (n = 2287)
 
-## Probability density functions
+### Probability density functions
 
 Accurate selection of probability density functions (PDFs) is essential for modeling uncertainties in carbon stocks and activity data. This section describes methodologies for fitting PDFs to data, ensuring results are robust and aligned with ART-TREES best practices.
 
@@ -157,7 +246,7 @@ wilcox.test(dataset$dbh) # p<0.00001
 wilcox.test(dataset$agb) # p<0.00001
 ```
 
-## Simulation Regime
+### Simulation Regime
 
 This section introduces the design of the Monte Carlo simulation regime, including:
 
@@ -190,7 +279,7 @@ lm_monte_carlo = train(
 lm_monte_carlo 
 ```
 
-## Plot residuals
+### Plot residuals
 
 To enable access to these predictions, we need to instruct `caret` to retain the resampled predictions by setting `savePredictions = "final"` in our `trainControl()` function. It's important to be aware that if you’re working with a large dataset or numerous resampling iterations, the resulting `train()` object may grow significantly in size. This happens because `caret` must store a record of every row, including both the observed values and predictions, for each resampling iteration. By visualizing the results, we can offer insights into the performance of our model on the resampled data.
 
@@ -217,7 +306,7 @@ lm_monte_carlo_viz$pred |>
     coord_obs_pred()
 ```
 
-## Uncertainty Estimates
+### Uncertainty Estimates
 
 This section discusses the trade-offs and methodological choices in uncertainty estimation using Monte Carlo simulations. It aligns with ART-TREES principles by:
 
@@ -293,11 +382,11 @@ legend(
 
 ------------------------------------------------------------------------
 
-$$1$$ Burman, P. (1989). A comparative study of ordinary cross-validation, ( v )-fold cross-validation, and the repeated learning testing-model methods. *Biometrika*, **76**, 503–514.
+Burman, P. (1989). A comparative study of ordinary cross-validation, ( v )-fold cross-validation, and the repeated learning testing-model methods. *Biometrika*, **76**, 503–514.
 
-$$2$$ Hastie, T., Tibshirani, R., & Friedman, J. (2011). *The Elements of Statistical Learning: Data Mining, Inference, and Prediction*. 2nd ed. New York: Springer.
+Hastie, T., Tibshirani, R., & Friedman, J. (2011). *The Elements of Statistical Learning: Data Mining, Inference, and Prediction*. 2nd ed. New York: Springer.
 
-$$3$$ Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of Statistics*, **21**, 299–313.
+Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of Statistics*, **21**, 299–313.
 
 ### Runtime snapshot
 
