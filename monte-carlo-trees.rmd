@@ -8,6 +8,35 @@ csl: american-chemical-society.csl
 keep_md: true
 ---
 
+```{r setup-1}
+#| warning: false
+#| message: false
+#| error: false
+#| include: false
+#| echo: false
+easypackages::packages(
+  "animation", "BIOMASS", "caret", "dataMaid", "DescTools","dplyr",
+  "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
+  "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
+  "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
+  "rmarkdown", "readxl", "tibble", "tidymodels", "tidyverse",
+  "tinytex", "tune", "useful", "webshot", "webshot2",
+  prompt = F
+  )
+  
+knitr::opts_chunk$set(
+  echo    = TRUE, 
+  message = FALSE, 
+  warning = FALSE,
+  error   = FALSE, 
+  comment = NA, 
+  tidy.opts = list(width.cutoff = 60)
+)
+
+options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
+sf::sf_use_s2(use_s2 = FALSE)
+```
+
 ## Introduction
 
 ```{r}
@@ -107,33 +136,22 @@ Summarize review here...
 
 #### *Environment setup*
 
-```{r setup}
+```{r setup-2}
 #| warning: false
 #| message: false
 #| error: false
 #| include: true
 #| echo: true
+#| eval: false
 easypackages::packages(
   "animation", "BIOMASS", "caret", "dataMaid", "DescTools", "dplyr",
   "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
   "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
   "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
-  "rmarkdown", "readxl", "solarizeddocx", "tibble", "tidymodels", "tidyverse",
+  "rmarkdown", "readxl", "solarizeddox", "tibble", "tidymodels", "tidyverse",
   "tinytex", "tune", "useful", "webshot", "webshot2",
   prompt = F
   )
-  
-knitr::opts_chunk$set(
-  echo    = TRUE, 
-  message = FALSE, 
-  warning = FALSE,
-  error   = FALSE, 
-  comment = NA, 
-  tidy.opts = list(width.cutoff = 60)
-)
-
-options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
-sf::sf_use_s2(use_s2 = FALSE)
 ```
 
 ### Import data
@@ -403,3 +421,5 @@ Sys.getenv()
 : Table 4: Results of a review of literature on Monte Carlo methodologies in REDD+ projects.
 
 [^1]: ADD: Avoided Deforestation and Degradation, JNR: Jurisdictional & Nested REDD+, IFM: Improved Forest Management
+
+
