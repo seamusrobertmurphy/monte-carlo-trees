@@ -1,3 +1,23 @@
+---
+title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
+date: 2024-12-19
+keywords:
+  - REDD+
+  - Carbon verification
+  - Uncertainty
+format: 
+  html:
+    toc: true
+    toc-depth: 5
+    number-sections: true
+    highlight-style: github
+df-print: kable
+keep-md: true
+bibliography: references.bib
+csl: american-chemical-society.csl
+---
+
+
 
 
 
