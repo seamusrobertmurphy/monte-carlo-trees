@@ -18,6 +18,7 @@ bibliography: references.bib
 csl: american-chemical-society.csl
 keep_md: true
 always_allow_html: true
+df-print: kable
 ---
 
 ```{r setup-1}
@@ -27,7 +28,7 @@ always_allow_html: true
 #| include: false
 #| echo: false
 easypackages::packages(
-  "animation", "BIOMASS", "caret", "dataMaid", "DescTools","dplyr",
+  "animation", "allodb", "BIOMASS", "c2z", "caret", "dataMaid", "DescTools","dplyr",
   "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
   "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
   "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
@@ -60,31 +61,28 @@ div.column {
 #TOC::before {
   content: "";
   display: block;
+  height: 80px;
+  width: 210px;
   background-image: url(https://winrock.org/wp-content/uploads/2021/12/Winrock-logo-R.png);
-  background-position: center;
   background-size: contain;
-  background-repeat: no-repeat
+  background-position: center;
+  background-position: 50% 50%;
+  padding-top: 80px !important;
+  background-repeat: no-repeat;
 }
 ```
 
 ## Introduction
 
-```{r}
-#| echo: false
-#| layout-ncols: 5
-# animation of 10-kfold method:
-#knitr::include_graphics("./animation.gif")
-#cv.ani(x = runif(150),k = 10,col = c("green", "red", "blue"),pch = c(4, 1))
-#Figure 1: Visualization of cross-validation regime similar to Monte Carlo simulation. Note differences in replacement, repeatedness and odd vs
-```
-
 The ART-TREES Standard V2.01 mandates specific methodologies for calculating and
 reporting uncertainty estimates associated with emission factors and activity
-data within jurisdictional and nested REDD+ projects.
+data within jurisdictional and nested REDD+ projects. To strengthen compliance,
+the ART-TREES project team produced the following report and capacity building
+resources.
 
-In response to these requirements, the ART-TREES project team produced the
-following instructional materials to develop and support capacity building in
-these technical areas, including:
+## Scope of Work
+
+This report focuses on the following technical areas:
 
 -   Develop Monte Carlo simulation pathways to quantify uncertainty in emission
     factors and activity data, ensuring consistency with ART-TREES’s emphasis on
@@ -96,23 +94,30 @@ these technical areas, including:
     ART-TREES reporting standards.
 -   Prepare technical reports that detail uncertainty estimation methods and
     database management workflows.
-
-<!-- -->
-
 -   Develop and deliver training materials to strengthen stakeholder capacity to
     use ART-TREES-aligned tools and methodologies.
 
-## Requirements for Monte Carlo Methods
+```{r}
+#| echo: false
+#| fig-align: 'center'
 
-The TREES 2.0 Standard (August 2021) [@artREDDEnvironmentalExcellence2021]
-outlines requirements for reporting uncertainty in emissions and removals, and
-adjusting estimates where uncertainty levels exceed the defined threshold of a
-half-width of a 90% confidence interval between the upper and lower bounds
-(Relative RMSE ≤ 10%). Monte Carlo simulations are identified as an appropriate
-methodology due to their capacity to model variance and provide conservative
-estimates from large-scale higly-variable datasets. Specifically, "Monte Carlo
-simulations shall use the 90% confidence interval and a simulation n of 10,000"
-(p.45).
+# animation of 10-kfold method:
+knitr::include_graphics("./animation.gif")
+#cv.ani(x = runif(150),k = 10,col = c("green", "red", "blue"),pch = c(4, 1))
+```
+
+##### Figure 1: Visualization of k-fold resampling. Note differences with Monte Carlo "Leave-One-Group-Out-Validation"
+
+## Registry Requirements
+
+The TREES 2.0 Standard [@artREDDEnvironmentalExcellence2021] outlines
+requirements for reporting uncertainty in emissions and removals, and adjusting
+estimates where uncertainty levels exceed the defined threshold of a half-width
+of a 90% confidence interval between the upper and lower bounds (Relative RMSE ≤
+10%). Monte Carlo simulations are identified as an appropriate methodology due
+to their capacity to model variance and provide conservative estimates from
+large-scale highly-variable datasets. Specifically, "Monte Carlo simulations
+shall use the 90% confidence interval and a simulation n of 10,000" (p.45).
 
 **Aggregation of Uncertainty Across Crediting Periods**\
 The TREES Standard provides a level of flexibility in allowing participants to
@@ -122,31 +127,31 @@ deduction based on the summed gross emissions reductions and removals achieved
 over their entire ART participation. If prior uncertainty deductions exceeded
 the aggregated deduction sum for the total period, the over-deducted credits
 will be issued into the participant’s registry account. This approach aims to
-incentivize participants to refine data quality and uncertainty estimates.
-
-**Exemption for Allometric Estimates**\
-An exemption from requirements for Monte Carlo simulations is granted to
-allometric modeled estimates. The TREES Standards V2.0 states that "such errors
-are considered consistent between emissions in the crediting level and crediting
-periods" which therefore do not materially influence the net results.
+incentivise participants to refine data quality and uncertainty estimates.
 
 **Inclusion of Biomass Map Uncertainty**\
-Conversely, uncertainty must be assessed and reported for emissions factors
-derived from biomass maps, as these datasets directly impact the accuracy of
-emission estimates. TREES participants are encouraged to adopt best practices,
-such as those outlined in the CEOS LPV Biomass Protocol 2021, to enhance
-calibration, validation, and reliability of spatially explicit datasets. In this
-guidance document, key recommendations for good practices include appropriate
-scaling, temporally & spatially consistent reference data and remote sensing,
-and the use of approved error metrics (90% CI or RMSE). In particular, three
-likely sources of uncertainty in biomass estimation are highlighted separately
-for consideration in assessing and calibrating predictions
+Uncertainty must be assessed and reported for emissions factors derived from
+biomass maps, as these datasets directly impact the accuracy of emission
+estimates. TREES participants are encouraged to adopt best practices, such as
+those outlined in the CEOS LPV Biomass Protocol 2021, to enhance calibration,
+validation, and reliability of spatially explicit datasets. In this guidance
+document, key recommendations for good practices include appropriate scaling,
+temporally & spatially consistent reference data and remote sensing, and the use
+of approved error metrics (90% CI or RMSE). In particular, three likely sources
+of uncertainty in biomass estimation are highlighted separately for
+consideration in assessing and calibrating predictions
 [@duncansonAbovegroundWoodyBiomass2021].
 
 -   Measurement Uncertainty in tree measurements (i.e DBH and height).
 -   Allometric Model Errors in statistically inferring biomass from from tree
     measurements
 -   Sampling & Spatial Uncertainty arising from autocorrelation & over-fitting
+
+**Exemption for Allometric Estimates**\
+An exemption from requirements for Monte Carlo simulations is granted to
+allometric modeled estimates. The TREES Standards V2.0 states that "such errors
+are considered consistent between emissions in the crediting level and crediting
+periods" which therefore do not materially influence the net results.=
 
 **Calculating Uncertainty Deductions**\
 Cited on page 46 of the TREES Standards V2.0, calculations of uncertainty
@@ -174,14 +179,14 @@ UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}    \text{.                 
 $$
 
 |  |  |
-|----------------------------|---------------------------------------------------|
+|-----------------------------|---------------------------------------------------|
 | $90\%\text{ C I}_{t}$ | The half-width of 90% confidence interval as percentage of mean |
 | $1.645006$ | $t$ value for a 90% confidence interval |
 | $0.524417$ | A scaling constant to adjust the proportion. |
 
 ##### Table 2: Parameters used in Equation 11
 
-## Current Methods
+## Methods Review
 
 In Appendix I, annotated results are presented from a rapid literature review of
 current methodologies and discussions of Monte Carlo simulations of biomass
@@ -224,7 +229,7 @@ Summarize review here...
 
 </div>
 
-## Demonstration script {#sec-1.1}
+## Example script {#sec-1.1}
 
 #### Environment setup
 
@@ -246,7 +251,7 @@ easypackages::packages(
   )
 ```
 
-### Emissions Factor Uncertainty
+### Monte Carlo of Emissions Factors
 
 #### Import data
 
@@ -271,11 +276,9 @@ psych::describe(dataset)
 str(dataset)
 ```
 
-##### Table 3: Smithsonian Institute GEOForest dataset from `allodb` package (n =
+##### Table 3: Smithsonian Institute GEOForest dataset from `allodb` package (n = 2287)
 
-2287) 
-
-### Probability density functions
+#### Probability density functions
 
 Accurate selection of probability density functions (PDFs) is essential for
 modeling uncertainties in carbon stocks and activity data. This section
@@ -330,7 +333,7 @@ wilcox.test(dataset$dbh) # p<0.00001
 wilcox.test(dataset$agb) # p<0.00001
 ```
 
-### Simulation Design
+#### Simulation Design
 
 This section introduces the design of the Monte Carlo simulation regime,
 including:
@@ -375,7 +378,7 @@ lm_monte_carlo = train(
 lm_monte_carlo 
 ```
 
-### Visualize residuals
+#### Visualize residuals
 
 To enable access to these predictions, we need to instruct `caret` to retain the
 resampled predictions by setting `savePredictions = "final"` in our
@@ -435,7 +438,8 @@ colmap <- c("#0000FF","#228B22","#FF1493", "#00FF00")
 plot(classRF$Classification, main = "RandomForest Classification", col = colmap, axes = TRUE)
 ```
 
-![](data/02-lulc-classification/figure-html/unnamed-chunk-3-1.png)
+![](data/02-lulc-classification/figure-html/unnamed-chunk-3-1.png) \##### Figure
+2: LULC map classified with randomForest classifier kernel
 
 ```{r}
 #| eval: false
@@ -470,16 +474,6 @@ legend(
 
 --------------------------------------------------------------------------------
 
-Burman, P. (1989). A comparative study of ordinary cross-validation, ( v )-fold
-cross-validation, and the repeated learning testing-model methods. *Biometrika*,
-**76**, 503–514.
-
-Hastie, T., Tibshirani, R., & Friedman, J. (2011). *The Elements of Statistical
-Learning: Data Mining, Inference, and Prediction*. 2nd ed. New York: Springer.
-
-Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of
-Statistics*, **21**, 299–313.
-
 ## Runtime snapshot
 
 ```{r}
@@ -491,11 +485,11 @@ Sys.getenv()
 
 ## Appendix I
 
-Results of rapid review of current Monte Carlo methods used in REDD+ and
-ART-TREES projects
+Literature review of current Monte Carlo methods used in REDD+ and ART-TREES
+projects
 
 | **Parameter** | **Description** |
-|-----------------------|---------------------------------------------------------|
+|-------------------------|-------------------------------------------------------|
 | **Keywords** | Monte Carlo simulations |
 |  | Biomass estimation |
 |  | Carbon stock uncertainty |
@@ -519,7 +513,7 @@ ART-TREES projects
 reporting.
 
 | **REDD+ scheme**[^1] | **Monte Carlo applied** | **Region** | **Key Findings** | **Ref** |
-|----------------|----------------|----------------|----------------|----------------|
+|----------------|----------------|----------------|----------------|:-------------:|
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. | @brown1995a |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. | @cohen2013a |
 | ADD | Blanket uncertainty propagation | Ghana | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing. | @chen2015b |
@@ -537,3 +531,5 @@ reporting.
     REDD+, IFM: Improved Forest Management
 
 ##### Table 5: Results of a review of literature on Monte Carlo methodologies in REDD+ projects
+
+## References 
