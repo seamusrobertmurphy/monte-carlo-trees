@@ -11,13 +11,9 @@
 -   [Example script](#sec-1.1)
     -   [Environment setup](#environment-setup)
     -   [Monte Carlo of Emissions Factors](#monte-carlo-of-emissions-factors)
-        -   [Import data](#import-data)
-        -   [Probability density functions](#probability-density-functions)
-        -   [Simulation Design](#simulation-design)
-        -   [Visualize residuals](#visualize-residuals)
     -   [Activity Data Uncertainty](#activity-data-uncertainty)
--   [Runtime snapshot](#runtime-snapshot)
--   [Appendix I](#appendix-i)
+-   [Runtime record](#runtime-snapshot)
+-   [Appendix I: Rapid review results](#appendix-i)
 -   [References](#references)
 
 ## Introduction {#introduction}
@@ -36,7 +32,7 @@ This report focuses on the following technical areas:
 
 <img src="./animation.gif" style="display: block; margin: auto;"/>
 
-##### Figure 1: Visualization of k-fold resampling ^(Note\ differences\ with\ Monte\ Carlo\ “Leave-One-Group-Out-Validation”)^
+##### Figure 1: Visualization of k-fold resampling ^(Note differences with Monte Carlo “Leave-One-Group-Out-Validation”)^
 
 ## Registry Requirements {#registry-requirements}
 
@@ -794,7 +790,7 @@ reporting.
 
 (2) Duncanson, L.; Disney, M.; Armston, J.; Nickeson, J.; Minor, D.; Camacho, F. Aboveground Woody Biomass Product Validation Good Practices Protocol. **2021**. <https://doi.org/10.5067/DOC/CEOSWGCV/LPV/AGB.001>
 
-(3) Brown, I. F.; Foster Brown, I.; Martinelli, L. A.; Wayt Thomas, W.; Moreira, M. Z.; Cid Ferreira, C. A.; Victoria, R. A. Uncertainty in the Biomass of Amazonian Forests: An Example from Rondônia, Brazil. *Forest Ecology and Management* **1995**, *75* (1–3), 175–189. <https://doi.org/10.1016/0378-1127(94)03512-u>
+(3) Brown, I. F.; Foster Brown, I.; Martinelli, L. A.; Wayt Thomas, W.; Moreira, M. Z.; Cid Ferreira, C. A.; Victoria, R. A. Uncertainty in the Biomass of Amazonian Forests: An Example from Rondônia, Brazil. *Forest Ecology and Management* **1995**, *75* (1–3), 175–189. [https://doi.org/10.1016/0378-1127(94)03512-u](https://doi.org/10.1016/0378-1127(94)03512-u){.uri}
 
 (4) Cohen, R.; Kaino, J.; Okello, J. A.; Bosire, J. O.; Kairo, J. G.; Huxham, M.; Mencuccini, M. Uncertainty to Estimates of Above-Ground Biomass for Kenyan Mangroves: A Scaling Procedure from Tree to Landscape Level. In *Forest ecology and management*; 2013; Vol. 310, pp 968–982. <https://doi.org/10.1016/j.foreco.2013.09.047>
 

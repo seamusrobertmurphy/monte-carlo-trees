@@ -4,7 +4,7 @@ date: 2024-12-19
 output: 
   github_document: 
     toc: true
-    toc_depth: 4
+    toc_depth: 3
       
 editor_options: 
   markdown: 
@@ -243,7 +243,7 @@ easypackages::packages(
   )
 ```
 
-### Monte Carlo of Emissions Factors
+### Monte Carlo of Emissions Data
 
 #### Import data
 
@@ -404,7 +404,7 @@ lm_monte_carlo_viz$pred |>
     coord_obs_pred()
 ```
 
-### Activity Data Uncertainty
+### Monte Carlo of Activity Data
 
 This section showcases use of Monte Carlo simulations in reporting uncertainty
 of LULC classification models.
@@ -475,7 +475,7 @@ Sys.getenv()
 .libPaths()
 ```
 
-## Appendix I
+## Appendix I: Lit review results & parameters
 
 Literature review of current Monte Carlo methods used in REDD+ and ART-TREES
 projects
