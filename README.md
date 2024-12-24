@@ -1,17 +1,14 @@
-## Monte Carlo Simulation Tools with REDD+ Uncertainty Estimates
+## Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates
 
 ### ART Requirements for Monte Carlo Methods
 
-To reduce risk of over-crediting, the TREES V2.0 Standard (August 2021) [@artREDDEnvironmentalExcellence2021] outlines requirements for reporting uncertainty in emissions and removals, and adjusting estimates where uncertainty levels exceed the defined threshold of a half-width of a 90% confidence interval between the upper and lower bounds (Relative RMSE ≤ 10%). Monte Carlo simulations are identified as an appropriate methodology due to their capacity to model variance and provide conservative estimates from large-scale higly-variable datasets. Specifically, "Monte Carlo simulations shall use the 90% confidence interval and a simulation n of 10,000" (p.45).
-
-**Exemption for Allometric Estimates**\
-An exemption from requirements for Monte Carlo simulations is granted to allometric modeled estimates. The TREES Standards V2.0 states that "such errors are considered consistent between emissions in the crediting level and crediting periods" which therefore do not materially influence the net results.
-
-**Inclusion of Emissions & Activity Data Uncertainty**\
-Conversely, uncertainty must be assessed and reported for emissions factors and activity data derived from biomass maps, as these datasets directly impact the accuracy of emission estimates. TREES participants are encouraged to adopt best practices, such as those outlined in the CEOS LPV Biomass Protocol 2021, to enhance calibration, validation, and reliability of spatially explicit datasets [@duncansonAbovegroundWoodyBiomass2021], including
+The TREES V2.0 Standard (August 2021) outlines requirements for reporting using Monte Carlo simulations in reporting uncertainty estimates of emissions and removals. Specifically, "Monte Carlo simulations shall use the 90% confidence interval and a simulation n of 10,000" (p.45). For inclusion, uncertainty must be assessed and reported for emissions factors and activity data derived from biomass maps, including
 
 -   Measurement Uncertainty in tree measurements (i.e DBH and height).
 -   Sampling & Spatial Uncertainty arising from autocorrelation & over-fitting of classified land cover maps.
+
+**Exemption:**\
+An exemption from requirements for Monte Carlo simulations is granted to allometric modeled estimates. The TREES Standards V2.0 states that "such errors are considered consistent between emissions in the crediting level and crediting periods" which therefore do not materially influence the net results.
 
 ### Demonstration script {#sec-1.1}
 
@@ -56,7 +53,7 @@ psych::describe(dataset)
 ```
 
 |   | vars | n | mean | sd | median | trimmed | mad | min | max | range | skew | kurtosis | se |
-|:-----|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
+|:----|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|
 | treeID | 1 | 2287 | 2778.658067 | 1929.262548 | 2525.00 | 2705.540688 | 2091.9486000 | 1 | 6207.00 | 6206.00 | 0.2717859 | -1.1051173 | 40.3420768 |
 | stemID | 2 | 2287 | 16577.120682 | 16197.884045 | 5022.00 | 15661.273621 | 5749.5228000 | 1 | 40180.00 | 40179.00 | 0.3961204 | -1.7487292 | 338.7078042 |
 | dbh | 3 | 2287 | 5.520162 | 10.803608 | 1.67 | 2.653741 | 0.7857782 | 1 | 92.02 | 91.02 | 3.8111843 | 16.3042875 | 0.2259101 |
@@ -77,6 +74,7 @@ tibble [2,287 × 6] (S3: tbl_df/tbl/data.frame)
  $ species: chr [1:2287] "negundo" "negundo" "negundo" "negundo" ...
  $ Family : chr [1:2287] "Sapindaceae" "Sapindaceae" "Sapindaceae" "Sapindaceae" ...
 ```
+
 Tables 1-3: Smithsonian Institute GEOForest dataset from `allodb` package (n = 2287)
 
 ### Probability density functions
@@ -97,7 +95,7 @@ head(eq_tab_acer[, show_cols])
 ```
 
 | equation_id | equation_taxa | equation_allometry |
-|:-----------------|:-----------------|:------------------------------------|
+|:-----------------|:-----------------|:-----------------------------------|
 | a4e4d1 | Acer saccharum | exp(-2.192-0.011*dbh+2.67*(log(dbh))) |
 | dfc2c7 | Acer rubrum | 2.02338\*(dbh^2)^1.27612 |
 | eac63e | Acer rubrum | 5.2879\*(dbh^2)^1.07581 |
@@ -695,7 +693,7 @@ ZOTERO_API              YLGf46K04lL7uCAcolJ6V62G
 #### Appendix I: Results of review of Monte Carlo methods in REDD+
 
 | **Parameter** | **Description** |
-|----------------------|--------------------------------------------------|
+|----------------------|-------------------------------------------------|
 | **Keywords** | Monte Carlo simulations |
 |  | Biomass estimation |
 |  | Carbon stock uncertainty |

@@ -55,7 +55,7 @@ UNC_t = (GHG ER_t + GHG REMV_t) \times UA_t \text{.            EQ 10}
 $$
 
 |  |  |
-|-------------------------|----------------------------------------------|
+|--------------------------|----------------------------------------------|
 | $UNC_t$ | Uncertainty deduction for year $t$ ($tCO_2e$) |
 | $GHG ER_t$ | Gross greenhouse gas emissions reductions for year $t$ ($tCO_2e$) |
 | $GHG REMV_t$ | Gross greenhouse gas removals for year $t$ ($tCO_2e$) |
@@ -70,7 +70,7 @@ UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}    \text{.                 
 $$
 
 |  |  |
-|-------------------------|----------------------------------------------|
+|--------------------------|----------------------------------------------|
 | $90\%\text{ C I}_{t}$ | The half-width of 90% confidence interval as percentage of mean |
 | $1.645006$ | $t$ value for a 90% confidence interval |
 | $0.524417$ | A scaling constant to adjust the proportion. |
@@ -205,7 +205,7 @@ head(eq_tab_acer[, show_cols])
 :::: cell-output-display
 ::: kable-table
 | equation_id | equation_taxa | equation_allometry |
-|:----------------|:----------------|:--------------------------------------|
+|:-----------------|:-----------------|:------------------------------------|
 | a4e4d1 | Acer saccharum | exp(-2.192-0.011*dbh+2.67*(log(dbh))) |
 | dfc2c7 | Acer rubrum | 2.02338\*(dbh^2)^1.27612 |
 | eac63e | Acer rubrum | 5.2879\*(dbh^2)^1.07581 |
@@ -846,7 +846,7 @@ ZOTERO_API              YLGf46K04lL7uCAcolJ6V62G
 #### Appendix I: Rapid literature review of Monte Carlo methods in REDD+
 
 | **Parameter** | **Description** |
-|---------------------|---------------------------------------------------|
+|----------------------|--------------------------------------------------|
 | **Keywords** | Monte Carlo simulations |
 |  | Biomass estimation |
 |  | Carbon stock uncertainty |
