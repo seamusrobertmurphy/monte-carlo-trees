@@ -6,14 +6,12 @@
 -   [Scope of Work](#scope-of-work)
 -   [Registry Requirements](#registry-requirements)
 -   [Methods Review](#methods-review)
-    -   [Current tools](#current-tools)
-    -   [Current limitations](#current-limitations)
 -   [Example script](#sec-1.1)
     -   [Environment setup](#environment-setup)
     -   [Monte Carlo of Emissions Factors](#monte-carlo-of-emissions-factors)
     -   [Activity Data Uncertainty](#activity-data-uncertainty)
--   [Runtime record](#runtime-snapshot)
--   [Appendix I: Rapid review results](#appendix-i)
+-   [Appendix](#appendix-i)
+-   [Session runtime](#runtime-snapshot)
 -   [References](#references)
 
 ## Introduction {#introduction}
@@ -419,7 +417,7 @@ legend(
 
 ------------------------------------------------------------------------
 
-## Runtime snapshot {#runtime-snapshot}
+## Session runtime {#runtime-snapshot}
 
 ``` r
 devtools::session_info()
