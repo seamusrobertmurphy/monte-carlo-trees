@@ -2,13 +2,9 @@
 title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
 output: 
-  html_document: 
-    highlight: pygments
-    code_folding: show
+  github_document: 
     toc: true
     toc_depth: 4
-    toc_float: 
-      collapsed: false
       
 editor_options: 
   markdown: 
