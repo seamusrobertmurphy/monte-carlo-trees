@@ -1,229 +1,7 @@
----
-title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
-date: 2024-12-19
-output: 
-  html_document: 
-    highlight: pygments
-    code_folding: show
-    toc: true
-    toc_depth: 4
-    toc_float: 
-      collapsed: false
-      
-editor_options: 
-  markdown: 
-    wrap: 80
-    
-bibliography: references.bib
-csl: american-chemical-society.csl
-keep_md: true
-always_allow_html: true
-df-print: kable
----
-
-```{r setup-1}
-#| warning: false
-#| message: false
-#| error: false
-#| include: false
-#| echo: false
-easypackages::packages(
-  "animation", "allodb", "BIOMASS", "c2z", "caret", "dataMaid", "DescTools","dplyr",
-  "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
-  "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
-  "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
-  "rmarkdown", "readxl", "tibble", "tidymodels", "tidyverse",
-  "tinytex", "tune", "useful", "webshot", "webshot2",
-  prompt = F
-  )
-  
-knitr::opts_chunk$set(
-  echo    = TRUE, 
-  message = FALSE, 
-  warning = FALSE,
-  error   = FALSE, 
-  cache   = FALSE,
-  comment = NA, 
-  tidy.opts = list(width.cutoff = 60)
-)
-
-options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
-sf::sf_use_s2(use_s2 = FALSE)
-```
-
-```{css, echo=FALSE, class.source = 'foldable'}
-div.column {
-    display: inline-block;
-    vertical-align: top;
-    width: 50%;
-}
-
-#TOC::before {
-  content: "";
-  display: block;
-  height: 80px;
-  width: 210px;
-  background-image: url(https://winrock.org/wp-content/uploads/2021/12/Winrock-logo-R.png);
-  background-size: contain;
-  background-position: center;
-  background-position: 50% 50%;
-  padding-top: 80px !important;
-  background-repeat: no-repeat;
-}
-```
 
 ## Introduction
 
 The ART-TREES Standard V2.01 mandates specific methodologies for calculating and reporting uncertainty estimates associated with emission factors and activity data within jurisdictional and nested REDD+ projects. To strengthen compliance, the ART-TREES project team produced the following report and capacity building resources.
-
-## Scope of Work
-
-This report focuses on the following technical areas:
-
--   Develop Monte Carlo simulation pathways to quantify uncertainty in emission
-    factors and activity data, ensuring consistency with ART-TREES’s emphasis on
-    robust uncertainty analysis and corrective bias assessment.
--   Use R or other software to create systems that streamline data workflows and
-    enhance accessibility for MRV purposes. Monte Carlo Simulation for
-    Uncertainty Estimation
--   Document methodologies and provide results in formats compliant with
-    ART-TREES reporting standards.
--   Prepare technical reports that detail uncertainty estimation methods and
-    database management workflows.
--   Develop and deliver training materials to strengthen stakeholder capacity to
-    use ART-TREES-aligned tools and methodologies.
-
-```{r}
-#| echo: false
-#| fig-align: 'center'
-
-# animation of 10-kfold method:
-knitr::include_graphics("./animation.gif")
-#cv.ani(x = runif(150),k = 10,col = c("green", "red", "blue"),pch = c(4, 1))
-```
-
-##### Figure 1: Visualization of k-fold resampling. Note differences with Monte Carlo "Leave-One-Group-Out-Validation"
-
-## Registry Requirements
-
-The TREES 2.0 Standard [@artREDDEnvironmentalExcellence2021] outlines
-requirements for reporting uncertainty in emissions and removals, and adjusting
-estimates where uncertainty levels exceed the defined threshold of a half-width
-of a 90% confidence interval between the upper and lower bounds (Relative RMSE ≤
-10%). Monte Carlo simulations are identified as an appropriate methodology due
-to their capacity to model variance and provide conservative estimates from
-large-scale highly-variable datasets. Specifically, "Monte Carlo simulations
-shall use the 90% confidence interval and a simulation n of 10,000" (p.45).
-
-**Aggregation of Uncertainty Across Crediting Periods**\
-The TREES Standard provides a level of flexibility in allowing participants to
-aggregate uncertainty deductions across multiple crediting periods. At the end
-of each crediting period, participants may calculate a consolidated uncertainty
-deduction based on the summed gross emissions reductions and removals achieved
-over their entire ART participation. If prior uncertainty deductions exceeded
-the aggregated deduction sum for the total period, the over-deducted credits
-will be issued into the participant’s registry account. This approach aims to
-incentivise participants to refine data quality and uncertainty estimates.
-
-**Inclusion of Biomass Map Uncertainty**\
-Uncertainty must be assessed and reported for emissions factors derived from
-biomass maps, as these datasets directly impact the accuracy of emission
-estimates. TREES participants are encouraged to adopt best practices, such as
-those outlined in the CEOS LPV Biomass Protocol 2021, to enhance calibration,
-validation, and reliability of spatially explicit datasets. In this guidance
-document, key recommendations for good practices include appropriate scaling,
-temporally & spatially consistent reference data and remote sensing, and the use
-of approved error metrics (90% CI or RMSE). In particular, three likely sources
-of uncertainty in biomass estimation are highlighted separately for
-consideration in assessing and calibrating predictions
-[@duncansonAbovegroundWoodyBiomass2021].
-
--   Measurement Uncertainty in tree measurements (i.e DBH and height).
--   Allometric Model Errors in statistically inferring biomass from from tree
-    measurements
--   Sampling & Spatial Uncertainty arising from autocorrelation & over-fitting
-
-**Exemption for Allometric Estimates**\
-An exemption from requirements for Monte Carlo simulations is granted to
-allometric modeled estimates. The TREES Standards V2.0 states that "such errors
-are considered consistent between emissions in the crediting level and crediting
-periods" which therefore do not materially influence the net results.=
-
-**Calculating Uncertainty Deductions**\
-Cited on page 46 of the TREES Standards V2.0, calculations of uncertainty
-deductions are derived using the following formulae:
-
-$$
-UNC_t = (GHG ER_t + GHG REMV_t) \times UA_t \text{.            EQ 10}
-$$
-
-|              |                                                                   |
-|--------------|-------------------------------------------------------------------|
-| $UNC_t$      | Uncertainty deduction for year $t$ ($tCO_2e$)                     |
-| $GHG ER_t$   | Gross greenhouse gas emissions reductions for year $t$ ($tCO_2e$) |
-| $GHG REMV_t$ | Gross greenhouse gas removals for year $t$ ($tCO_2e$)             |
-| $UA_t$       | The uncertainty adjustment factor for year $t$                    |
-
-##### Table 1: Parameters used in Equation 10
-
-The uncertainty adjustment factor ($UAdj_t$) quantifies the proportional
-adjustment to emissions reductions and removals based on statistical
-uncertainty. It is defined as:
-
-$$
-UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}    \text{.                           EQ 11}
-$$
-
-|  |  |
-|-----------------------------|---------------------------------------------------|
-| $90\%\text{ C I}_{t}$ | The half-width of 90% confidence interval as percentage of mean |
-| $1.645006$ | $t$ value for a 90% confidence interval |
-| $0.524417$ | A scaling constant to adjust the proportion. |
-
-##### Table 2: Parameters used in Equation 11
-
-## Methods Review
-
-In Appendix I, annotated results are presented from a rapid literature review of
-current methodologies and discussions of Monte Carlo simulations of biomass
-estimations used in REDD+ studies and programs. The search was conducted using
-keywords including "Monte Carlo simulations," "biomass estimation," "carbon
-stock uncertainty," and "REDD+ projects". Variants and combinations of these
-terms, including "forest carbon accounting" and "allometric uncertainty," were
-also explored. Data sources were visited among Scopus, Web of Science, and
-Google Scholar,and specialized journals in forestry, remote sensing, and carbon
-management. The temporal window of the review focused on studies published in
-the last two decades (2003–2023), reflecting the period during which Monte Carlo
-methods gained prominence in forest biomass estimation and REDD+ research
-evolved into a critical global framework. Additional attention was given to
-high-impact reviews and meta-analyses that provide state-of-the-art evaluations
-of the field.
-
-Summarize review here...
-
-#### Current tools
-
--   Details of the design and parameters of the existing excel tool are
-    available
-    [here](https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx)
-    and
-    [here](https://winrock.org/wp-content/uploads/2018/02/UncertaintyReport-12.26.17.pdf?utm_source=chatgpt.com).
-
-#### Current limitations
-
--   
-
-<div>
-
-</div>
-
-<div>
-
-</div>
-
-<div>
-
-</div>
 
 ## Example script {#sec-1.1}
 
@@ -244,7 +22,7 @@ easypackages::packages(
   "rmarkdown", "readxl", "solarizeddox", "tibble", "tidymodels", "tidyverse",
   "tinytex", "tune", "useful", "webshot", "webshot2",
   prompt = F
-  )
+)
 ```
 
 ### Monte Carlo of Emissions Factors
@@ -295,11 +73,11 @@ head(eq_tab_acer[, show_cols])
 
 # Compute above ground biomass
 dataset$agb = allodb::get_biomass(
-    dbh     = dataset$dbh,
-    genus   = dataset$genus,
-    species = dataset$species,
-    coords  = c(-78.2, 38.9)
-  )
+  dbh     = dataset$dbh,
+  genus   = dataset$genus,
+  species = dataset$species,
+  coords  = c(-78.2, 38.9)
+)
 
 # examine dbh ~ agb function
 dbh_agb = lm(dbh ~ agb, data = dataset)
@@ -333,12 +111,12 @@ wilcox.test(dataset$agb) # p<0.00001
 
 This section introduces the design of the Monte Carlo simulation regime,
 including:
-
--   Simulation parameters are defined to balance computational efficiency and
-    statistical robustness.
+  
+  -   Simulation parameters are defined to balance computational efficiency and
+statistical robustness.
 
 -   Cross-validation techniques are employed to evaluate model performance and
-    identify bias or variance.
+identify bias or variance.
 
 The `LGOCV` acronym used in the `caret` package functions below stands for
 "leave one group out cross validation". We must select the % of test data that
@@ -527,5 +305,3 @@ reporting.
     REDD+, IFM: Improved Forest Management
 
 ##### Table 5: Results of a review of literature on Monte Carlo methodologies in REDD+ projects
-
-## References 
