@@ -16,11 +16,11 @@ An exemption from requirements for Monte Carlo simulations is granted to allomet
 
 ``` {.r .cell-code}
 easypackages::packages(
-  "animation", "BIOMASS", "caret", "dataMaid", "DescTools", "dplyr",
+  "allodb", "animation", "BIOMASS", "caret", "DescTools", "dplyr",
   "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
   "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
   "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
-  "rmarkdown", "readxl", "solarizeddox", "tibble", "tidymodels", "tidyverse",
+  "rmarkdown", "readxl", "solarizeddocx", "tibble", "tidymodels", "tidyverse",
   "tinytex", "tune", "useful", "webshot", "webshot2",
   prompt = F
   )
