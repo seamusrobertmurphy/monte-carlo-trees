@@ -20,28 +20,6 @@
 -   [Appendix I](#appendix-i)
 -   [References](#references)
 
-```{=html}
-<style type="text/css">
-div.column {
-    display: inline-block;
-    vertical-align: top;
-    width: 50%;
-}
-&#10;#TOC::before {
-  content: "";
-  display: block;
-  height: 80px;
-  width: 210px;
-  background-image: url(https://winrock.org/wp-content/uploads/2021/12/Winrock-logo-R.png);
-  background-size: contain;
-  background-position: center;
-  background-position: 50% 50%;
-  padding-top: 80px !important;
-  background-repeat: no-repeat;
-}
-</style>
-```
-
 ## Introduction {#introduction}
 
 The ART-TREES Standard V2.01 mandates specific methodologies for calculating and reporting uncertainty estimates associated with emission factors and activity data within jurisdictional and nested REDD+ projects. To strengthen compliance, the ART-TREES project team produced the following report and capacity building resources.
@@ -58,7 +36,7 @@ This report focuses on the following technical areas:
 
 <img src="./animation.gif" style="display: block; margin: auto;"/>
 
-##### Figure 1: Visualization of k-fold resampling. Note differences with Monte Carlo “Leave-One-Group-Out-Validation”
+##### Figure 1: Visualization of k-fold resampling ^(Note\ differences\ with\ Monte\ Carlo\ “Leave-One-Group-Out-Validation”)^
 
 ## Registry Requirements {#registry-requirements}
 
@@ -81,7 +59,7 @@ An exemption from requirements for Monte Carlo simulations is granted to allomet
 Cited on page 46 of the TREES Standards V2.0, calculations of uncertainty deductions are derived using the following formulae:
 
 $$
-UNC_t = (GHG ER_t + GHG REMV_t) \times UA_t \text{.            EQ 10}
+UNC_t = (GHG ER_t + GHG REMV_t) \times UA_t
 $$
 
 |  |  |
@@ -96,7 +74,7 @@ $$
 The uncertainty adjustment factor ($UAdj_t$) quantifies the proportional adjustment to emissions reductions and removals based on statistical uncertainty. It is defined as:
 
 $$
-UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}    \text{.                           EQ 11}
+UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}
 $$
 
 |  |  |
@@ -115,19 +93,14 @@ Summarize review here…
 
 #### Current tools {#current-tools}
 
--   Details of the design and parameters of the existing excel tool are available [here](https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx) and [here](https://winrock.org/wp-content/uploads/2018/02/UncertaintyReport-12.26.17.pdf?utm_source=chatgpt.com).
+-   Design and parameters of the existing excel tool are available [here](https://www.artredd.org/wp-content/uploads/2021/12/MC-4-estimating-ER-from-forests-update-1-1.xlsx) and [here](https://winrock.org/wp-content/uploads/2018/02/UncertaintyReport-12.26.17.pdf?utm_source=chatgpt.com).
+-   
 
 #### Current limitations {#current-limitations}
 
 -   
 
-<div>
-
-</div>
-
-<div>
-
-</div>
+-   
 
 <div>
 
@@ -796,7 +769,7 @@ Literature review of current Monte Carlo methods used in REDD+ and ART-TREES pro
 
 reporting.
 
-| **REDD+ scheme**[^monte-carlo-trees-1] | **Monte Carlo applied** | **Region** | **Key Findings** | **Ref** |
+| **REDD+ scheme**[^readme-1] | **Monte Carlo applied** | **Region** | **Key Findings** | **Ref** |
 |---------------|---------------|---------------|---------------|:-------------:|
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. | <sup>3</sup> |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. | <sup>4</sup> |
@@ -811,66 +784,36 @@ reporting.
 | IFM | Emission factor uncertainty | Central Africa | Model selection is the largest error source (40%); weighting models reduces uncertainty in emission factors. | <sup>13</sup> |
 | NA | Uncertainty in ecosystem nutrient estimate | New Hampshire, USA | Identified 8% uncertainty in nitrogen budgets, mainly from plot variability (6%) and allometric errors (5%). | <sup>14</sup> |
 
-[^monte-carlo-trees-1]: ADD: Avoided Deforestation and Degradation, JNR: Jurisdictional & Nested REDD+, IFM: Improved Forest Management
+[^readme-1]: ADD: Avoided Deforestation and Degradation, JNR: Jurisdictional & Nested REDD+, IFM: Improved Forest Management
 
 ##### Table 5: Results of a review of literature on Monte Carlo methodologies in REDD+ projects
 
 ## References {#references}
 
-::::::::::::::::: {#refs .references .csl-bib-body entry-spacing="0"}
-::: {#ref-artREDDEnvironmentalExcellence2021 .csl-entry}
-[(1) ]{.csl-left-margin}[ART, S. *The REDD+ Environmental Excellence Standard*; 2021. <https://www.artredd.org/wp-content/uploads/2021/12/TREES-2.0-August-2021-Clean.pdf>.]{.csl-right-inline}
-:::
+(1) ART, S. *The REDD+ Environmental Excellence Standard*; 2021. <https://www.artredd.org/wp-content/uploads/2021/12/TREES-2.0-August-2021-Clean.pdf>
 
-::: {#ref-duncansonAbovegroundWoodyBiomass2021 .csl-entry}
-[(2) ]{.csl-left-margin}[Duncanson, L.; Disney, M.; Armston, J.; Nickeson, J.; Minor, D.; Camacho, F. Aboveground Woody Biomass Product Validation Good Practices Protocol. **2021**. <https://doi.org/10.5067/DOC/CEOSWGCV/LPV/AGB.001>.]{.csl-right-inline}
-:::
+(2) Duncanson, L.; Disney, M.; Armston, J.; Nickeson, J.; Minor, D.; Camacho, F. Aboveground Woody Biomass Product Validation Good Practices Protocol. **2021**. <https://doi.org/10.5067/DOC/CEOSWGCV/LPV/AGB.001>
 
-::: {#ref-brown1995a .csl-entry}
-[(3) ]{.csl-left-margin}[Brown, I. F.; Foster Brown, I.; Martinelli, L. A.; Wayt Thomas, W.; Moreira, M. Z.; Cid Ferreira, C. A.; Victoria, R. A. Uncertainty in the Biomass of Amazonian Forests: An Example from Rondônia, Brazil. *Forest Ecology and Management* **1995**, *75* (1–3), 175–189. [https://doi.org/10.1016/0378-1127(94)03512-u](https://doi.org/10.1016/0378-1127(94)03512-u){.uri}.]{.csl-right-inline}
-:::
+(3) Brown, I. F.; Foster Brown, I.; Martinelli, L. A.; Wayt Thomas, W.; Moreira, M. Z.; Cid Ferreira, C. A.; Victoria, R. A. Uncertainty in the Biomass of Amazonian Forests: An Example from Rondônia, Brazil. *Forest Ecology and Management* **1995**, *75* (1–3), 175–189. <https://doi.org/10.1016/0378-1127(94)03512-u>
 
-::: {#ref-cohen2013a .csl-entry}
-[(4) ]{.csl-left-margin}[Cohen, R.; Kaino, J.; Okello, J. A.; Bosire, J. O.; Kairo, J. G.; Huxham, M.; Mencuccini, M. Uncertainty to Estimates of Above-Ground Biomass for Kenyan Mangroves: A Scaling Procedure from Tree to Landscape Level. In *Forest ecology and management*; 2013; Vol. 310, pp 968–982. <https://doi.org/10.1016/j.foreco.2013.09.047>.]{.csl-right-inline}
-:::
+(4) Cohen, R.; Kaino, J.; Okello, J. A.; Bosire, J. O.; Kairo, J. G.; Huxham, M.; Mencuccini, M. Uncertainty to Estimates of Above-Ground Biomass for Kenyan Mangroves: A Scaling Procedure from Tree to Landscape Level. In *Forest ecology and management*; 2013; Vol. 310, pp 968–982. <https://doi.org/10.1016/j.foreco.2013.09.047>
 
-::: {#ref-chen2015b .csl-entry}
-[(5) ]{.csl-left-margin}[Chen, Q.; Laurin, G. V.; Valentini, R. Uncertainty of Remotely Sensed Aboveground Biomass over an African Tropical Forest: Propagating Errors from Trees to Plots to Pixels. *Remote Sensing of Environment* **2015**, *160*, 134–143. <https://doi.org/10.1016/j.rse.2015.01.009>.]{.csl-right-inline}
-:::
+(5)] Chen, Q.; Laurin, G. V.; Valentini, R. Uncertainty of Remotely Sensed Aboveground Biomass over an African Tropical Forest: Propagating Errors from Trees to Plots to Pixels. *Remote Sensing of Environment* **2015**, *160*, 134–143. <https://doi.org/10.1016/j.rse.2015.01.009>
 
-::: {#ref-holdaway2014a .csl-entry}
-[(6) ]{.csl-left-margin}[Holdaway, R. J.; McNeill, S. J.; Mason, N. W. H.; Carswell, F. E. Propagating Uncertainty in Plot-Based Estimates of Forest Carbon Stock and Carbon Stock Change. *Ecosystems* **2014**, *17*, 627–640. <https://doi.org/10.1007/s10021-014-9749-5>.]{.csl-right-inline}
-:::
+(6) Holdaway, R. J.; McNeill, S. J.; Mason, N. W. H.; Carswell, F. E. Propagating Uncertainty in Plot-Based Estimates of Forest Carbon Stock and Carbon Stock Change. *Ecosystems* **2014**, *17*, 627–640. <https://doi.org/10.1007/s10021-014-9749-5>
 
-::: {#ref-chen2016a .csl-entry}
-[(7) ]{.csl-left-margin}[Chen, Q.; McRoberts, R. E.; Wang, C.; Radtke, P. J. Forest Aboveground Biomass Mapping and Estimation Across Multiple Spatial Scales Using Model-Based Inference. *Remote Sensing of Environment* **2016**, *184*, 350–360. <https://doi.org/10.1016/j.rse.2016.07.023>.]{.csl-right-inline}
-:::
+(7) Chen, Q.; McRoberts, R. E.; Wang, C.; Radtke, P. J. Forest Aboveground Biomass Mapping and Estimation Across Multiple Spatial Scales Using Model-Based Inference. *Remote Sensing of Environment* **2016**, *184*, 350–360. <https://doi.org/10.1016/j.rse.2016.07.023>
 
-::: {#ref-chave2004error .csl-entry}
-[(8) ]{.csl-left-margin}[Chave, J.; Condit, R.; Aguilar, S.; Hernandez, A.; Lao, S.; Perez, R. Error Propagation and Scaling for Tropical Forest Biomass Estimates. *Philosophical Transactions of the Royal Society of London. Series B: Biological Sciences* **2004**, *359* (1443), 409–420.]{.csl-right-inline}
-:::
+(8) Chave, J.; Condit, R.; Aguilar, S.; Hernandez, A.; Lao, S.; Perez, R. Error Propagation and Scaling for Tropical Forest Biomass Estimates. *Philosophical Transactions of the Royal Society of London. Series B: Biological Sciences* **2004**, *359* (1443), 409–420
 
-::: {#ref-keller2001a .csl-entry}
-[(9) ]{.csl-left-margin}[Keller, M.; Palace, M.; Hurtt, G. Biomass Estimation in the Tapajos National Forest, Brazil. *Forest Ecology and Management* **2001**, *154*, 371–382.]{.csl-right-inline}
-:::
+(9) Keller, M.; Palace, M.; Hurtt, G. Biomass Estimation in the Tapajos National Forest, Brazil. *Forest Ecology and Management* **2001**, *154*, 371–382
 
-::: {#ref-mcroberts2015a .csl-entry}
-[(10) ]{.csl-left-margin}[McRoberts, R. E.; Moser, P.; Oliveira, L. Z.; Vibrans, A. C. A General Method for Assessing the Effects of Uncertainty in Individual-Tree Volume Model Predictions on Large-Area Volume Estimates 222 with a Subtropical Forest Illustration. *Canadian Journal of Forest Research* **2015**, *45*.]{.csl-right-inline}
-:::
+(10) McRoberts, R. E.; Moser, P.; Oliveira, L. Z.; Vibrans, A. C. A General Method for Assessing the Effects of Uncertainty in Individual-Tree Volume Model Predictions on Large-Area Volume Estimates 222 with a Subtropical Forest Illustration. *Canadian Journal of Forest Research* **2015**, *45*
 
-::: {#ref-melson2011a .csl-entry}
-[(11) ]{.csl-left-margin}[Melson, S. L.; Harmon, M. E.; Fried, J. S.; Domingo, J. B. Estimates of Live-Tree Carbon Stores in the Pacific Northwest Are Sensitive to Model Selection. *Carbon Balance and Management* **2011**, *6*, 2.]{.csl-right-inline}
-:::
+(11) Melson, S. L.; Harmon, M. E.; Fried, J. S.; Domingo, J. B. Estimates of Live-Tree Carbon Stores in the Pacific Northwest Are Sensitive to Model Selection. *Carbon Balance and Management* **2011**
 
-::: {#ref-molto2013a .csl-entry}
-[(12) ]{.csl-left-margin}[Molto, Q.; Rossi, V.; Blanc, L. Error Propagation in Biomass Estimation in Tropical Forests. *Methods in Ecology and Evolution* **2013**, *4*, 175–183. <https://doi.org/10.1111/j.2041-210x.2012.00266.x>.]{.csl-right-inline}
-:::
+(12) Molto, Q.; Rossi, V.; Blanc, L. Error Propagation in Biomass Estimation in Tropical Forests. *Methods in Ecology and Evolution* **2013**, *4*, 175–183. <https://doi.org/10.1111/j.2041-210x.2012.00266.x>
 
-::: {#ref-picard2015a .csl-entry}
-[(13) ]{.csl-left-margin}[Picard, N.; Bosela, F. B.; Rossi, V. Reducing the Error in Biomass Estimates Strongly Depends on Model Selection. *Annals of Forest Science* **2015**, *72* (6), 811–823. <https://doi.org/10.1007/s13595-014-0434-9>.]{.csl-right-inline}
-:::
+(13) Picard, N.; Bosela, F. B.; Rossi, V. Reducing the Error in Biomass Estimates Strongly Depends on Model Selection. *Annals of Forest Science* **2015**, *72* (6), 811–823. <https://doi.org/10.1007/s13595-014-0434-9>
 
-::: {#ref-yanai2010a .csl-entry}
-[(14) ]{.csl-left-margin}[Yanai, R. D.; Battles, J. J.; Richardson, A. D.; Blodgett, C. A.; Wood, D. M.; Rastetter, E. B. Estimating Uncertainty in Ecosystem Budget Calculations. *Ecosystems* **2010**, *13*, 239–248. <https://doi.org/10.1007/s10021-010-9315-8>.]{.csl-right-inline}
-:::
-:::::::::::::::::
+(14) Yanai, R. D.; Battles, J. J.; Richardson, A. D.; Blodgett, C. A.; Wood, D. M.; Rastetter, E. B. Estimating Uncertainty in Ecosystem Budget Calculations. *Ecosystems* **2010**, *13*, 239–248. <https://doi.org/10.1007/s10021-010-9315-8>
