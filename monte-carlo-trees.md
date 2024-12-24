@@ -14,20 +14,10 @@ csl: american-chemical-society.csl
 output-dir: docs
 ---
 
-
-
-
-
-
 ## Introduction
 
-
-
-::: {.cell layout-ncols='5'}
-
+::: {.cell layout-ncols="5"}
 :::
-
-
 
 The ART-TREES Standard V2.01 mandates precise methodologies for calculating and reporting uncertainty estimates associated with emission factors and activity data within jurisdictional and nested REDD+ projects. In response to these requirements, the LEAF-TA program has commissioned the Guyana ART-TREES project team to develop and support capacity building in specific technical areas.
 
@@ -65,7 +55,7 @@ UNC_t = (GHG ER_t + GHG REMV_t) \times UA_t \text{.            EQ 10}
 $$
 
 |  |  |
-|-------------------------|------------------------------------------------|
+|-------------------------|----------------------------------------------|
 | $UNC_t$ | Uncertainty deduction for year $t$ ($tCO_2e$) |
 | $GHG ER_t$ | Gross greenhouse gas emissions reductions for year $t$ ($tCO_2e$) |
 | $GHG REMV_t$ | Gross greenhouse gas removals for year $t$ ($tCO_2e$) |
@@ -80,7 +70,7 @@ UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}    \text{.                 
 $$
 
 |  |  |
-|-------------------------|------------------------------------------------|
+|-------------------------|----------------------------------------------|
 | $90\%\text{ C I}_{t}$ | The half-width of 90% confidence interval as percentage of mean |
 | $1.645006$ | $t$ value for a 90% confidence interval |
 | $0.524417$ | A scaling constant to adjust the proportion. |
@@ -117,11 +107,8 @@ Summarize review here...
 
 #### *Environment setup*
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+::: cell
+``` {.r .cell-code}
 easypackages::packages(
   "animation", "BIOMASS", "caret", "dataMaid", "DescTools", "dplyr",
   "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
@@ -134,17 +121,12 @@ easypackages::packages(
 ```
 :::
 
-
-
 ### Import data
 
 This section outlines the tools for importing and preparing forestry and biomass data for analysis, a key step in building ART-TREES-compliant MRV systems. Using the `allodb` package, we load a global allometry database and a dummy dataset from the Smithsonian Institute ForestGEO project.
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+:::::::: cell
+``` {.r .cell-code}
 library("allodb") # https://docs.ropensci.org/allodb/
 set.seed(333)
 #data(ufc) # spuRs::vol.m3(dataset$dbh.cm, dataset$height.m, multiplier = 0.5)
@@ -153,47 +135,42 @@ dataset = scbi_stem1
 head(dataset) |> tibble::as_tibble()
 ```
 
-::: {.cell-output-display}
-<div class="kable-table">
-
-| treeID| stemID|  dbh|genus |species |Family      |
-|------:|------:|----:|:-----|:-------|:-----------|
-|   2695|   2695| 1.41|Acer  |negundo |Sapindaceae |
-|   1229|  38557| 1.67|Acer  |negundo |Sapindaceae |
-|   1230|   1230| 1.42|Acer  |negundo |Sapindaceae |
-|   1295|  32303| 1.04|Acer  |negundo |Sapindaceae |
-|   1229|  32273| 2.47|Acer  |negundo |Sapindaceae |
-|     66|  31258| 2.19|Acer  |negundo |Sapindaceae |
-
-</div>
+:::: cell-output-display
+::: kable-table
+| treeID | stemID |  dbh | genus | species | Family      |
+|-------:|-------:|-----:|:------|:--------|:------------|
+|   2695 |   2695 | 1.41 | Acer  | negundo | Sapindaceae |
+|   1229 |  38557 | 1.67 | Acer  | negundo | Sapindaceae |
+|   1230 |   1230 | 1.42 | Acer  | negundo | Sapindaceae |
+|   1295 |  32303 | 1.04 | Acer  | negundo | Sapindaceae |
+|   1229 |  32273 | 2.47 | Acer  | negundo | Sapindaceae |
+|     66 |  31258 | 2.19 | Acer  | negundo | Sapindaceae |
 :::
+::::
 
-```{.r .cell-code}
+``` {.r .cell-code}
 psych::describe(dataset)
 ```
 
-::: {.cell-output-display}
-<div class="kable-table">
-
-|         | vars|    n|         mean|           sd|  median|      trimmed|          mad| min|      max|    range|       skew|   kurtosis|          se|
-|:--------|----:|----:|------------:|------------:|-------:|------------:|------------:|---:|--------:|--------:|----------:|----------:|-----------:|
-|treeID   |    1| 2287|  2778.658067|  1929.262548| 2525.00|  2705.540688| 2091.9486000|   1|  6207.00|  6206.00|  0.2717859| -1.1051173|  40.3420768|
-|stemID   |    2| 2287| 16577.120682| 16197.884045| 5022.00| 15661.273621| 5749.5228000|   1| 40180.00| 40179.00|  0.3961204| -1.7487292| 338.7078042|
-|dbh      |    3| 2287|     5.520162|    10.803608|    1.67|     2.653741|    0.7857782|   1|    92.02|    91.02|  3.8111843| 16.3042875|   0.2259101|
-|genus*   |    4| 2287|    16.372540|     6.516571|   18.00|    16.712725|    0.0000000|   1|    31.00|    30.00| -0.5713109|  0.1413179|   0.1362655|
-|species* |    5| 2287|    13.256231|     9.600139|    8.00|    11.305298|    0.0000000|   1|    40.00|    39.00|  1.5869799|  1.2976632|   0.2007449|
-|Family*  |    6| 2287|    13.068212|     4.021778|   13.00|    13.334244|    0.0000000|   1|    22.00|    21.00| -0.5763674|  1.4407792|   0.0840979|
-
-</div>
+:::: cell-output-display
+::: kable-table
+|   | vars | n | mean | sd | median | trimmed | mad | min | max | range | skew | kurtosis | se |
+|:----|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|
+| treeID | 1 | 2287 | 2778.658067 | 1929.262548 | 2525.00 | 2705.540688 | 2091.9486000 | 1 | 6207.00 | 6206.00 | 0.2717859 | -1.1051173 | 40.3420768 |
+| stemID | 2 | 2287 | 16577.120682 | 16197.884045 | 5022.00 | 15661.273621 | 5749.5228000 | 1 | 40180.00 | 40179.00 | 0.3961204 | -1.7487292 | 338.7078042 |
+| dbh | 3 | 2287 | 5.520162 | 10.803608 | 1.67 | 2.653741 | 0.7857782 | 1 | 92.02 | 91.02 | 3.8111843 | 16.3042875 | 0.2259101 |
+| genus\* | 4 | 2287 | 16.372540 | 6.516571 | 18.00 | 16.712725 | 0.0000000 | 1 | 31.00 | 30.00 | -0.5713109 | 0.1413179 | 0.1362655 |
+| species\* | 5 | 2287 | 13.256231 | 9.600139 | 8.00 | 11.305298 | 0.0000000 | 1 | 40.00 | 39.00 | 1.5869799 | 1.2976632 | 0.2007449 |
+| Family\* | 6 | 2287 | 13.068212 | 4.021778 | 13.00 | 13.334244 | 0.0000000 | 1 | 22.00 | 21.00 | -0.5763674 | 1.4407792 | 0.0840979 |
 :::
+::::
 
-```{.r .cell-code}
+``` {.r .cell-code}
 str(dataset)
 ```
 
 ::: {.cell-output .cell-output-stdout}
-
-```
+```         
 tibble [2,287 × 6] (S3: tbl_df/tbl/data.frame)
  $ treeID : int [1:2287] 2695 1229 1230 1295 1229 66 2600 4936 1229 1005 ...
  $ stemID : int [1:2287] 2695 38557 1230 32303 32273 31258 2600 4936 36996 1005 ...
@@ -202,12 +179,8 @@ tibble [2,287 × 6] (S3: tbl_df/tbl/data.frame)
  $ species: chr [1:2287] "negundo" "negundo" "negundo" "negundo" ...
  $ Family : chr [1:2287] "Sapindaceae" "Sapindaceae" "Sapindaceae" "Sapindaceae" ...
 ```
-
-
 :::
-:::
-
-
+::::::::
 
 Tables 1-3: Smithsonian Institute GEOForest dataset from `allodb` package (n = 2287)
 
@@ -219,11 +192,8 @@ Accurate selection of probability density functions (PDFs) is essential for mode
 
 -   Integration of domain expertise to refine parameter selection.
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+:::::::::: cell
+``` {.r .cell-code}
 # add allometry database
 data(equations)
 data("equations_metadata")
@@ -232,22 +202,20 @@ eq_tab_acer = new_equations(subset_taxa = "Acer")
 head(eq_tab_acer[, show_cols])
 ```
 
-::: {.cell-output-display}
-<div class="kable-table">
-
-|equation_id |equation_taxa       |equation_allometry                                       |
-|:-----------|:-------------------|:--------------------------------------------------------|
-|a4e4d1      |Acer saccharum      |exp(-2.192-0.011*dbh+2.67*(log(dbh)))                    |
-|dfc2c7      |Acer rubrum         |2.02338*(dbh^2)^1.27612                                  |
-|eac63e      |Acer rubrum         |5.2879*(dbh^2)^1.07581                                   |
-|f49bcb      |Acer pseudoplatanus |exp(-5.644074+(2.5189*(log(pi*dbh))))                    |
-|14bf3d      |Acer mandshuricum   |0.0335*(dbh)^1.606+0.0026*(dbh)^3.323+0.1222*(dbh)^2.310 |
-|0c7cd6      |Acer mono           |0.0202*(dbh)^1.810+0.0111*(dbh)^2.740+0.1156*(dbh)^2.336 |
-
-</div>
+:::: cell-output-display
+::: kable-table
+| equation_id | equation_taxa | equation_allometry |
+|:----------------|:----------------|:--------------------------------------|
+| a4e4d1 | Acer saccharum | exp(-2.192-0.011*dbh+2.67*(log(dbh))) |
+| dfc2c7 | Acer rubrum | 2.02338\*(dbh^2)^1.27612 |
+| eac63e | Acer rubrum | 5.2879\*(dbh^2)^1.07581 |
+| f49bcb | Acer pseudoplatanus | exp(-5.644074+(2.5189*(log(pi*dbh)))) |
+| 14bf3d | Acer mandshuricum | 0.0335\*(dbh)^1.606+0.0026*(dbh)\^3.323+0.1222*(dbh)^2.310 |
+| 0c7cd6 | Acer mono | 0.0202\*(dbh)^1.810+0.0111*(dbh)\^2.740+0.1156*(dbh)^2.336 |
 :::
+::::
 
-```{.r .cell-code}
+``` {.r .cell-code}
 # Compute above ground biomass
 dataset$agb = allodb::get_biomass(
     dbh     = dataset$dbh,
@@ -284,51 +252,43 @@ wilcox.test(dataset$dbh) # p<0.00001
 ```
 
 ::: {.cell-output .cell-output-stdout}
+```         
 
-```
-
-	Wilcoxon signed rank test with continuity correction
+    Wilcoxon signed rank test with continuity correction
 
 data:  dataset$dbh
 V = 2616328, p-value < 2.2e-16
 alternative hypothesis: true location is not equal to 0
 ```
-
-
 :::
 
-```{.r .cell-code}
+``` {.r .cell-code}
 wilcox.test(dataset$agb) # p<0.00001
 ```
 
 ::: {.cell-output .cell-output-stdout}
+```         
 
-```
-
-	Wilcoxon signed rank test with continuity correction
+    Wilcoxon signed rank test with continuity correction
 
 data:  dataset$agb
 V = 2616328, p-value < 2.2e-16
 alternative hypothesis: true location is not equal to 0
 ```
-
-
 :::
 
-::: {.cell-output-display}
-![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-2-1.png){width=33%}
+::: cell-output-display
+![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-2-1.png){width="33%"}
 :::
 
-::: {.cell-output-display}
-![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-2-2.png){width=33%}
+::: cell-output-display
+![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-2-2.png){width="33%"}
 :::
 
-::: {.cell-output-display}
-![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-2-3.png){width=33%}
+::: cell-output-display
+![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-2-3.png){width="33%"}
 :::
-:::
-
-
+::::::::::
 
 ### Simulation Regime
 
@@ -340,11 +300,8 @@ This section introduces the design of the Monte Carlo simulation regime, includi
 
 The `LGOCV` acronym used in the `caret` package functions below stands for "leave one group out cross validation". We must select the % of test data that is set out from the build upon which the model will be repeatedly trained. Note, the following code applies functions to full dataset without explicit training-test split. **Questions remains on whether we require cross-validation uncertainty estimate to review internal bias, and whether we would like to develop Monte Carlo tools for spatial uncertainty used in Activity Data analysis**. For your consideration, the consultant has previously developed Monte Carlo tools for LULC applications, saved [here](https://github.com/seamusrobertmurphy/02-lulc-classification)
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+:::: cell
+``` {.r .cell-code}
 # Cross-validation split for bias detection
 #samples     = caret::createDataPartition(dataset_tidy$volume, p = 0.80, list = FALSE)
 #train_data  = dataset_tidy[samples, ]
@@ -368,8 +325,7 @@ lm_monte_carlo
 ```
 
 ::: {.cell-output .cell-output-stdout}
-
-```
+```         
 Random Forest 
 
 2287 samples
@@ -388,22 +344,15 @@ Resampling results across tuning parameters:
 RMSE was used to select the optimal model using the smallest value.
 The final value used for the model was mtry = 93.
 ```
-
-
 :::
-:::
-
-
+::::
 
 ### Plot residuals
 
 To enable access to these predictions, we need to instruct `caret` to retain the resampled predictions by setting `savePredictions = "final"` in our `trainControl()` function. It's important to be aware that if you’re working with a large dataset or numerous resampling iterations, the resulting `train()` object may grow significantly in size. This happens because `caret` must store a record of every row, including both the observed values and predictions, for each resampling iteration. By visualizing the results, we can offer insights into the performance of our model on the resampled data.
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+:::::: cell
+``` {.r .cell-code}
 monte_carlo_viz = trainControl(
   method    = "LGOCV", 
   p         = 0.8,            
@@ -420,22 +369,20 @@ lm_monte_carlo_viz = train(
 head(lm_monte_carlo_viz$pred)  # residuals 
 ```
 
-::: {.cell-output-display}
-<div class="kable-table">
-
-|intercept |        pred|          obs| rowIndex|Resample  |
-|:---------|-----------:|------------:|--------:|:---------|
-|TRUE      |  -39.259595|    0.2822055|        2|Resample1 |
-|TRUE      |   -8.616432|    0.7664882|        5|Resample1 |
-|TRUE      |  -31.913620|    0.5637806|        6|Resample1 |
-|TRUE      |  -97.233363|    0.1832042|       10|Resample1 |
-|TRUE      |  356.407185|  161.5561844|       20|Resample1 |
-|TRUE      | 1393.945330| 1095.2695394|       22|Resample1 |
-
-</div>
+:::: cell-output-display
+::: kable-table
+| intercept |        pred |          obs | rowIndex | Resample  |
+|:----------|------------:|-------------:|---------:|:----------|
+| TRUE      |  -39.259595 |    0.2822055 |        2 | Resample1 |
+| TRUE      |   -8.616432 |    0.7664882 |        5 | Resample1 |
+| TRUE      |  -31.913620 |    0.5637806 |        6 | Resample1 |
+| TRUE      |  -97.233363 |    0.1832042 |       10 | Resample1 |
+| TRUE      |  356.407185 |  161.5561844 |       20 | Resample1 |
+| TRUE      | 1393.945330 | 1095.2695394 |       22 | Resample1 |
 :::
+::::
 
-```{.r .cell-code}
+``` {.r .cell-code}
 lm_monte_carlo_viz$pred |> 
   ggplot(aes(x=pred,y=obs)) +
     geom_point(shape=1) + 
@@ -443,12 +390,10 @@ lm_monte_carlo_viz$pred |>
     coord_obs_pred()
 ```
 
-::: {.cell-output-display}
-![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-4-1.png){width=672}
+::: cell-output-display
+![](monte-carlo-trees_behind_files/figure-html/unnamed-chunk-4-1.png){width="672"}
 :::
-:::
-
-
+::::::
 
 ### Uncertainty Estimates
 
@@ -462,17 +407,14 @@ This section discusses the trade-offs and methodological choices in uncertainty 
 
 ***Working Notes...***
 
-References to key studies on cross-validation methods provide a theoretical foundation for the approach.**Monte Carlo cross-validation** (MCCV) involves randomly dividing the dataset into two parts: a training subset and a validation subset, without reusing data points. The model is trained on the training subset, denoted as ( n_t ), and assessed on the validation subset, ( n_v ). While there are ( \binom{N}{n_t} ) distinct ways to form the training subsets, MCCV bypasses the computational burden of evaluating all these combinations by sampling a smaller number of iterations. Zhang $$3$$ demonstrated that performing MCCV for ( N ) iterations yields results comparable to exhaustive cross-validation over all possible subsets. However, studies investigating MCCV for large dataset sizes (( N )) remain limited.
+References to key studies on cross-validation methods provide a theoretical foundation for the approach.**Monte Carlo cross-validation** (MCCV) involves randomly dividing the dataset into two parts: a training subset and a validation subset, without reusing data points. The model is trained on the training subset, denoted as ( n_t ), and assessed on the validation subset, ( n_v ). While there are ( \binom{N}{n_t} ) distinct ways to form the training subsets, MCCV bypasses the computational burden of evaluating all these combinations by sampling a smaller number of iterations. Zhang (1993) demonstrated that performing MCCV for ( N ) iterations yields results comparable to exhaustive cross-validation over all possible subsets. However, studies investigating MCCV for large dataset sizes (( N )) remain limited.
 
-The trade-off between bias and variance in MCCV is influenced by the choice of ( k ) (iterations) and ( n_t ) (training subset size). Increasing ( k ) or ( n_t ) tends to reduce bias but increases variance. Larger training subsets lead to greater similarity across iterations, which can result in overfitting to the training data. For a deeper analysis, see $$2$$. The bias-variance characteristics of ( k )-fold cross-validation (kFCV) and MCCV differ, but their bias levels can be aligned by selecting appropriate values for ( k ) and ( n_t ). A detailed comparison of the bias and variance for both approaches can be found in $$1$$, where MCCV is referred to as the "repeated-learning testing-model."
+The trade-off between bias and variance in MCCV is influenced by the choice of ( k ) (iterations) and ( n_t ) (training subset size). Increasing ( k ) or ( n_t ) tends to reduce bias but increases variance. Larger training subsets lead to greater similarity across iterations, which can result in overfitting to the training data. The bias-variance characteristics of ( k )-fold cross-validation (kFCV) and MCCV differ, but their bias levels can be aligned by selecting appropriate values for ( k ) and ( n_t ). A detailed comparison of the bias and variance for both approaches can be found in Burnam (1989), where MCCV is referred to as the "repeated-learning testing-model."
 
 Monte Carlo Simulation in LULC Classification of Activity Data Assessment:
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+::: cell
+``` {.r .cell-code}
 library(ForesToolboxRS)
 dir.create("./data/testdata")
 download.file("https://github.com/ytarazona/ft_data/raw/main/data/LC08_232066_20190727_SR.zip",destfile = "testdata/LC08_232066_20190727_SR.zip")
@@ -486,26 +428,20 @@ print(classRF)
 ```
 :::
 
-::: {.cell}
-
-```{.r .cell-code}
+::: cell
+``` {.r .cell-code}
 # Classification
 colmap <- c("#0000FF","#228B22","#FF1493", "#00FF00")
 plot(classRF$Classification, main = "RandomForest Classification", col = colmap, axes = TRUE)
 ```
 :::
 
-
-
 ![](02-lulc-classification/figure-html/unnamed-chunk-3-1.png)
 
 ![](02-lulc-classification_files/figure-html/unnamed-chunk-5-1.png){width="672"}
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+::: cell
+``` {.r .cell-code}
 plot(
   cal_ml$svm_mccv,
   main = "Monte Carlo Cross-Validation calibration",
@@ -533,8 +469,6 @@ legend(
 ```
 :::
 
-
-
 ![](02-lulc-classification/figure-html/unnamed-chunk-5-1.png)
 
 ------------------------------------------------------------------------
@@ -547,17 +481,13 @@ Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of Sta
 
 ### Runtime snapshot
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
+:::::: cell
+``` {.r .cell-code}
 devtools::session_info()
 ```
 
 ::: {.cell-output .cell-output-stdout}
-
-```
+```         
 ─ Session info ───────────────────────────────────────────────────────────────
  setting  value
  version  R version 4.4.2 (2024-10-31)
@@ -754,17 +684,14 @@ devtools::session_info()
 
 ──────────────────────────────────────────────────────────────────────────────
 ```
-
-
 :::
 
-```{.r .cell-code}
+``` {.r .cell-code}
 Sys.getenv()
 ```
 
 ::: {.cell-output .cell-output-stdout}
-
-```
+```         
 CHROME_DESKTOP          RStudio.desktop
 CLICOLOR_FORCE          1
 DBUS_SESSION_BUS_ADDRESS
@@ -900,33 +827,26 @@ XDG_SESSION_TYPE        wayland
 XMODIFIERS              @im=ibus
 ZOTERO_API              YLGf46K04lL7uCAcolJ6V62G
 ```
-
-
 :::
 
-```{.r .cell-code}
+``` {.r .cell-code}
 .libPaths()
 ```
 
 ::: {.cell-output .cell-output-stdout}
-
-```
+```         
 [1] "/home/seamus/R/x86_64-redhat-linux-gnu-library/4.4"
 [2] "/usr/local/lib/R/library"                          
 [3] "/usr/lib64/R/library"                              
 [4] "/usr/share/R/library"                              
 ```
-
-
 :::
-:::
-
-
+::::::
 
 #### Appendix I: Rapid literature review of Monte Carlo methods in REDD+
 
 | **Parameter** | **Description** |
-|-------------------|-----------------------------------------------------|
+|---------------------|---------------------------------------------------|
 | **Keywords** | Monte Carlo simulations |
 |  | Biomass estimation |
 |  | Carbon stock uncertainty |
@@ -948,7 +868,7 @@ ZOTERO_API              YLGf46K04lL7uCAcolJ6V62G
 : Table 3: Search parameters used in a review of Monte Carlo tools in REDD+ reporting.
 
 | **REDD+ scheme**[^1] | **Monte Carlo applied** | **Region** | **Key Findings** | **Ref** |
-|--------------|--------------|--------------|----------------|--------------|
+|---------------|---------------|---------------|---------------|---------------|
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. | @brown1995a |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. | @cohen2013a |
 | ADD | Blanket uncertainty propagation | Ghana | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing. | @chen2015b |
@@ -965,4 +885,3 @@ ZOTERO_API              YLGf46K04lL7uCAcolJ6V62G
 : Table 4: Results of a review of literature on Monte Carlo methodologies in REDD+ projects.
 
 [^1]: ADD: Avoided Deforestation and Degradation, JNR: Jurisdictional & Nested REDD+, IFM: Improved Forest Management
-

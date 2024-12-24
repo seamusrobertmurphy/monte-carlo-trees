@@ -7,18 +7,16 @@ To reduce risk of over-crediting, the TREES V2.0 Standard (August 2021) [@artRED
 **Exemption for Allometric Estimates**\
 An exemption from requirements for Monte Carlo simulations is granted to allometric modeled estimates. The TREES Standards V2.0 states that "such errors are considered consistent between emissions in the crediting level and crediting periods" which therefore do not materially influence the net results.
 
-**Inclusion of Biomass Map Uncertainty**\
-Conversely, uncertainty must be assessed and reported for emissions factors derived from biomass maps, as these datasets directly impact the accuracy of emission estimates. TREES participants are encouraged to adopt best practices, such as those outlined in the CEOS LPV Biomass Protocol 2021, to enhance calibration, validation, and reliability of spatially explicit datasets. In this guidance document, best practices are recommended regarding appropriate scaling, temporal & spatialy consistent reference and remote sensing data, in addition to approved error metrics reporting (90% CI or RMSE). They cite three likely sources of uncertainty in biomass estimation are highlighted separately for consideration in assessing and calibrating predictions [@duncansonAbovegroundWoodyBiomass2021].
+**Inclusion of Emissions & Activity Data Uncertainty**\
+Conversely, uncertainty must be assessed and reported for emissions factors and activity data derived from biomass maps, as these datasets directly impact the accuracy of emission estimates. TREES participants are encouraged to adopt best practices, such as those outlined in the CEOS LPV Biomass Protocol 2021, to enhance calibration, validation, and reliability of spatially explicit datasets [@duncansonAbovegroundWoodyBiomass2021], including
 
 -   Measurement Uncertainty in tree measurements (i.e DBH and height).
--   Allometric Model Errors in statistically inferring biomass from from tree measurements
--   Sampling & Spatial Uncertainty arising from autocorrelation & over-fitting
+-   Sampling & Spatial Uncertainty arising from autocorrelation & over-fitting of classified land cover maps.
 
 ### Demonstration script {#sec-1.1}
 
 #### *Environment setup*
 
-::: cell
 ``` {.r .cell-code}
 easypackages::packages(
   "animation", "BIOMASS", "caret", "dataMaid", "DescTools", "dplyr",
@@ -30,13 +28,11 @@ easypackages::packages(
   prompt = F
   )
 ```
-:::
 
 ### Import data
 
 This section outlines the tools for importing and preparing forestry and biomass data for analysis, a key step in building ART-TREES-compliant MRV systems. Using the `allodb` package, we load a global allometry database and a dummy dataset from the Smithsonian Institute ForestGEO project.
 
-::: cell
 ``` {.r .cell-code}
 library("allodb") # https://docs.ropensci.org/allodb/
 set.seed(333)
@@ -46,8 +42,6 @@ dataset = scbi_stem1
 head(dataset) |> tibble::as_tibble()
 ```
 
-::: cell-output-display
-::: kable-table
 | treeID | stemID |  dbh | genus | species | Family      |
 |-------:|-------:|-----:|:------|:--------|:------------|
 |   2695 |   2695 | 1.41 | Acer  | negundo | Sapindaceae |
@@ -56,31 +50,24 @@ head(dataset) |> tibble::as_tibble()
 |   1295 |  32303 | 1.04 | Acer  | negundo | Sapindaceae |
 |   1229 |  32273 | 2.47 | Acer  | negundo | Sapindaceae |
 |     66 |  31258 | 2.19 | Acer  | negundo | Sapindaceae |
-:::
-:::
 
 ``` {.r .cell-code}
 psych::describe(dataset)
 ```
 
-::: cell-output-display
-::: kable-table
-|           | vars |    n |         mean |           sd |  median |      trimmed |          mad | min |      max |    range |       skew |   kurtosis |          se |
-|:----|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|----:|
-| treeID    |    1 | 2287 |  2778.658067 |  1929.262548 | 2525.00 |  2705.540688 | 2091.9486000 |   1 |  6207.00 |  6206.00 |  0.2717859 | -1.1051173 |  40.3420768 |
-| stemID    |    2 | 2287 | 16577.120682 | 16197.884045 | 5022.00 | 15661.273621 | 5749.5228000 |   1 | 40180.00 | 40179.00 |  0.3961204 | -1.7487292 | 338.7078042 |
-| dbh       |    3 | 2287 |     5.520162 |    10.803608 |    1.67 |     2.653741 |    0.7857782 |   1 |    92.02 |    91.02 |  3.8111843 | 16.3042875 |   0.2259101 |
-| genus\*   |    4 | 2287 |    16.372540 |     6.516571 |   18.00 |    16.712725 |    0.0000000 |   1 |    31.00 |    30.00 | -0.5713109 |  0.1413179 |   0.1362655 |
-| species\* |    5 | 2287 |    13.256231 |     9.600139 |    8.00 |    11.305298 |    0.0000000 |   1 |    40.00 |    39.00 |  1.5869799 |  1.2976632 |   0.2007449 |
-| Family\*  |    6 | 2287 |    13.068212 |     4.021778 |   13.00 |    13.334244 |    0.0000000 |   1 |    22.00 |    21.00 | -0.5763674 |  1.4407792 |   0.0840979 |
-:::
-:::
+|   | vars | n | mean | sd | median | trimmed | mad | min | max | range | skew | kurtosis | se |
+|:-----|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|-----:|
+| treeID | 1 | 2287 | 2778.658067 | 1929.262548 | 2525.00 | 2705.540688 | 2091.9486000 | 1 | 6207.00 | 6206.00 | 0.2717859 | -1.1051173 | 40.3420768 |
+| stemID | 2 | 2287 | 16577.120682 | 16197.884045 | 5022.00 | 15661.273621 | 5749.5228000 | 1 | 40180.00 | 40179.00 | 0.3961204 | -1.7487292 | 338.7078042 |
+| dbh | 3 | 2287 | 5.520162 | 10.803608 | 1.67 | 2.653741 | 0.7857782 | 1 | 92.02 | 91.02 | 3.8111843 | 16.3042875 | 0.2259101 |
+| genus\* | 4 | 2287 | 16.372540 | 6.516571 | 18.00 | 16.712725 | 0.0000000 | 1 | 31.00 | 30.00 | -0.5713109 | 0.1413179 | 0.1362655 |
+| species\* | 5 | 2287 | 13.256231 | 9.600139 | 8.00 | 11.305298 | 0.0000000 | 1 | 40.00 | 39.00 | 1.5869799 | 1.2976632 | 0.2007449 |
+| Family\* | 6 | 2287 | 13.068212 | 4.021778 | 13.00 | 13.334244 | 0.0000000 | 1 | 22.00 | 21.00 | -0.5763674 | 1.4407792 | 0.0840979 |
 
 ``` {.r .cell-code}
 str(dataset)
 ```
 
-::: {.cell-output .cell-output-stdout}
 ```         
 tibble [2,287 × 6] (S3: tbl_df/tbl/data.frame)
  $ treeID : int [1:2287] 2695 1229 1230 1295 1229 66 2600 4936 1229 1005 ...
@@ -90,9 +77,6 @@ tibble [2,287 × 6] (S3: tbl_df/tbl/data.frame)
  $ species: chr [1:2287] "negundo" "negundo" "negundo" "negundo" ...
  $ Family : chr [1:2287] "Sapindaceae" "Sapindaceae" "Sapindaceae" "Sapindaceae" ...
 ```
-:::
-:::
-
 Tables 1-3: Smithsonian Institute GEOForest dataset from `allodb` package (n = 2287)
 
 ### Probability density functions
@@ -103,7 +87,6 @@ Accurate selection of probability density functions (PDFs) is essential for mode
 
 -   Integration of domain expertise to refine parameter selection.
 
-::: cell
 ``` {.r .cell-code}
 # add allometry database
 data(equations)
@@ -113,18 +96,14 @@ eq_tab_acer = new_equations(subset_taxa = "Acer")
 head(eq_tab_acer[, show_cols])
 ```
 
-::: cell-output-display
-::: kable-table
-| equation_id | equation_taxa       | equation_allometry                                         |
-|:--------------|:--------------|:-----------------------------------------|
-| a4e4d1      | Acer saccharum      | exp(-2.192-0.011*dbh+2.67*(log(dbh)))                      |
-| dfc2c7      | Acer rubrum         | 2.02338\*(dbh^2)^1.27612                                   |
-| eac63e      | Acer rubrum         | 5.2879\*(dbh^2)^1.07581                                    |
-| f49bcb      | Acer pseudoplatanus | exp(-5.644074+(2.5189*(log(pi*dbh))))                      |
-| 14bf3d      | Acer mandshuricum   | 0.0335\*(dbh)^1.606+0.0026*(dbh)\^3.323+0.1222*(dbh)^2.310 |
-| 0c7cd6      | Acer mono           | 0.0202\*(dbh)^1.810+0.0111*(dbh)\^2.740+0.1156*(dbh)^2.336 |
-:::
-:::
+| equation_id | equation_taxa | equation_allometry |
+|:-----------------|:-----------------|:------------------------------------|
+| a4e4d1 | Acer saccharum | exp(-2.192-0.011*dbh+2.67*(log(dbh))) |
+| dfc2c7 | Acer rubrum | 2.02338\*(dbh^2)^1.27612 |
+| eac63e | Acer rubrum | 5.2879\*(dbh^2)^1.07581 |
+| f49bcb | Acer pseudoplatanus | exp(-5.644074+(2.5189*(log(pi*dbh)))) |
+| 14bf3d | Acer mandshuricum | 0.0335\*(dbh)^1.606+0.0026*(dbh)\^3.323+0.1222*(dbh)^2.310 |
+| 0c7cd6 | Acer mono | 0.0202\*(dbh)^1.810+0.0111*(dbh)\^2.740+0.1156*(dbh)^2.336 |
 
 ``` {.r .cell-code}
 # Compute above ground biomass
@@ -162,7 +141,6 @@ lines(xfit, yfit, col="blue", lwd=2)
 wilcox.test(dataset$dbh) # p<0.00001
 ```
 
-::: {.cell-output .cell-output-stdout}
 ```         
 
     Wilcoxon signed rank test with continuity correction
@@ -171,13 +149,11 @@ data:  dataset$dbh
 V = 2616328, p-value < 2.2e-16
 alternative hypothesis: true location is not equal to 0
 ```
-:::
 
 ``` {.r .cell-code}
 wilcox.test(dataset$agb) # p<0.00001
 ```
 
-::: {.cell-output .cell-output-stdout}
 ```         
 
     Wilcoxon signed rank test with continuity correction
@@ -186,20 +162,12 @@ data:  dataset$agb
 V = 2616328, p-value < 2.2e-16
 alternative hypothesis: true location is not equal to 0
 ```
-:::
 
-::: cell-output-display
 ![](monte-carlo-trees_files/figure-html/unnamed-chunk-2-1.png){width="33%"}
-:::
 
-::: cell-output-display
 ![](monte-carlo-trees_files/figure-html/unnamed-chunk-2-2.png){width="33%"}
-:::
 
-::: cell-output-display
 ![](monte-carlo-trees_files/figure-html/unnamed-chunk-2-3.png){width="33%"}
-:::
-:::
 
 ### Simulation Regime
 
@@ -211,7 +179,6 @@ This section introduces the design of the Monte Carlo simulation regime, includi
 
 The `LGOCV` acronym used in the `caret` package functions below stands for "leave one group out cross validation". We must select the % of test data that is set out from the build upon which the model will be repeatedly trained. Note, the following code applies functions to full dataset without explicit training-test split. **Questions remains on whether we require cross-validation uncertainty estimate to review internal bias, and whether we would like to develop Monte Carlo tools for spatial uncertainty used in Activity Data analysis**. For your consideration, the consultant has previously developed Monte Carlo tools for LULC applications, saved [here](https://github.com/seamusrobertmurphy/02-lulc-classification)
 
-::: cell
 ``` {.r .cell-code}
 # Cross-validation split for bias detection
 #samples     = caret::createDataPartition(dataset_tidy$volume, p = 0.80, list = FALSE)
@@ -235,7 +202,6 @@ lm_monte_carlo = train(
 lm_monte_carlo 
 ```
 
-::: {.cell-output .cell-output-stdout}
 ```         
 Random Forest 
 
@@ -255,14 +221,11 @@ Resampling results across tuning parameters:
 RMSE was used to select the optimal model using the smallest value.
 The final value used for the model was mtry = 93.
 ```
-:::
-:::
 
 ### Plot residuals
 
 To enable access to these predictions, we need to instruct `caret` to retain the resampled predictions by setting `savePredictions = "final"` in our `trainControl()` function. It's important to be aware that if you’re working with a large dataset or numerous resampling iterations, the resulting `train()` object may grow significantly in size. This happens because `caret` must store a record of every row, including both the observed values and predictions, for each resampling iteration. By visualizing the results, we can offer insights into the performance of our model on the resampled data.
 
-::: cell
 ``` {.r .cell-code}
 monte_carlo_viz = trainControl(
   method    = "LGOCV", 
@@ -280,8 +243,6 @@ lm_monte_carlo_viz = train(
 head(lm_monte_carlo_viz$pred)  # residuals 
 ```
 
-::: cell-output-display
-::: kable-table
 | intercept |        pred |          obs | rowIndex | Resample  |
 |:----------|------------:|-------------:|---------:|:----------|
 | TRUE      |  -39.259595 |    0.2822055 |        2 | Resample1 |
@@ -290,8 +251,6 @@ head(lm_monte_carlo_viz$pred)  # residuals
 | TRUE      |  -97.233363 |    0.1832042 |       10 | Resample1 |
 | TRUE      |  356.407185 |  161.5561844 |       20 | Resample1 |
 | TRUE      | 1393.945330 | 1095.2695394 |       22 | Resample1 |
-:::
-:::
 
 ``` {.r .cell-code}
 lm_monte_carlo_viz$pred |> 
@@ -301,10 +260,7 @@ lm_monte_carlo_viz$pred |>
     coord_obs_pred()
 ```
 
-::: cell-output-display
 ![](monte-carlo-trees_files/figure-html/unnamed-chunk-4-1.png){width="672"}
-:::
-:::
 
 ### Uncertainty Estimates
 
@@ -324,7 +280,6 @@ The trade-off between bias and variance in MCCV is influenced by the choice of (
 
 Monte Carlo Simulation in LULC Classification of Activity Data Assessment:
 
-::: cell
 ``` {.r .cell-code}
 library(ForesToolboxRS)
 dir.create("./data/testdata")
@@ -337,19 +292,15 @@ sig <- read_sf("./data/testdata/signatures.shp")
 classRF <- mla(img = image, model = "randomForest", endm = sig, training_split = 80)
 print(classRF)
 ```
-:::
 
-::: cell
 ``` {.r .cell-code}
 # Classification
 colmap <- c("#0000FF","#228B22","#FF1493", "#00FF00")
 plot(classRF$Classification, main = "RandomForest Classification", col = colmap, axes = TRUE)
 ```
-:::
 
 ![](data/02-lulc-classification/figure-html/unnamed-chunk-3-1.png)
 
-::: cell
 ``` {.r .cell-code}
 plot(
   cal_ml$svm_mccv,
@@ -376,7 +327,6 @@ legend(
   cex = 0.7
 )
 ```
-:::
 
 ![](data/02-lulc-classification/figure-html/unnamed-chunk-5-1.png)
 
@@ -390,12 +340,10 @@ Zhang, P. (1993). Model selection via multifold cross-validation. *Annals of Sta
 
 ### Runtime snapshot
 
-::: cell
 ``` {.r .cell-code}
 devtools::session_info()
 ```
 
-::: {.cell-output .cell-output-stdout}
 ```         
 ─ Session info ───────────────────────────────────────────────────────────────
  setting  value
@@ -593,13 +541,11 @@ devtools::session_info()
 
 ──────────────────────────────────────────────────────────────────────────────
 ```
-:::
 
 ``` {.r .cell-code}
 Sys.getenv()
 ```
 
-::: {.cell-output .cell-output-stdout}
 ```         
 CHROME_DESKTOP          RStudio.desktop
 CLICOLOR_FORCE          1
@@ -734,61 +680,57 @@ XDG_SESSION_TYPE        wayland
 XMODIFIERS              @im=ibus
 ZOTERO_API              YLGf46K04lL7uCAcolJ6V62G
 ```
-:::
 
 ``` {.r .cell-code}
 .libPaths()
 ```
 
-::: {.cell-output .cell-output-stdout}
 ```         
 [1] "/home/seamus/R/x86_64-redhat-linux-gnu-library/4.4"
 [2] "/usr/local/lib/R/library"                          
 [3] "/usr/lib64/R/library"                              
 [4] "/usr/share/R/library"                              
 ```
-:::
-:::
 
-#### Appendix I: Rapid literature review of Monte Carlo methods in REDD+
+#### Appendix I: Results of review of Monte Carlo methods in REDD+
 
-| **Parameter**          | **Description**                                                                             |
-|--------------------|----------------------------------------------------|
-| **Keywords**           | Monte Carlo simulations                                                                     |
-|                        | Biomass estimation                                                                          |
-|                        | Carbon stock uncertainty                                                                    |
-|                        | REDD+ projects                                                                              |
-|                        | Forest carbon accounting                                                                    |
-|                        | Allometric uncertainty                                                                      |
-| **Data Sources**       | Scopus                                                                                      |
-|                        | Web of Science                                                                              |
-|                        | Google Scholar                                                                              |
-|                        | Grey Literature from REDD+ working groups (i.e. UNFCCC, IPCC)                               |
-| **Temporal Window**    | 2003–2023                                                                                   |
-| **Focus Areas**        | Applications of Monte Carlo simulations in biomass and carbon stock estimations.            |
-|                        | Addressing uncertainty in input data (e.g., allometric equations, plot-level measurements). |
-|                        | Integration of Monte Carlo methods in REDD+ policy frameworks and carbon accounting.        |
-| **Inclusion Criteria** | Peer-reviewed articles and high-impact reviews                                              |
-|                        | Case studies and empirical research involving REDD+ projects.                               |
-|                        | Discussions of methodological advancements or critiques of Monte Carlo approaches.          |
+| **Parameter** | **Description** |
+|----------------------|--------------------------------------------------|
+| **Keywords** | Monte Carlo simulations |
+|  | Biomass estimation |
+|  | Carbon stock uncertainty |
+|  | REDD+ projects |
+|  | Forest carbon accounting |
+|  | Allometric uncertainty |
+| **Data Sources** | Scopus |
+|  | Web of Science |
+|  | Google Scholar |
+|  | Grey Literature from REDD+ working groups (i.e. UNFCCC, IPCC) |
+| **Temporal Window** | 2003–2023 |
+| **Focus Areas** | Applications of Monte Carlo simulations in biomass and carbon stock estimations. |
+|  | Addressing uncertainty in input data (e.g., allometric equations, plot-level measurements). |
+|  | Integration of Monte Carlo methods in REDD+ policy frameworks and carbon accounting. |
+| **Inclusion Criteria** | Peer-reviewed articles and high-impact reviews |
+|  | Case studies and empirical research involving REDD+ projects. |
+|  | Discussions of methodological advancements or critiques of Monte Carlo approaches. |
 
 : Table 3: Search parameters used in a review of Monte Carlo tools in REDD+ reporting.
 
-| **REDD+ scheme**[^monte-carlo-trees.html-1] | **Monte Carlo applied**                    | **Region**                 | **Key Findings**                                                                                                  | **Ref**         |
+| **REDD+ scheme**[^readme-1] | **Monte Carlo applied** | **Region** | **Key Findings** | **Ref** |
 |---------------|---------------|---------------|---------------|---------------|
-| ADD                                         | Uncertainty of SAAB estimate               | Rondônia, Brazil           | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. | @brown1995a     |
-| ADD                                         | AGB Uncertainty                            | Kenya, Mozambique          | Assessed mixed-effects models in estimating mangrove biomass.                                                     | @cohen2013a     |
-| ADD                                         | Blanket uncertainty propagation            | Ghana                      | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing.                   | @chen2015b      |
-| ADD                                         | Plot-based uncertainty                     | New Zealand                | Cross-plot variance greatest magnitude of uncertainty                                                             | @holdaway2014a  |
-| JNR                                         | Multi-scale AGB uncertainty modeling       | Minnesota, USA             | Cross-scale tests showing effects of spatial resolution on AGB uncertainty.                                       | @chen2016a      |
-| NA                                          | Allometric uncertainty modeling            | Panama                     | Allometric models identified as largest source of biomass estimation error.                                       | @chave2004error |
-| ADD                                         | Sampling and allometric uncertainty        | Tapajos Nat Forest, Brazil | Significance of allometric models on uncertainty of root biomass, 95% CI, 21 plots.                               | @keller2001a    |
-| ADD                                         | Uncertainty of volume estimates            | Santa Catarina, Brazil     | Negligible effects of residual uncertainty on large-area estimates                                                | @mcroberts2015a |
-| NA                                          | Uncertainty metrics in model selection     | Oregon, USA                | Uncertainty estimates call for local validation or new local model development                                    | @melson2011a    |
-| ADD                                         | AGB model uncertainty                      | French Guiana              | AGB sub-model errors dominate uncertainty; height and wood-specific gravity errors are minor but can cause bias.  | @molto2013a     |
-| IFM                                         | Emission factor uncertainty                | Central Africa             | Model selection is the largest error source (40%); weighting models reduces uncertainty in emission factors.      | @picard2015a    |
-| NA                                          | Uncertainty in ecosystem nutrient estimate | New Hampshire, USA         | Identified 8% uncertainty in nitrogen budgets, mainly from plot variability (6%) and allometric errors (5%).      | @yanai2010a     |
+| ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. | @brown1995a |
+| ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. | @cohen2013a |
+| ADD | Blanket uncertainty propagation | Ghana | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing. | @chen2015b |
+| ADD | Plot-based uncertainty | New Zealand | Cross-plot variance greatest magnitude of uncertainty | @holdaway2014a |
+| JNR | Multi-scale AGB uncertainty modeling | Minnesota, USA | Cross-scale tests showing effects of spatial resolution on AGB uncertainty. | @chen2016a |
+| NA | Allometric uncertainty modeling | Panama | Allometric models identified as largest source of biomass estimation error. | @chave2004error |
+| ADD | Sampling and allometric uncertainty | Tapajos Nat Forest, Brazil | Significance of allometric models on uncertainty of root biomass, 95% CI, 21 plots. | @keller2001a |
+| ADD | Uncertainty of volume estimates | Santa Catarina, Brazil | Negligible effects of residual uncertainty on large-area estimates | @mcroberts2015a |
+| NA | Uncertainty metrics in model selection | Oregon, USA | Uncertainty estimates call for local validation or new local model development | @melson2011a |
+| ADD | AGB model uncertainty | French Guiana | AGB sub-model errors dominate uncertainty; height and wood-specific gravity errors are minor but can cause bias. | @molto2013a |
+| IFM | Emission factor uncertainty | Central Africa | Model selection is the largest error source (40%); weighting models reduces uncertainty in emission factors. | @picard2015a |
+| NA | Uncertainty in ecosystem nutrient estimate | New Hampshire, USA | Identified 8% uncertainty in nitrogen budgets, mainly from plot variability (6%) and allometric errors (5%). | @yanai2010a |
 
 : Table 4: Results of a review of literature on Monte Carlo methodologies in REDD+ projects.
 
-[^monte-carlo-trees.html-1]: ADD: Avoided Deforestation and Degradation, JNR: Jurisdictional & Nested REDD+, IFM: Improved Forest Management
+[^readme-1]: ADD: Avoided Deforestation and Degradation, JNR: Jurisdictional & Nested REDD+, IFM: Improved Forest Management
