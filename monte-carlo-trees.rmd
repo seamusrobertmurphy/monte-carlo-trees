@@ -2,19 +2,20 @@
 title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
 output: 
-  github_document: 
+  html_document: 
+    highlight: pygments
+    code_folding: show
     toc: true
     toc_depth: 3
-      
+    toc_float: true
+
+bibliography: references.bib
+csl: american-chemical-society.csl
+always_allow_html: true
+df-print: kable      
 editor_options: 
   markdown: 
     wrap: 80
-    
-bibliography: references.bib
-csl: american-chemical-society.csl
-keep_md: true
-always_allow_html: true
-df-print: kable
 ---
 
 ```{r setup-1}
@@ -70,7 +71,13 @@ div.column {
 
 ## Introduction
 
-The ART-TREES Standard V2.01 mandates specific methodologies for calculating and reporting uncertainty estimates associated with emission factors and activity data within jurisdictional and nested REDD+ projects. To strengthen compliance, the ART-TREES project team produced the following report and capacity building resources.
+The ART-TREES Standard V2.01 mandates specific methodologies for calculating and
+reporting uncertainty estimates associated with emission factors and activity
+data within jurisdictional and nested REDD+ projects. To strengthen compliance,
+the ART-TREES project team produced the following report and capacity building
+resources.
+
+--------------------------------------------------------------------------------
 
 ## Scope of work
 
@@ -99,6 +106,8 @@ knitr::include_graphics("./animation.gif")
 ```
 
 ##### Figure 1: Visualization of k-fold resampling. Note differences with Monte Carlo "Leave-One-Group-Out-Validation"
+
+--------------------------------------------------------------------------------
 
 ## Registry requirements
 
@@ -171,12 +180,14 @@ UAdj_t = 0.524417 \times \frac{HW_{90\%t}}{1.645006}
 $$
 
 |  |  |
-|-----------------------------|---------------------------------------------------|
+|------------------------------|--------------------------------------------------|
 | $90\%\text{ C I}_{t}$ | The half-width of 90% confidence interval as percentage of mean |
 | $1.645006$ | $t$ value for a 90% confidence interval |
 | $0.524417$ | A scaling constant to adjust the proportion. |
 
 ##### Table 2: Parameters used in Equation 11
+
+--------------------------------------------------------------------------------
 
 ## Methods review
 
@@ -220,6 +231,8 @@ Summarize review here...
 <div>
 
 </div>
+
+--------------------------------------------------------------------------------
 
 ## Example script {#sec-1.1}
 
@@ -325,7 +338,7 @@ wilcox.test(dataset$dbh) # p<0.00001
 wilcox.test(dataset$agb) # p<0.00001
 ```
 
-#### Simulation design
+#### Simulation parameters
 
 This section introduces the design of the Monte Carlo simulation regime,
 including:
@@ -370,7 +383,7 @@ lm_monte_carlo = train(
 lm_monte_carlo 
 ```
 
-#### Visualize residuals
+#### Visualize results
 
 To enable access to these predictions, we need to instruct `caret` to retain the
 resampled predictions by setting `savePredictions = "final"` in our
@@ -404,24 +417,36 @@ lm_monte_carlo_viz$pred |>
     coord_obs_pred()
 ```
 
-### Monte Carlo of activity data
+#### Monte Carlo of activity data
 
-This section showcases use of Monte Carlo simulations in reporting uncertainty
-of LULC classification models.
+This section showcases application of Monte Carlo simulations to uncertainty of
+LULC classification maps and activity data.
+
+#### Import data
 
 ```{r}
 #| eval: false
+remotes::install_github("ytarazona/ForesToolboxRS")
 library(ForesToolboxRS)
 dir.create("./data/testdata")
-download.file("https://github.com/ytarazona/ft_data/raw/main/data/LC08_232066_20190727_SR.zip",destfile = "testdata/LC08_232066_20190727_SR.zip")
-unzip("testdata/LC08_232066_20190727_SR.zip", exdir = "testdata") download.file("https://github.com/ytarazona/ft_data/raw/main/data/signatures.zip", destfile = "testdata/signatures.zip")
+download.file("https://github.com/ytarazona/ft_data/raw/main/data/LC08_232066_20190727_SR.zip", destfile = "testdata/LC08_232066_20190727_SR.zip")
+unzip("testdata/LC08_232066_20190727_SR.zip", exdir = "testdata") 
+download.file("https://github.com/ytarazona/ft_data/raw/main/data/signatures.zip", destfile = "testdata/signatures.zip")
 unzip("testdata/signatures.zip", exdir = "testdata")
 
 image <- stack("./data/testdata/LC08_232066_20190727_SR.tif")
 sig <- read_sf("./data/testdata/signatures.shp")
+```
+
+#### RandomForest classifier
+
+```{r}
+#| eval: false
 classRF <- mla(img = image, model = "randomForest", endm = sig, training_split = 80)
 print(classRF)
 ```
+
+#### Classify land cover
 
 ```{r}
 #| eval: false
@@ -430,12 +455,12 @@ colmap <- c("#0000FF","#228B22","#FF1493", "#00FF00")
 plot(classRF$Classification, main = "RandomForest Classification", col = colmap, axes = TRUE)
 ```
 
-![](data/02-lulc-classification/figure-html/unnamed-chunk-3-1.png) \##### Figure
-2: LULC map classified with randomForest classifier kernel
+##### ![](data/02-lulc-classification/figure-html/unnamed-chunk-3-1.png)Figure 2: LULC map classified with randomForest classifier kernel
+
+#### Monte Carlo of classification uncertainty
 
 ```{r}
 #| eval: false
-#| # Calibration result
 plot(
   cal_ml$svm_mccv,
   main = "Monte Carlo Cross-Validation calibration",
@@ -462,17 +487,17 @@ legend(
 )
 ```
 
-![](data/02-lulc-classification/figure-html/unnamed-chunk-5-1.png)
+##### ![](data/02-lulc-classification/figure-html/unnamed-chunk-5-1.png)Figure 3: Monte Carlo ensemble of uncertainty estimates of common classifiers.
 
 --------------------------------------------------------------------------------
 
-## Appendix I: Lit review results & parameters
+#### Appendix I: Review parameters & results
 
-Literature review of current Monte Carlo methods used in REDD+ and ART-TREES
-projects
+Search parameters used in literature review of current Monte Carlo methods in
+REDD+ and ART-TREES projects
 
 | **Parameter** | **Description** |
-|-------------------------|-------------------------------------------------------|
+|--------------------------|------------------------------------------------------|
 | **Keywords** | Monte Carlo simulations |
 |  | Biomass estimation |
 |  | Carbon stock uncertainty |
@@ -495,8 +520,8 @@ projects
 
 reporting.
 
-| **REDD+ scheme**[^1] | **Monte Carlo applied** | **Region** | **Key Findings** | **Ref** |
-|----------------|----------------|----------------|----------------|:-------------:|
+| **REDD+ scheme**[\^1] | **Monte Carlo applied** | **Region** | **Key Findings** | **Ref** |
+|----------------|----------------|----------------|----------------|:--------------:|
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. | @brown1995a |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. | @cohen2013a |
 | ADD | Blanket uncertainty propagation | Ghana | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing. | @chen2015b |
@@ -512,8 +537,7 @@ reporting.
 
 ##### Table 5: Results of a review of literature on Monte Carlo methodologies in REDD+ projects
 
-
-## Session runtime
+#### Session runtime
 
 ```{r}
 #| eval: true
@@ -522,4 +546,4 @@ Sys.getenv()
 .libPaths()
 ```
 
-## References 
+#### References
