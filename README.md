@@ -30,7 +30,7 @@ This report focuses on the following technical areas:
 
 <img src="./animation.gif" style="display: block; margin: auto;"/>
 
-##### Figure 1: Visualization of k-fold resampling ^(Note differences with Monte Carlo "Leave-One-Group-Out-Validation")^
+##### Figure 1: Visualization of k-fold resampling ^(Note differences with Monte Carlo "LOGCV")^
 
 ## Registry Requirements {#registry-requirements}
 
