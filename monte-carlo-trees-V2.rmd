@@ -8,6 +8,7 @@ output:
     toc_depth: 3
     latex_engine: xelatex
 
+      
 bibliography: references.bib
 csl: american-chemical-society.csl
 always_allow_html: true
@@ -25,7 +26,7 @@ editor_options:
 #| echo: false
 easypackages::packages(
   "animation", "allodb", "BIOMASS", "c2z", "caret", "dataMaid", "DescTools","dplyr",
-  "extrafont", "FawR", "ForestToolsRS", "ggplot2", "htmltools",
+  "extrafont", "FawR", "ForestToolsRS", "formatR", "ggplot2", "htmltools",
   "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
   "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
   "rmarkdown", "readxl", "tibble", "tidymodels", "tidyverse",
@@ -44,7 +45,7 @@ knitr::opts_chunk$set(
 )
 
 options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
-sf::sf_use_s2(use_s2 = FALSE)
+knitr::opts_chunk$set(tidy.opts = list(width.cutoff = 80), tidy = TRUE)
 ```
 
 ```{css, echo=FALSE, class.source = 'foldable'}
@@ -70,41 +71,54 @@ div.column {
 
 ## Import data
 
-```{r, eval=F}
-workbook_path = "./data/testdata/GuyanaARTWorkbookMC_thru2022_April2024_copy.xlsx"
-data = readxl::read_excel(workbook_path, "CarbonStocks")
-data
+```{r}
+workbook  = "./data/testdata/GuyanaARTWorkbookMC_thru2022_April2024_copy.xlsx"
+worksheet = readxl::read_excel(workbook, "CarbonStocks")
+head(worksheet)
 ```
 
 ## Replicate SimVoi
 
-We utilize the replicate function to execute the simulation multiple times with `replicate(n=10000`, while determining the size of the sampled subset with `rnorm(n=100`.
+We utilize the replicate function to execute the simulation multiple times with `replicate(n=10000`, while determining the size of the sampled subset with `rnorm(n=100`. The first model explores sample size parameters only, replication parameters are tested below this in comparisons.
 
-```{r,eval=F}
-randtruncnormal_sim_10000 = rnorm(n=10000, mean=data$`AG Tree (tC/ha)`[1], sd=data$`AG Tree (tC/ha)`[2])
-par(mfrow=c(3,1))
-plot(randtruncnormal_sim)
-hist(randtruncnormal_sim)
-hist(randtruncnormal_sim, freq=F)
-curve(dnorm(x, mean=data$`AG Tree (tC/ha)`[1], sd=data$`AG Tree (tC/ha)`[2]), from=150, to=250, add=T, col="red")
+```{r}
+MEAN = worksheet$`AG Tree (tC/ha)`[1]
+SD   = worksheet$`AG Tree (tC/ha)`[2]
 
-par(mfrow=c(4,2))
-randtruncnormal_sim_10000_10 = replicate(n=10000, rnorm(n=10, mean=data$`AG Tree (tC/ha)`[1], sd=data$`AG Tree (tC/ha)`[2]))
+randtruncnormal_sim_10000 <- rnorm(n=10000,mean=MEAN,sd=SD)
+plot(randtruncnormal_sim_10000)
+hist(randtruncnormal_sim_10000)
+hist(randtruncnormal_sim_10000, freq=F)
+curve(dnorm(x, mean=MEAN, sd=SD), from=150, to=250, add=T, col="red")
+```
+
+## Compare simulations
+
+```{r, fig.show='hold', out.width='50%'}
+# 10,000 simulations sampling 10 observations
+randtruncnormal_sim_10000_10 = replicate(
+  n=10000, rnorm(n=10, mean=MEAN,sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
 hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
 
-randtruncnormal_sim_10000_100 = replicate(n=10000, rnorm(n=100, mean=data$`AG Tree (tC/ha)`[1], sd=data$`AG Tree (tC/ha)`[2]))
+# 10,000 simulations sampling 100 observations
+randtruncnormal_sim_10000_100 = replicate(
+  n=10000,rnorm(n=100, mean=MEAN,sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
 hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
 
-randtruncnormal_sim_10000_1000 = replicate(n=10000, rnorm(n=1000, mean=data$`AG Tree (tC/ha)`[1], sd=data$`AG Tree (tC/ha)`[2]))
+# 10,000 simulations sampling 1,000 observations
+randtruncnormal_sim_10000_1000 = replicate(
+  n=10000, rnorm(n=1000, mean=MEAN, sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
 hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
 
-randtruncnormal_sim_10000_10000 = replicate(n=10000, rnorm(n=10000, mean=data$`AG Tree (tC/ha)`[1], sd=data$`AG Tree (tC/ha)`[2]))
+# 10,000 simulations sampling 10,000 observations
+randtruncnormal_sim_10000_10000 = replicate(
+  n=10000, rnorm(n=10000, mean=MEAN, sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
@@ -115,8 +129,8 @@ sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 ```{r}
 #| eval: true
 devtools::session_info()
-Sys.getenv()
-.libPaths()
+#Sys.getenv()
+#.libPaths()
 ```
 
-#### References
+## References
