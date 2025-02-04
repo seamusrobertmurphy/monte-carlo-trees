@@ -8,7 +8,6 @@ output:
     toc_depth: 3
     latex_engine: xelatex
 
-      
 bibliography: references.bib
 csl: american-chemical-society.csl
 always_allow_html: true
@@ -25,8 +24,10 @@ editor_options:
 #| include: false
 #| echo: false
 easypackages::packages(
-  "animation", "allodb", "BIOMASS", "c2z", "caret", "dataMaid", "DescTools","dplyr",
-  "extrafont", "FawR", "ForestToolsRS", "formatR", "ggplot2", "htmltools",
+  "animation", "allodb", "BIOMASS", "c2z", "caret", 
+  "dataMaid", "DescTools","dplyr",
+  "extrafont", "FawR", "flextable", "ForestToolsRS", 
+  "formatR", "ggplot2", "htmltools",
   "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
   "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
   "rmarkdown", "readxl", "tibble", "tidymodels", "tidyverse",
@@ -72,9 +73,18 @@ div.column {
 ## Import data
 
 ```{r}
-workbook  = "./data/testdata/GuyanaARTWorkbookMC_thru2022_April2024_copy.xlsx"
-worksheet = readxl::read_excel(workbook, "CarbonStocks")
-head(worksheet)
+workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values.xlsx"
+CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") 
+CarbonStocks = CarbonStocks_in |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+CarbonStocks_MC = readxl::read_excel(workbook, "CarbonStocks (MC)")
+CarbonStocks_MC = CarbonStocks_MC |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+
+flextable(head(CarbonStocks_in[, 1:8])) |> 
+  fontsize(size = 8, part = "all")
+flextable(head(CarbonStocks_MC[, 1:8])) |> 
+  fontsize(size = 8, part = "all")
 ```
 
 ## Replicate SimVoi
@@ -82,14 +92,13 @@ head(worksheet)
 We utilize the replicate function to execute the simulation multiple times with `replicate(n=10000`, while determining the size of the sampled subset with `rnorm(n=100`. The first model explores sample size parameters only, replication parameters are tested below this in comparisons.
 
 ```{r}
-MEAN = worksheet$`AG Tree (tC/ha)`[1]
-SD   = worksheet$`AG Tree (tC/ha)`[2]
+MEAN = CarbonStocks_in$`AG Tree (tC/ha)`[1]
+SD   = CarbonStocks_in$`AG Tree (tC/ha)`[2]
 
 randtruncnormal_sim_10000 <- rnorm(n=10000,mean=MEAN,sd=SD)
 plot(randtruncnormal_sim_10000)
-hist(randtruncnormal_sim_10000)
 hist(randtruncnormal_sim_10000, freq=F)
-curve(dnorm(x, mean=MEAN, sd=SD), from=150, to=250, add=T, col="red")
+curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
 ```
 
 ## Compare simulations
