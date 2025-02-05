@@ -75,65 +75,115 @@ div.column {
 ```{r}
 workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values.xlsx"
 CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") 
-CarbonStocks = CarbonStocks_in |> 
+CarbonStocks = CarbonStocks |> 
   mutate(across(where(is.numeric), ~ round(.x, 1)))
 CarbonStocks_MC = readxl::read_excel(workbook, "CarbonStocks (MC)")
 CarbonStocks_MC = CarbonStocks_MC |> 
   mutate(across(where(is.numeric), ~ round(.x, 1)))
 
-flextable(head(CarbonStocks_in[, 1:8])) |> 
+flextable(head(CarbonStocks[, 1:8])) |> 
   fontsize(size = 8, part = "all")
 flextable(head(CarbonStocks_MC[, 1:8])) |> 
   fontsize(size = 8, part = "all")
+
 ```
 
-## Replicate SimVoi
+## SimVoi **Documentation:**
 
-We utilize the replicate function to execute the simulation multiple times with `replicate(n=10000`, while determining the size of the sampled subset with `rnorm(n=100`. The first model explores sample size parameters only, replication parameters are tested below this in comparisons.
+SimVoi adds seventeen random number generator functions defined with the
+following syntax:
+
+-   `RandBeta(alpha,beta,,[MinValue],[MaxValue])`
+-   `RandBinomial(trials,probability_s)`
+-   `RandBiVarNormal(mean1,stdev1,mean2,stdev2,correl12)`
+-   `RandCumulative(value_cumulative_table)`
+-   `RandDiscrete(value_discrete_table)`
+-   `RandExponential(lambda)`
+-   `RandInteger(bottom,top)`
+-   `RandLogNormal(Mean,StDev)`
+-   `RandNormal(mean,standard_dev)`
+-   `RandPoisson(mean)`
+-   `RandSample(population)`
+-   `RandTriangular(minimum,most_likely,maximum)`
+-   `RandTriBeta(minimum,most_likely,maximum,[shape])`
+-   `RandTruncBiVarNormal(mean1,stdev1,mean2,stdev2,correl12, [min1],[max1],[min2],[max2])`
+-   `RandTruncLogNormal(Mean,StDev,[MinValue],[MaxValue])`
+-   `RandTruncNormal(Mean,StDev,[MinValue],[MaxValue])`
+-   `RandUniform(minimum,maximum)`
+
+In the following, we attempt to match the SimVoi Excel formula of
+
+`=[1]!randtruncnormal(CarbonStocks.B2,CarbonStocks.B3,0)`
+
+function, as closely as random seeding allows. According to package
+documentation, the `RandTruncNormal()` function "*Returns a random value from a
+truncated normal probability density function. This function can model an
+uncertain quantity with a bell-shaped density function where extreme values in
+the tails of the distribution are not desired."*
+
+In terms of simulation parameters,
+*"RandTruncNormal(Mean,StDev,MinValue,MaxValue)) uses values of RandNormal until
+a value is found between MinValue and MaxValue or until it has made 10,000
+attempts."* The above formula provides a minimum value of `0`, passing to the
+default number of simulations of 10,000.
+
+## **Replication Method:**
+
+We utilize the replicate function to repeat a simulationfollowing a randomized
+normally truncated multiple times with `replicate(n=10000`, while determining
+the size of the sampled subset with `rnorm(n=100`. The first model explores
+sample size parameters only, replication parameters are tested below this in
+comparisons.
 
 ```{r}
-MEAN = CarbonStocks_in$`AG Tree (tC/ha)`[1]
-SD   = CarbonStocks_in$`AG Tree (tC/ha)`[2]
+MEAN = CarbonStocks$`AG Tree (tC/ha)`[1]
+SD   = CarbonStocks$`AG Tree (tC/ha)`[2]
 
 randtruncnormal_sim_10000 <- rnorm(n=10000,mean=MEAN,sd=SD)
-plot(randtruncnormal_sim_10000)
 hist(randtruncnormal_sim_10000, freq=F)
-curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
+AG_Tree_tC_ha   = mean(randtruncnormal_sim_10000)
+AG_Tree_tCO2_ha = AG_Tree_tC_ha*(44/12)
+AG_Tree_tC_ha
+AG_Tree_tCO2_ha
+#curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
 ```
 
-## Compare simulations
+## **Compare simulations**
 
 ```{r, fig.show='hold', out.width='50%'}
 # 10,000 simulations sampling 10 observations
 randtruncnormal_sim_10000_10 = replicate(
   n=10000, rnorm(n=10, mean=MEAN,sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
-hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean)))*(44/12)
 
 # 10,000 simulations sampling 100 observations
 randtruncnormal_sim_10000_100 = replicate(
   n=10000,rnorm(n=100, mean=MEAN,sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
-hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean)))*(44/12)
 
 # 10,000 simulations sampling 1,000 observations
 randtruncnormal_sim_10000_1000 = replicate(
   n=10000, rnorm(n=1000, mean=MEAN, sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
-hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean)))*(44/12)
 
 # 10,000 simulations sampling 10,000 observations
 randtruncnormal_sim_10000_10000 = replicate(
   n=10000, rnorm(n=10000, mean=MEAN, sd=SD))
 hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
-hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=sd))
 sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean)))*(44/12)
 
 ```
-
 
 ```{r}
 #| eval: true
