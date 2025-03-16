@@ -99,7 +99,7 @@ distributions, their statistical properties, and appropriate usage contexts.
 ##### Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.
 
 |  |  |
-|---------------------------|----------------------------------------------------|
+|----------------------------|----------------------------------------------------|
 | **Continuous Distributions** | **Description** |
 | Bernoulli | Binary outcome targets (success/failure). E.g., a single coin flip. |
 | Binomial | \# of successes in Bernoulli trials. E.g., heads in 10 flips. |
@@ -119,7 +119,7 @@ distributions, their statistical properties, and appropriate usage contexts.
 ###### *Table 2: Discrete data distributions, and example use cases for Monte Carlo simulations.*
 
 |  |  |
-|---------------------------|----------------------------------------------------|
+|----------------------------|----------------------------------------------------|
 | **Discrete Distributions** | **Descriptions** |
 | Bernoulli | Binary outcome (success/failure). E.g., a single coin flip. |
 | Binomial | \# of successes in n Bernoulli trials. E.g., heads in 10 flips. |
@@ -263,8 +263,16 @@ Effectively, in the context of these carbon stocks, a higher CV value indicates
 greater variability relative to the mean, which should influence how we choose
 between normal or log-normal distributions for simulation, for example. The CV
 also informs whether a distribution is appropriate; if the CV is very high, it
-is likely suggesting the data is more skewed than expected. In the helper
-function coded below, CV is calculated according to the above formula using
+is likely suggesting the data is more skewed than expected.
+
+The CV variable was coded with correct variable naming and placed it inside the
+larger helper function of statisticof summary calculations stack of simultaneous
+calculations below where it will be computed alongside. We derived the helper
+function `calc_derived_stats` to we derived below to provide from the correct
+naming, variable will be computed the following custom function customary
+summary stats function `calc_derived_costs` CV variable was derived below as
+part of of the combined for deriving summary stats, is calculated according to
+the above formula using
 
 ::: center
 **`CV_percent`** = 100 \* (`std. dev` / `mean of all plots (calculated)`)
@@ -360,27 +368,9 @@ simulate_all_pools <- function(df, n_draws=10000) {
 
 all_draws <- simulate_all_pools(CarbonStocks_st_stats, n_draws=10000)
 
-# 'all_draws' is now a list with an entry for each pool:
-names(# We loaded here the 'truncnorm' package from main cran libraries, I will add to in-line l_draws)  # e.g. "AG_Tree", "BG_Tree", etc.
 
-# You can then do further calculations, e.g. sum AG_Tree + BG_Tree draws, etc.
+names(l_draws)
 
-############################################################
-# 7. Wrap up
-############################################################
-
-# This script accomplishes:
-# (1) Reading the "CarbonStocks" sheet
-# (2) Extracting summary statistics
-# (3) Computing descriptive stats and potential checks
-# (4) Demonstrating how to do truncated-normal draws
-# (5) Summarizing or plotting the results.
-
-# For an official distribution analysis, you would highlight:
-# - Coefficients of variation (CV)
-# - Approx symmetry (or skew) from min, max, mean, sd
-# - The decision to use truncated normal at 0
-# - How well the sample stats match the workbook's.
 ```
 
 ## Replicating SimVoi
