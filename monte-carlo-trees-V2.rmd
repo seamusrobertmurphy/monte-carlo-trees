@@ -31,7 +31,7 @@ easypackages::packages(
   "janitor", "jsonlite", "lattice", "kableExtra", "kernlab",
   "knitr", "Mlmetrics", "olsrr", "plotly", "psych", "RColorBrewer",
   "rmarkdown", "readxl", "tibble", "tidymodels", "tidyverse",
-  "tinytex", "tune", "useful", "webshot", "webshot2", 
+  "tinytex", "truncnorm", "tune", "useful", "webshot", "webshot2", 
   prompt = F
   )
   
@@ -70,25 +70,387 @@ div.column {
 }
 ```
 
-## Import data
+## 1. Introduction
 
-```{r}
+When preparing for Monte Carlo simulations, it is good practice first to examine
+descriptive statistics of the data to characterize the empirical distributions
+of input variables. This preliminary analysis should include statistical tests
+of normality, along with visualizations of univariate distributions. Recommended
+visualizations include histograms, kernel density plots, and Q-Q plots.
+Together, these tools provide insights into the data's shape, spread, symmetry,
+skewness, and potential outliers.
+
+In particular, these visualizations help auditors to confirm levels of bias in
+the dataset. They also allow for quicker evaluations of how the proponent has
+addressed these biases in their subsequent calculations.
+
+Incorporating these distribution assessments early in the process will likely
+reduce overall findings from VVB's and registries. This is because distribution
+analysis is critical to selecting the appropriate functions in SimVoi, ensuring
+more accurate Monte Carlo estimates. In effect, bias corrections are
+incorporated, reducing uncertainty in the final results and improving confidence
+in the jurisdiction's claims of nationwide emissions reductions.
+
+The following guide summarizes the most commonly used discrete and continuous
+distributions, their statistical properties, and appropriate usage contexts.
+
+#### Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.
+
+##### Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.
+
+|  |  |
+|---------------------------|----------------------------------------------------|
+| **Continuous Distributions** | **Description** |
+| Bernoulli | Binary outcome targets (success/failure). E.g., a single coin flip. |
+| Binomial | \# of successes in Bernoulli trials. E.g., heads in 10 flips. |
+| Poisson | \# of events in a fixed interval. E.g., arrivals per hour. |
+| Geometric | \# of failures until first success. E.g., calls until a sale. |
+| Neg. Binomial | \# of failures until r successes (overdispersed Poisson). |
+| Discrete Uniform | All finite outcomes equally likely. E.g., rolling a fair die. |
+| Normal (Gaussian) | Symmetrical “bell curve.” E.g., human heights. |
+| Lognormal | Right-skewed; log(variable) \~ Normal. E.g., incomes. |
+| Exponential | Time between Poisson events. E.g., arrival times. |
+| Continuous Uniform | All values in [a,b] equally likely. E.g., random number gen. |
+| Chi-Square | Used in hypothesis tests (e.g., goodness-of-fit). |
+| t-Distribution | Small samples, unknown population SD. |
+| Weibull | Reliability or lifespans. |
+| Gamma | Models skewed data, e.g., wait times. |
+
+###### *Table 2: Discrete data distributions, and example use cases for Monte Carlo simulations.*
+
+|  |  |
+|---------------------------|----------------------------------------------------|
+| **Discrete Distributions** | **Descriptions** |
+| Bernoulli | Binary outcome (success/failure). E.g., a single coin flip. |
+| Binomial | \# of successes in n Bernoulli trials. E.g., heads in 10 flips. |
+| Poisson | \# of events in a fixed interval. E.g., arrivals per hour. |
+| Geometric | \# of failures until first success. E.g., calls until a sale. |
+
+## 2. Method
+
+### Import data
+
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%"}
+# Point this to the correct path where your file is located:
 workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values.xlsx"
-CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") 
-CarbonStocks = CarbonStocks |> 
+CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") |> 
   mutate(across(where(is.numeric), ~ round(.x, 1)))
-CarbonStocks_MC = readxl::read_excel(workbook, "CarbonStocks (MC)")
-CarbonStocks_MC = CarbonStocks_MC |> 
+CarbonStocks_MC = readxl::read_excel(workbook, "CarbonStocks (MC)") |> 
   mutate(across(where(is.numeric), ~ round(.x, 1)))
 
-flextable(head(CarbonStocks[, 1:8])) |> 
-  fontsize(size = 8, part = "all")
-flextable(head(CarbonStocks_MC[, 1:8])) |> 
-  fontsize(size = 8, part = "all")
+DeforestationEF = readxl::read_excel(workbook, "Deforestation EFs") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+DeforestationEF_MC = readxl::read_excel(workbook, "Deforestation EFs (MC)") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+
+DegradationEF = readxl::read_excel(workbook, "Degradation EFs") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+DegradationEF_MC = readxl::read_excel(workbook, "Degradation EFs (MC)") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+
+ActivityData = readxl::read_excel(workbook, "Activity Data") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+ActivityData_MC = readxl::read_excel(workbook, "Activity Data (MC)") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+
+Emissions = readxl::read_excel(workbook, "CarbonStocks") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+Emissions_MC = readxl::read_excel(workbook, "CarbonStocks (MC)") |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+
+# Vislualize
+flextable(head(CarbonStocks[, 1:8])) |> fontsize(size = 8, part = "all")
+flextable(head(CarbonStocks_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(DeforestationEF[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(DeforestationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(ActivityData[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(ActivityData_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(Emissions[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(Emissions_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(DegradationEF[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(DegradationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+#dplyr::glimpse(CarbonStocks)
+```
+
+### Tidy data
+
+Identify the relevant rows & columns for each pool (mean, sd, min, max, 90% CI)
+There is always some adjustments needed to table format, layout, labelling or
+object classes. The most common and robust pacakge for this is `dplyr`, which we
+apply below.
+
+We'll assume that rows exist in same order in the CarbonStocks_MC sheet, and we
+will simply run these operations by just changing the dataframe name. One
+approach is to reshape the dataframe so each row becomes "Statistic" and the
+columns become "AG Tree", "BG Tree", etc. For example, the code below tries to
+rename columns before setting row 2 as "mean", #3 as "std. dev", etc. The exact
+indexing may vary depending on how read_excel() parsed your data. We advize
+inspecting outputs with the commands `view(CarbonStocks)` or
+`glimpse(CarbonStocks`) to confirm row/column positions.
+
+Select only the columns that contain your carbon pools (e.g. columns named "AG
+Tree (tC/ha)", "BG Tree (tC/ha)". We can then rename these columns to match the
+SimVoi workbook. From here, w derive a small table that transposes the data so
+each row includes data values (mean, sd, min) and each column represents a
+variable or the carbon pool. Note, there is a handy function for this using
+`tidyr::pivot_longer()`[^1] or `pivot_wider`. Similarly, you can also
+use `tidyr::pivot_wider()` to reshape your data into a wider format.
+
+[^1]: In R, you chave the option of writing the ellipsis symbol `::` between the
+    owner package and its operating function. In effect, this
+    `tidyr::pivot_longer()` code is calling the `pivot_longer()` function from
+    the `tidyr` package. Alternatively, you can also write `pivot_longer`()
+    directly without its parent package preceding and it should work fine too.
+    Rather, coders tend to use it to avoid headaches of package conflicts, or
+    just to help others quickly see what packages are used and working. format.
+
+Watch out that some column names are missing or named incorrectly, which was
+caused by `readxl::read_excel()` on import into R and and needed renaming below.
+Finally, we pivot back again from long so that “Statistic” becomes a column, and
+“AG_Tree, BG_Tree…” are columns.
+
+```{r, eval=F}
+CarbonStocks <- CarbonStocks %>%
+  select(
+    `Statistic`           = 1,
+    `AG_Tree`             = 2,
+    `BG_Tree`             = 3,
+    `Saplings`            = 4,
+    `StandingDeadWood`    = 5,
+    `LyingDeadWood`       = 6,
+    `SumCarbonNoLitter`   = 7,
+    `Litter`              = 8,
+    `SumCpoolWLitter`     = 9,
+    `SumCO2e`             = 10,
+    `Soil_tC_ha`          = 11,
+    `SumALL_POOLS_CO2eha` = 12,
+    `SumABGBLiveTree`     = 13
+  ) %>% slice(1:9)
+# Rename missing column names
+#CarbonStocks <- CarbonStocks |> rename(Statistic = `...1`)
+
+# Transpose to long dataframe: flipping rows w/ columns
+CarbonStocks_long <- CarbonStocks |>
+  tidyr::pivot_longer(
+    cols = -Statistic,
+    names_to = "Pool",
+    values_to = "Value"
+  ) |> mutate(Value = as.numeric(Value))
+
+# Pivot back to wide dataframe & “Statistic” becomes a row:
+CarbonStocks_wide <- CarbonStocks_long %>%
+  pivot_wider(
+    names_from = Statistic,
+    values_from = Value
+  )
+# Inpspect
+CarbonStocks_wide
+```
+
+### Descriptive Statistics
+
+The Coefficient of Variation `CV` is a standardized measure of dispersion of a
+probability distribution or frequency distribution. It's computed as the ratio
+of the standard deviation to the mean, typically expressed as a percentage, as
+shown below. Unlike the standard deviation, the `CV` metric is unitless and
+allows you to compare variability across different datasets or scales.
+
+$$
+\mathrm{CV} = \frac{\sigma}{\mu} \times 100\%
+$$
+
+Effectively, in the context of these carbon stocks, a higher CV value indicates
+greater variability relative to the mean, which should influence how we choose
+between normal or log-normal distributions for simulation, for example. The CV
+also informs whether a distribution is appropriate; if the CV is very high, it
+is likely suggesting the data is more skewed than expected. In the helper
+function coded below, CV is calculated according to the above formula using
+
+::: center
+**`CV_percent`** = 100 \* (`std. dev` / `mean of all plots (calculated)`)
+:::
+
+```{r, eval=F}
+# Helper function to compute multiple stats at once:
+calc_derived_stats <- function(df) {
+  df %>%
+    mutate(
+      CV_percent = 100 * (`std. dev` / `mean of all plots (calculated)`),
+      # Check 90% CI is ~ ±1.645 * sd, check consistency with workbook sd
+      sd_implied_by_90CI = `90% CI` / 1.645,
+      # Simplistic check: How many SDs from mean to min, max?
+      SDs_below_mean = (`mean of all plots (calculated)` - minimum) / `std. dev`,
+      SDs_above_mean = (maximum - `mean of all plots (calculated)`) / `std. dev`
+    )
+  }
+
+CarbonStocks_stats <- calc_derived_stats(CarbonStocks_wide)
+#CarbonStocks_stats # Remember to inspect new variables 
+
+# Custom function to simulate from each row (assuming truncnormal)
+simulate_truncnorm_from_summary <- function(
+  mean_val, sd_val, min_val=0, max_val=Inf, 
+  # We loaded here the 'truncnorm' package from main cran libraries, I will add to in-line 
+  n_draws=10000) {
+  draws <- truncnorm::rtruncnorm(
+    n     = n_draws,
+    a     = min_val,
+    b     = max_val,
+    mean  = mean_val,
+    sd    = sd_val
+  )
+  # Return vector of draws
+  return(draws)
+}
+
+# Repeat for AG_Tree
+ag_tree_stats <- CarbonStocks_stats %>% filter(Pool == "AG_Tree")
+AG_mean <- ag_tree_stats$`mean of all plots (calculated)`
+AG_sd   <- ag_tree_stats$`std. dev`
+AG_min  <- ag_tree_stats$minimum
+AG_max  <- ag_tree_stats$maximum
+
+# We may vote to do a = 0 if we never allow negative carbon:
+AG_draws <- simulate_truncnorm_from_summary(
+  mean_val = AG_mean, 
+  sd_val   = AG_sd, 
+  min_val  = 0,     # or AG_min if you prefer
+  max_val  = Inf, 
+  n_draws  = 10000
+)
+
+# Compare results:
+mean(AG_draws)
+sd(AG_draws)
+min(AG_draws)
+max(AG_draws)
+quantile(AG_draws, probs = c(0.05, 0.95))
+
+
+# Quick histogram of the draws
+hist(AG_draws, breaks=40, col="skyblue", 
+     main="Truncated Normal draws for AG Tree",
+     xlab="AG Tree (tC/ha)")
+
+# If you want to do this for each carbon pool in a loop, 
+# you can add a small function:
+
+simulate_all_pools <- function(df, n_draws=10000) {
+  # df is your cs_stats data frame
+  # Return a named list of random draws
+  out <- list()
+  for (i in seq_len(nrow(df))) {
+    rowi <- df[i, ]
+    pool_name <- rowi$Pool
+    mean_val  <- rowi$`mean of all plots (calculated)`
+    sd_val    <- rowi$`std. dev`
+    # Use zero for min bound; or rowi$minimum if you want to
+    # replicate the workbook min
+    draws <- rtruncnorm(
+      n=n_draws,
+      a=0, 
+      b=Inf,
+      mean=mean_val,
+      sd=sd_val
+    )
+    out[[pool_name]] <- draws
+  }
+  return(out)
+}
+
+all_draws <- simulate_all_pools(CarbonStocks_st_stats, n_draws=10000)
+
+# 'all_draws' is now a list with an entry for each pool:
+names(# We loaded here the 'truncnorm' package from main cran libraries, I will add to in-line l_draws)  # e.g. "AG_Tree", "BG_Tree", etc.
+
+# You can then do further calculations, e.g. sum AG_Tree + BG_Tree draws, etc.
+
+############################################################
+# 7. Wrap up
+############################################################
+
+# This script accomplishes:
+# (1) Reading the "CarbonStocks" sheet
+# (2) Extracting summary statistics
+# (3) Computing descriptive stats and potential checks
+# (4) Demonstrating how to do truncated-normal draws
+# (5) Summarizing or plotting the results.
+
+# For an official distribution analysis, you would highlight:
+# - Coefficients of variation (CV)
+# - Approx symmetry (or skew) from min, max, mean, sd
+# - The decision to use truncated normal at 0
+# - How well the sample stats match the workbook's.
+```
+
+## Replicating SimVoi
+
+We utilize the replicate function to repeat a simulationfollowing a randomized
+normally truncated multiple times with `replicate(n=10000`, while determining
+the size of the sampled subset with `rnorm(n=100`. The first model explores
+sample size parameters only, replication parameters are tested below this in
+comparisons.
+
+```{r, eval=F}
+MEAN = CarbonStocks$`AG Tree (tC/ha)`[1]
+SD   = CarbonStocks$`AG Tree (tC/ha)`[2]
+
+randtruncnormal_sim_10000 <- rnorm(n=10000,mean=MEAN,sd=SD)
+hist(randtruncnormal_sim_10000, freq=F)
+AG_Tree_tC_ha   = mean(randtruncnormal_sim_10000)
+AG_Tree_tCO2_ha = AG_Tree_tC_ha*(44/12)
+AG_Tree_tC_ha
+AG_Tree_tCO2_ha
+#curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
+```
+
+## Compare simulations
+
+```{r, eval=F, fig.show='hold', out.width='50%'}
+# 10,000 simulations sampling 10 observations
+randtruncnormal_sim_10000_10 = replicate(
+  n=10000, rnorm(n=10, mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 100 observations
+randtruncnormal_sim_10000_100 = replicate(
+  n=10000,rnorm(n=100, mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 1,000 observations
+randtruncnormal_sim_10000_1000 = replicate(
+  n=10000, rnorm(n=1000, mean=MEAN, sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 10,000 observations
+randtruncnormal_sim_10000_10000 = replicate(
+  n=10000, rnorm(n=10000, mean=MEAN, sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean)))*(44/12)
 
 ```
 
-## SimVoi **Documentation:**
+```{r, eval=F}
+#| eval: true
+devtools::session_info()
+#Sys.getenv()
+#.libPaths()
+```
+
+## References
+
+## Annex I: SimVoi Functions & Syntax
 
 SimVoi adds seventeen random number generator functions defined with the
 following syntax:
@@ -126,70 +488,3 @@ In terms of simulation parameters,
 a value is found between MinValue and MaxValue or until it has made 10,000
 attempts."* The above formula provides a minimum value of `0`, passing to the
 default number of simulations of 10,000.
-
-## **Replication Method:**
-
-We utilize the replicate function to repeat a simulationfollowing a randomized
-normally truncated multiple times with `replicate(n=10000`, while determining
-the size of the sampled subset with `rnorm(n=100`. The first model explores
-sample size parameters only, replication parameters are tested below this in
-comparisons.
-
-```{r}
-MEAN = CarbonStocks$`AG Tree (tC/ha)`[1]
-SD   = CarbonStocks$`AG Tree (tC/ha)`[2]
-
-randtruncnormal_sim_10000 <- rnorm(n=10000,mean=MEAN,sd=SD)
-hist(randtruncnormal_sim_10000, freq=F)
-AG_Tree_tC_ha   = mean(randtruncnormal_sim_10000)
-AG_Tree_tCO2_ha = AG_Tree_tC_ha*(44/12)
-AG_Tree_tC_ha
-AG_Tree_tCO2_ha
-#curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
-```
-
-## **Compare simulations**
-
-```{r, fig.show='hold', out.width='50%'}
-# 10,000 simulations sampling 10 observations
-randtruncnormal_sim_10000_10 = replicate(
-  n=10000, rnorm(n=10, mean=MEAN,sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean)))*(44/12)
-
-# 10,000 simulations sampling 100 observations
-randtruncnormal_sim_10000_100 = replicate(
-  n=10000,rnorm(n=100, mean=MEAN,sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean)))*(44/12)
-
-# 10,000 simulations sampling 1,000 observations
-randtruncnormal_sim_10000_1000 = replicate(
-  n=10000, rnorm(n=1000, mean=MEAN, sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean)))*(44/12)
-
-# 10,000 simulations sampling 10,000 observations
-randtruncnormal_sim_10000_10000 = replicate(
-  n=10000, rnorm(n=10000, mean=MEAN, sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean)))*(44/12)
-
-```
-
-```{r}
-#| eval: true
-devtools::session_info()
-#Sys.getenv()
-#.libPaths()
-```
-
-## References
