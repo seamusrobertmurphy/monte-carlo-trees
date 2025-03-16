@@ -2,11 +2,11 @@ Discrete Distributions:
   
   Discrete distributions describe data that can only take on distinct, separate values—often counts, binary (TRUE/FALSE), logical variables, or classification categories.
 
-Bernoulli Distribution: Models the probability of a binary outcome (e.g., success/failure or yes/no responses). For example, flipping a coin once.
+Bernoulli Distribution: 
 
-Binomial Distribution: Describes the probability of a specific number of successes in a fixed number of independent Bernoulli trials. For example, the number of heads in 10 coin flips.
+Binomial Distribution: 
 
-Poisson Distribution: Represents the probability of a given number of events occurring within a fixed interval (time or space). For instance, the number of customer arrivals at a store in an hour.
+Poisson Distribution: 
 
 Geometric Distribution: Models the number of failures before the first success in a series of independent Bernoulli trials. For example, the number of sales calls made before securing a sale.
 
@@ -276,3 +276,104 @@ hist(weibull_samples, main = "Weibull (shape=2, scale=1)", xlab = "Value")
 set.seed(1)
 gamma_samples <- rgamma(n = 1000, shape = 2, rate = 1)
 hist(gamma_samples, main = "Gamma (shape=2, rate=1)", xlab = "Value")
+
+
+When preparing for Monte Carlo simulations, it is good practice first to examine descriptive statistics of the data to characterize the empirical distributions of input variables. This preliminary analysis should include statistical tests of normality, along with visualizations of univariate distributions. Recommended visualizations include histograms, kernel density plots, and Q-Q plots. Together, these tools provide insights into the data's shape, spread, symmetry, skewness, and potential outliers. This appears a seemingly small component but in fact can hold significant material influence on uncertainty values that may lead to increased returns, particularly in project landscapes exhibiting non-normal distributions. 
+
+Accurately characterizing data distributions helps in identifying biases, ensuring data quality, and enhancing confidence in subsequent emissions and biomass estimations. Proper selection of statistical distributions informed by this exploratory analysis significantly improves the reliability and precision of Monte Carlo simulations. Consequently, this reduces uncertainty in estimates of forest biomass and carbon emissions, thereby strengthening the credibility of jurisdictional claims under REDD+ programs and enhancing potential financial returns for Guyana from carbon financing initiatives.
+
+Additionally, these univariate distribution diagrams will greatly help auditors as effective diagnostic resources enabling quicker confirmation and caracterisation of bias that is expected in some biomass data. In this way, these visualisations should may also serve as useful tools in auditors' subsequent assessments of the technical measures and statstical approaches taken by the project to monitor and manage its uncertainty (ART 2021: 8). Winrock stongly recommends incorporating a distribution analysis early in the project's quantitative designs and across its technical SOPs, as we consider this a low hanging fruit of potentially significant impact in either limiting the number of future findings or reduction uncertainty with potential value of -$$$$$$$-. Specifically he project's multiple years of VVB interactions,    impact to selecting the appropriate functions in SimVoi, ensuring more accurate Monte Carlo estimates. In effect, bias corrections are incorporated, reducing uncertainty in the final results and improving confidence in the jurisdiction's claims of nationwide emissions reductions.
+
+When preparing for Monte Carlo simulations, it is best practice to start by examining descriptive statistics to characterize the empirical distributions of input variables. This preliminary analysis typically includes statistical tests for normality and visualizations of univariate distributions, such as histograms, kernel density plots, and Q-Q plots. Together, these tools provide critical insights into the shape, spread, symmetry, skewness, and presence of potential outliers in the data. Although this preliminary step may seem minor, it substantially influences uncertainty estimates, which can directly translate into increased financial returns, particularly within forest project landscapes exhibiting non-normal data distributions.
+
+Accurately characterizing data distributions also helps in identifying and addressing biases, thereby ensuring high data quality and increasing confidence in subsequent estimations of biomass and carbon emissions. Selecting appropriate statistical distributions, informed by exploratory analyses, significantly enhances the reliability and precision of Monte Carlo simulations. Consequently, such careful statistical characterizations reduce overall uncertainty in forest biomass and emissions estimates. In turn, this strengthens the credibility of jurisdictional claims made under REDD+ programs and maximizes potential financial returns for Guyana from carbon financing initiatives.
+
+Univariate distribution visualizations additionally provide auditors with powerful diagnostic resources, enabling rapid identification and characterization of biases commonly encountered in biomass data. These diagrams help auditors efficiently assess the technical rigor and statistical approaches implemented by the project to monitor and manage uncertainty (ART, 2021: 8). Winrock strongly recommends incorporating detailed distribution analyses early in a project's quantitative planning and throughout its technical standard operating procedures (SOPs). Such early integration represents a cost-effective strategy with significant potential for reducing future audit findings, lowering uncertainty, and enhancing financial outcomes for Guyana's REDD+ activities. Specifically, early attention to data distributions directly informs the selection of appropriate simulation functions in tools such as SimVoi, facilitating precise Monte Carlo estimates and robust bias corrections. Ultimately, these enhancements improve confidence in reported nationwide emission reductions.
+
+When preparing for Monte Carlo simulations, it is best practice to start by examining descriptive statistics to characterize the empirical distributions of input variables. This preliminary analysis typically includes statistical tests for normality and visualizations of univariate distributions, such as histograms, kernel density plots, and Q-Q plots. Together, these tools provide critical insights into the shape, spread, symmetry, skewness, and presence of potential outliers in the data. Although this preliminary step may seem minor, it substantially influences uncertainty estimates, which can directly translate into increased financial returns, particularly within forest project landscapes exhibiting non-normal data distributions.
+
+Accurately characterizing data distributions also helps in identifying and addressing biases, thereby ensuring high data quality and increasing confidence in subsequent estimations of biomass and carbon emissions. Selecting appropriate statistical distributions, informed by exploratory analyses, significantly enhances the reliability and precision of Monte Carlo simulations. Consequently, such careful statistical characterizations reduce overall uncertainty in forest biomass and emissions estimates. In turn, this strengthens the credibility of jurisdictional claims made under REDD+ programs and maximizes potential financial returns for Guyana from carbon financing initiatives.
+
+
+
+Cont. Distributions
+
+Description of statistical criteria and common use cases 
+
+Bernoulli
+
+Probability of a binary outcome with two possible results, such as success/failure, true/false, yes/no. E.g Probability of getting heads when flipping a single coin.
+
+Binomial
+
+Describes the probability of specific number of successes occurring within fixed set of independent Bernoulli trials. E.g Number of heads in 10 coin flips.
+
+Poisson
+
+Probability of count data, #no. of occurrences of independent events occurring within fixed time period or space. E.g #no. of customers arriving at a store per hour.
+
+Geometric
+
+# of failures until first success. E.g., calls until a sale.
+
+Neg. Binomial
+
+# of failures until r succeeds (overdispersed Poisson).
+
+Discrete Uniform
+
+All finite outcomes equally likely. E.g., rolling a fair die.
+
+Normal (Gaussian)
+
+Symmetrical “bell curve.” E.g., human heights.
+
+Lognormal
+
+Right-skewed; log(variable) ~ Normal. E.g., incomes.
+
+Exponential
+
+Time between Poisson events. E.g., arrival times.
+
+Continuous Uniform
+
+All values in [a,b] equally likely. E.g., random number gen.
+
+Chi-Square
+
+Used in hypothesis tests (e.g., goodness-of-fit).
+
+t-Distribution
+
+Small samples, unknown population SD.
+
+Weibull
+
+Reliability or lifespans.
+
+Gamma
+
+Models skewed data, e.g., wait times.
+
+
+
+Discrete Distributions 
+
+Descriptions
+
+Bernoulli
+
+Binary outcome (success/failure). E.g., a single coin flip.
+
+Binomial
+
+# of successes in n Bernoulli trials. E.g., heads in 10 flips.
+
+Poisson
+
+# of events in a fixed interval. E.g., arrivals per hour.
+
+Geometric
+
+# of failures until first success. E.g., calls until a sale.

@@ -1,0 +1,10 @@
+﻿,AG Tree (tC/ha),BG Tree (tC/ha),Saplings (tC/ha),Standing Dead Wood (tC/ha),Lying Dead Wood (tC/ha),Sum Carbon pools w/o litter (t C/ha),Litter (tC/ha),Sum C pool w/ litter (t C/ha),Sum CO2e (t CO2e/ha),,Soil tC/ha,,Sum ALL POOLS (t CO2e/ha),Sum aboveground and belowground live tree
+mean of all plots (calculated),205.8,48.3,3.7,2.6,8.6,269.0,3.3,272.3,998.5,,58.7,," 1,213.7 ",931.9
+std. dev,60.4,14.3,2.0,4.0,8.1,75.2,1.3,,,,61.5,,,
+minimum,91.6,21.2,0.5,0.0,0.0,,1.2,,,,10.1,,,
+maximum,353.7,83.1,18.8,13.7,42.3,,8.7,,,,502.4,,,
+90% CI,9.2,2.2,0.3,0.6,1.2,11.5,0.2,,,,11.0,,,
+CI as % of mean,4.5%,4.5%,8.5%,23.8%,14.3%,4.3%,,,,,18.7%,,,
+no. of plots,118,118,118,118,118,118,,,,,87,,,
+# subplots (4/plot),472,472,472,472,472,472,,,,,,,,
+,,,,,,,,,,,,,,

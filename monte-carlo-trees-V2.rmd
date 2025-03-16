@@ -14,7 +14,7 @@ always_allow_html: true
 df-print: kable      
 editor_options: 
   markdown: 
-    wrap: 80
+    wrap: 120
 ---
 
 ```{r setup-1}
@@ -72,59 +72,96 @@ div.column {
 
 ## 1. Introduction
 
-When preparing for Monte Carlo simulations, it is good practice first to examine
-descriptive statistics of the data to characterize the empirical distributions
-of input variables. This preliminary analysis should include statistical tests
-of normality, along with visualizations of univariate distributions. Recommended
-visualizations include histograms, kernel density plots, and Q-Q plots.
-Together, these tools provide insights into the data's shape, spread, symmetry,
-skewness, and potential outliers.
+When preparing for Monte Carlo simulations, it is best practice to start by examining descriptive statistics to
+characterize the empirical distributions of input variables. This preliminary analysis typically includes statistical
+tests for normality and visualizations of univariate distributions, such as histograms, kernel density plots, and Q-Q
+plots. Together, these tools provide critical insights into the shape, spread, symmetry, skewness, and presence of
+potential outliers in the data. Although this preliminary step may seem minor, it substantially influences uncertainty
+estimates, which can directly translate into increased financial returns, particularly within forest project landscapes
+exhibiting non-normal data distributions.
 
-In particular, these visualizations help auditors to confirm levels of bias in
-the dataset. They also allow for quicker evaluations of how the proponent has
-addressed these biases in their subsequent calculations.
+Accurately characterizing data distributions also helps in identifying and addressing biases, thereby ensuring high data
+quality and increasing confidence in subsequent estimations of biomass and carbon emissions. Selecting appropriate
+statistical distributions, informed by exploratory analyses, significantly enhances the reliability and precision of
+Monte Carlo simulations. Consequently, such careful statistical characterizations reduce overall uncertainty in forest
+biomass and emissions estimates. In turn, this strengthens the credibility of jurisdictional claims made under REDD+
+programs and maximizes potential financial returns for Guyana from carbon financing initiatives.
 
-Incorporating these distribution assessments early in the process will likely
-reduce overall findings from VVB's and registries. This is because distribution
-analysis is critical to selecting the appropriate functions in SimVoi, ensuring
-more accurate Monte Carlo estimates. In effect, bias corrections are
-incorporated, reducing uncertainty in the final results and improving confidence
-in the jurisdiction's claims of nationwide emissions reductions.
+Univariate distribution visualizations additionally provide auditors with useful diagnostic resources, enabling rapid
+identification and characterization of biases commonly encountered in biomass data. These diagrams help auditors
+efficiently assess the technical rigor and statistical approaches implemented by the project to monitor and manage
+uncertainty (ART, 2021: 8). Winrock strongly recommends incorporating distribution analyses early in a project's
+quantitative planning and throughout its technical standard operating procedures (SOPs). Such early integration
+represents a low hanging fruit with cost-effective strategy and significant potential in reducing audit findings,
+lowering uncertainty, and enhancing financial outcomes for Guyana's REDD+ activities. Specifically, early attention to
+data distributions directly informs appropriate simulation selection from the available options in SimVoi.
 
-The following guide summarizes the most commonly used discrete and continuous
-distributions, their statistical properties, and appropriate usage contexts.
+To effectively guide practitioners and stakeholders in selecting appropriate statistical distributions for Monte Carlo
+methods within forestry and REDD+ contexts, the following two tables present findings from a rapid review of relevant
+literature. The review identified and summarized statistical distributions frequently encountered in forestry, biomass
+estimation, and emissions analysis, which are disaggregated below between discrete and continuous types and according to
+their inherent statistical characteristics.
 
-#### Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.
+###### *Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.* 
 
-##### Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.
+| Distribution | Statistical Criteria & Use Cases | PDF/PMF |
+|------------------|-------------------------------------------------------------|-------------------------------------|
+| **Normal (Gaussian)** | Symmetric, bell-shaped distribution used for modeling continuous variables such as biomass/ha. | $\displaystyle \begin{aligned}
+f(x) &= \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right)
+\end{aligned}$ |
+| **Lognormal** | Right-skewed distribution suitable for variables constrained to positive values (emission rates). | $\displaystyle f(x) = \frac{1}{x\sigma\sqrt{2\pi}} \exp\left(-\frac{(\ln x-\mu)^2}{2\sigma^2}\right)$ |
+| **Exponential** | Models waiting times between independent events such as forest fire occurrences or logging events. | $\displaystyle \begin{aligned} f(x) &= \lambda e^{-\lambda x}\\[5pt] &,\; x\ge0 \end{aligned}$ |
+| **Continuous Uniform** | Assumes all values in an interval [a, b] are equally likely, useful for random spatial sampling in forests. | $\displaystyle \begin{aligned} f(x) &= \frac{1}{b-a}\\[5pt] &,\; a\le x \le b \end{aligned}$ |
+| **Chi-Square** | Often used in goodness-of-fit tests to evaluate model accuracy in biomass estimation. | $\displaystyle \begin{aligned} f(x) &= \frac{1}{2^{k/2}\Gamma(k/2)}\,x^{\frac{k}{2}-1}e^{-x/2}\\[5pt] &,\; x>0 \end{aligned}$ |
+| **t-Distribution** | Suitable for small sample sizes and unknown variance, incl. forest carbon stocks of limited data. | $\displaystyle \begin{aligned}
+f(x) &= \frac{\Gamma\left(\frac{v+1}{2}\right)}{\sqrt{v\pi}\,\Gamma\left(\frac{v}{2}\right)}\left(1+\frac{x^2}{v}\right)^{-\frac{v+1}{2}}
+\end{aligned}$ |
+| **Gamma** | Models positively skewed data, such as biomass growth rates or carbon accumulation over time. | $\displaystyle f(x) = \frac{x^{k-1}e^{-x/\theta}}{\theta^k\Gamma(k)}$ |
+| **Weibull** | Flexible distribution used in reliability analysis, e.g., modeling tree mortality. | $\displaystyle f(x) = \frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}e^{-(x/\lambda)^k}$ |
 
-|  |  |
-|----------------------------|----------------------------------------------------|
-| **Continuous Distributions** | **Description** |
-| Bernoulli | Binary outcome targets (success/failure). E.g., a single coin flip. |
-| Binomial | \# of successes in Bernoulli trials. E.g., heads in 10 flips. |
-| Poisson | \# of events in a fixed interval. E.g., arrivals per hour. |
-| Geometric | \# of failures until first success. E.g., calls until a sale. |
-| Neg. Binomial | \# of failures until r successes (overdispersed Poisson). |
-| Discrete Uniform | All finite outcomes equally likely. E.g., rolling a fair die. |
-| Normal (Gaussian) | Symmetrical “bell curve.” E.g., human heights. |
-| Lognormal | Right-skewed; log(variable) \~ Normal. E.g., incomes. |
-| Exponential | Time between Poisson events. E.g., arrival times. |
-| Continuous Uniform | All values in [a,b] equally likely. E.g., random number gen. |
-| Chi-Square | Used in hypothesis tests (e.g., goodness-of-fit). |
-| t-Distribution | Small samples, unknown population SD. |
-| Weibull | Reliability or lifespans. |
-| Gamma | Models skewed data, e.g., wait times. |
+###### *Table 2: Discrete data distributions, and example use cases designed with Monte Carlo simulations.*
 
-###### *Table 2: Discrete data distributions, and example use cases for Monte Carlo simulations.*
+| Distribution | Statistical Criteria & Use Cases | PMF |
+|------------------|-------------------------------------------------------------|--------------------------------------|
+| Bernoulli | Binary outcome probability, e.g., presence/absence of deforestation in a given area. | $\begin{aligned}P(X=x)&=p^{x}(1-p)^{1-x},\\ x&\in\{0,1\}\end{aligned}$ |
+| Binomial | Probability of fixed number of successes over trials, e.g., count of deforestation events detected from satellite images. | $\begin{aligned}P(X=k)&=\binom{n}{k}p^{k}(1-p)^{n-k},\\ k&=0,1,\dots,n\end{aligned}$ |
+| Poisson | Counts of independent events within intervals, e.g., number of wildfire incidents per year. | $\begin{aligned}P(X=k)&=\frac{\lambda^{k}e^{-\lambda}}{k!},\\ k&=0,1,2,\dots\end{aligned}$ |
+| Geometric | Models number of trials until first success, e.g., number of inspections until identifying deforestation. | $\begin{aligned}P(X=k)&=(1-p)^{k-1}p,\\ k&=1,2,\dots\end{aligned}$ |
+| Negative Binomial | Counts trials until r successes, useful for overdispersed data such as repeated deforestation detections. | $\begin{aligned}P(X=k)&=\binom{k+r-1}{k}(1-p)^{r}p^{k},\\ k&=0,1,2,\dots\end{aligned}$ |
+| Discrete Uniform | Models equally likely discrete outcomes, e.g., random sampling of inventory plots across forest. | $\begin{aligned}P(X=x)&=\frac{1}{n},\\ x&=1,2,\dots,n\end{aligned}$ |
 
-|  |  |
-|----------------------------|----------------------------------------------------|
-| **Discrete Distributions** | **Descriptions** |
-| Bernoulli | Binary outcome (success/failure). E.g., a single coin flip. |
-| Binomial | \# of successes in n Bernoulli trials. E.g., heads in 10 flips. |
-| Poisson | \# of events in a fixed interval. E.g., arrivals per hour. |
-| Geometric | \# of failures until first success. E.g., calls until a sale. |
+Discrete distributions describe forestry monitoring scenarios where data outcomes are countable and finite. Common
+examples include the number of deforestation events, occurrences of wildfires, or counts of logged trees within a
+defined monitoring interval. Accurate representation of discrete events using appropriate distributions such as
+Binomial, Poisson, or Negative Binomial significantly enhances the accuracy of model predictions and uncertainty
+assessments. For instance, employing a Poisson distribution to model occurrences of illegal logging events can improve
+the precision of estimated deforestation emissions and reduce uncertainty around compliance risks.
+
+In contrast, continuous distributions capture variables capable of taking any value within a specified range and are
+particularly relevant in forestry when modeling measurements such as tree heights, carbon stock densities, or biomass
+values. Continuous distributions like the Normal (Gaussian), Lognormal, Weibull, and Gamma distributions frequently
+arise in ecological modeling and biomass estimations due to their ability to realistically represent ecological
+variability and complex environmental factors. For example, using a Lognormal distribution for tree biomass data often
+provides more reliable estimates, particularly when the dataset is right-skewed due to natural variability in tree
+growth and forest conditions.
+
+Central to these distributions are two mathematical concepts: Probability Mass Functions (PMFs) for discrete data and
+Probability Density Functions (PDFs) for continuous data. PMFs allocate specific probabilities to discrete outcomes,
+essential for accurately simulating events such as species occurrences or forest disturbances. PDFs describe the
+relative likelihood of continuous data points, enabling the robust estimation of variables like forest carbon content or
+annual biomass increment.
+
+In Monte Carlo simulations, precise definition and utilization of PMFs and PDFs are crucial. These functions underpin
+random sampling processes that directly influence the reliability, precision, and credibility of uncertainty estimates.
+Given that forestry data is known to exhibit non-normal distributions due to inherent ecological heterogeneity that,
+informed selection and rigorous application of these functions are vital. Accurate modeling of the underlying data
+distribution enhances biomass and emissions estimates, significantly reduces uncertainty, and bolsters the financial and
+ecological credibility of REDD+ reporting initiatives (Morgan & Henrion, 1990; IPCC, 2019; ART, 2021).
+
+Practitioners are encouraged to conduct exploratory data analysis early in their project planning stages, integrating
+statistical tests of normality and visual assessments (histograms, kernel density plots, Q-Q plots). Such preliminary
+analyses assist in diagnosing data distributions accurately, improving model selection, reducing potential auditor
+findings, and ultimately enhancing the financial and environmental outcomes of national REDD+ monitoring programs.
 
 ## 2. Method
 
@@ -134,8 +171,10 @@ distributions, their statistical properties, and appropriate usage contexts.
 # Point this to the correct path where your file is located:
 workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values.xlsx"
 CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") |> 
+  janitor::clean_names() |> 
   mutate(across(where(is.numeric), ~ round(.x, 1)))
 CarbonStocks_MC = readxl::read_excel(workbook, "CarbonStocks (MC)") |> 
+  janitor::clean_names() |> 
   mutate(across(where(is.numeric), ~ round(.x, 1)))
 
 DeforestationEF = readxl::read_excel(workbook, "Deforestation EFs") |> 
@@ -161,55 +200,51 @@ Emissions_MC = readxl::read_excel(workbook, "CarbonStocks (MC)") |>
 # Vislualize
 flextable(head(CarbonStocks[, 1:8])) |> fontsize(size = 8, part = "all")
 flextable(head(CarbonStocks_MC[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(DeforestationEF[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(DeforestationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(ActivityData[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(ActivityData_MC[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(Emissions[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(Emissions_MC[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(DegradationEF[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(DegradationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+flextable(head(CarbonStocks[, 1:8])) |> fontsize(size = 8, part = "all")
+flextable(head(CarbonStocks_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+# (Optionally un-comment these to view other data frames)
+# flextable(head(DeforestationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+# flextable(head(DeforestationEF[, 1:8])) |> fontsize(size = 8, part = "all")
+# flextable(head(ActivityData[, 1:8])) |> fontsize(size = 8, part = "all")
+# flextable(head(ActivityData_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+# flextable(head(Emissions[, 1:8])) |> fontsize(size = 8, part = "all")
+# flextable(head(Emissions_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+# flextable(head(DegradationEF[, 1:8])) |> fontsize(size = 8, part = "all")
+# flextable(head(DegradationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
 #dplyr::glimpse(CarbonStocks)
 ```
 
 ### Tidy data
 
-Identify the relevant rows & columns for each pool (mean, sd, min, max, 90% CI)
-There is always some adjustments needed to table format, layout, labelling or
-object classes. The most common and robust pacakge for this is `dplyr`, which we
-apply below.
+Achieving tidy data is crucial for robust analysis, particularly when working with datasets imported from Excel, which
+often require adjustments to column names, strata labels, data types, and row layouts, especially when summary
+statistics are presented in non-standard formats. Begin by identifying the relevant rows and columns for each pool,
+specifically those containing mean, standard deviation, minimum, maximum, and confidence interval values. The `dplyr`
+package provides a powerful and efficient means for manipulating dataframes, facilitating these necessary adjustments.
 
-We'll assume that rows exist in same order in the CarbonStocks_MC sheet, and we
-will simply run these operations by just changing the dataframe name. One
-approach is to reshape the dataframe so each row becomes "Statistic" and the
-columns become "AG Tree", "BG Tree", etc. For example, the code below tries to
-rename columns before setting row 2 as "mean", #3 as "std. dev", etc. The exact
-indexing may vary depending on how read_excel() parsed your data. We advize
-inspecting outputs with the commands `view(CarbonStocks)` or
-`glimpse(CarbonStocks`) to confirm row/column positions.
+Assuming the rows in the "CarbonStocks_MC" sheet maintain a consistent order, operations can be performed by simply
+referencing the dataframe name. A common approach involves reshaping the data so that each row represents a "Statistic,"
+such as mean or standard deviation, and each column corresponds to a carbon pool, like "AG Tree" or "BG Tree."
 
-Select only the columns that contain your carbon pools (e.g. columns named "AG
-Tree (tC/ha)", "BG Tree (tC/ha)". We can then rename these columns to match the
-SimVoi workbook. From here, w derive a small table that transposes the data so
-each row includes data values (mean, sd, min) and each column represents a
-variable or the carbon pool. Note, there is a handy function for this using
-`tidyr::pivot_longer()`[^1] or `pivot_wider`. Similarly, you can also
-use `tidyr::pivot_wider()` to reshape your data into a wider format.
+Initially, select the columns pertinent to your carbon pools, for instance, those named "AG Tree (tC/ha)" or "BG Tree
+(tC/ha)," and rename them to align with the "SimVoi" workbook. Subsequently, extract the rows containing the summary
+statistics, typically the first few rows, and proceed to reshape the data. Note that direct renaming of row values, such
+as assigning "mean" to the second row, must be explicitly performed if required, as it is not automatically handled.
 
-[^1]: In R, you chave the option of writing the ellipsis symbol `::` between the
-    owner package and its operating function. In effect, this
-    `tidyr::pivot_longer()` code is calling the `pivot_longer()` function from
-    the `tidyr` package. Alternatively, you can also write `pivot_longer`()
-    directly without its parent package preceding and it should work fine too.
-    Rather, coders tend to use it to avoid headaches of package conflicts, or
-    just to help others quickly see what packages are used and working. format.
+Throughout this process, thorough inspection of the data using `view(CarbonStocks)` or `glimpse(CarbonStocks)` after
+each operation is strongly recommended. This ensures accurate mapping of rows and columns to the "Statistic" labels.
 
-Watch out that some column names are missing or named incorrectly, which was
-caused by `readxl::read_excel()` on import into R and and needed renaming below.
-Finally, we pivot back again from long so that “Statistic” becomes a column, and
-“AG_Tree, BG_Tree…” are columns.
+To effectively transpose the data and transition between wide and long formats, utilize the `tidyr` package's
+`pivot_longer()` and `pivot_wider()` functions. These functions facilitate the transformation of data such that each row
+contains a data value, such as mean, standard deviation, or minimum, and each column represents a variable or carbon
+pool. Be mindful of potential missing or incorrect column names, often indicated by placeholder names like "...1"
+generated by `readxl::read_excel()`; these must be renamed. Finally, pivot the data from long format back to wide,
+ensuring that "Statistic" becomes a distinct column and the carbon pools, such as "AG_Tree" and "BG_Tree," are
+represented as separate variable columns.
 
-```{r, eval=F}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%"}
+#CarbonStocks <- CarbonStocks |> rename(Statistic = `...1`)
+
 CarbonStocks <- CarbonStocks %>%
   select(
     `Statistic`           = 1,
@@ -227,7 +262,33 @@ CarbonStocks <- CarbonStocks %>%
     `SumABGBLiveTree`     = 13
   ) %>% slice(1:9)
 # Rename missing column names
-#CarbonStocks <- CarbonStocks |> rename(Statistic = `...1`)
+
+# Convert from wide to long: "Statistic" will define the row identity
+CarbonStocks_long <- CarbonStocks |>
+  tidyr::pivot_longer(
+    cols = -Statistic,
+    names_to = "Pool",
+    values_to = "Value"
+  ) |>
+  mutate(Value = as.numeric(Value))
+
+# Convert from long back to wide format:
+CarbonStocks_wide <- CarbonStocks_long %>%
+  pivot_wider(
+    names_from = Statistic,
+    values_from = Value
+  )
+
+# Inspect the final structure
+CarbonStocks_wide
+
+# Example summarizing a particular column:
+CarbonStocks_wide %>%
+  summarise(
+    Mean_AGTree = mean(`AG Tree (tC/ha)`, na.rm=TRUE),
+    SD_AGTree   = sd(`AG Tree (tC/ha)`, na.rm=TRUE)
+  )
+
 
 # Transpose to long dataframe: flipping rows w/ columns
 CarbonStocks_long <- CarbonStocks |>
@@ -245,48 +306,53 @@ CarbonStocks_wide <- CarbonStocks_long %>%
   )
 # Inpspect
 CarbonStocks_wide
+
+CarbonStocks_wide |>
+  summarise(Mean_AGTree = mean(`AG Tree (tC/ha)`, na.rm=TRUE),
+    SD_AGTree   = sd(`AG Tree (tC/ha)`, na.rm=TRUE))
 ```
 
 ### Descriptive Statistics
 
-The Coefficient of Variation `CV` is a standardized measure of dispersion of a
-probability distribution or frequency distribution. It's computed as the ratio
-of the standard deviation to the mean, typically expressed as a percentage, as
-shown below. Unlike the standard deviation, the `CV` metric is unitless and
-allows you to compare variability across different datasets or scales.
+# Shapiro-Wilk test for normality
+
+shapiro.test(CarbonStocks\$`AG Tree (tC/ha)`)
+
+### Distribution Analysis
+
+# Example approximate histogram
+
+hist(AG_draws, breaks=30, main="AG Tree (approx. distribution)") qqnorm(AG_draws) qqline(AG_draws, col="red")
+
+The Coefficient of Variation `CV` is a standardized, unit-less measure of dispersion defined as the ratio of the
+standard deviation to the mean, typically expressed as a percentage. This standardization allows for meaningful
+comparisons of variability across datasets or scales, regardless of the underlying units, offering helpful tool for
+assessing novel data from periodic field inventories or mapping updates.
 
 $$
 \mathrm{CV} = \frac{\sigma}{\mu} \times 100\%
 $$
 
-Effectively, in the context of these carbon stocks, a higher CV value indicates
-greater variability relative to the mean, which should influence how we choose
-between normal or log-normal distributions for simulation, for example. The CV
-also informs whether a distribution is appropriate; if the CV is very high, it
-is likely suggesting the data is more skewed than expected.
+$$
+\mathrm{CV}_{\%} = 100 \times \frac{\text{std. dev}}{\text{mean of all plots (calculated)}}
+$$
 
-The CV variable was coded with correct variable naming and placed it inside the
-larger helper function of statisticof summary calculations stack of simultaneous
-calculations below where it will be computed alongside. We derived the helper
-function `calc_derived_stats` to we derived below to provide from the correct
-naming, variable will be computed the following custom function customary
-summary stats function `calc_derived_costs` CV variable was derived below as
-part of of the combined for deriving summary stats, is calculated according to
-the above formula using
+For these carbon stocks, a higher CV indicates greater relative variability or "scatter" in the data. While the CV is a
+useful indicator of dispersion and can signal potential non-normality, it does not provide any information on the
+direction of skew in the distribution.
 
-::: center
-**`CV_percent`** = 100 \* (`std. dev` / `mean of all plots (calculated)`)
-:::
+In our analysis, the CV was computed below within a helper function called `calc_derived_stats`. This function not only
+calculates the CV but also compares the reported 90% confidence interval with the standard deviation, which, under
+normality, should approximate to ±1.645 × SD. This iterative scoring helps assess the internal consistency of the
+reported descriptive statistics.
 
-```{r, eval=F}
-# Helper function to compute multiple stats at once:
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", eval=F}
+# Helper function of derived descriptive statistics:
 calc_derived_stats <- function(df) {
   df %>%
     mutate(
       CV_percent = 100 * (`std. dev` / `mean of all plots (calculated)`),
-      # Check 90% CI is ~ ±1.645 * sd, check consistency with workbook sd
       sd_implied_by_90CI = `90% CI` / 1.645,
-      # Simplistic check: How many SDs from mean to min, max?
       SDs_below_mean = (`mean of all plots (calculated)` - minimum) / `std. dev`,
       SDs_above_mean = (maximum - `mean of all plots (calculated)`) / `std. dev`
     )
@@ -371,17 +437,24 @@ all_draws <- simulate_all_pools(CarbonStocks_st_stats, n_draws=10000)
 
 names(l_draws)
 
+
+
+
+ggplot(data.frame(AG_draws), aes(x = AG_draws)) +
+  geom_histogram(aes(y = ..density..), bins = 50, fill = "skyblue", alpha = 0.7) +
+  geom_density(col = "red") +
+  labs(title = "Monte Carlo Simulation of AG Tree Carbon Pool",
+       x = "Carbon Stock (tC/ha)", y = "Density")
+
 ```
 
 ## Replicating SimVoi
 
-We utilize the replicate function to repeat a simulationfollowing a randomized
-normally truncated multiple times with `replicate(n=10000`, while determining
-the size of the sampled subset with `rnorm(n=100`. The first model explores
-sample size parameters only, replication parameters are tested below this in
-comparisons.
+We utilize the replicate function to repeat a simulationfollowing a randomized normally truncated multiple times with
+`replicate(n=10000`, while determining the size of the sampled subset with `rnorm(n=100`. The first model explores
+sample size parameters only, replication parameters are tested below this in comparisons.
 
-```{r, eval=F}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", eval=F}
 MEAN = CarbonStocks$`AG Tree (tC/ha)`[1]
 SD   = CarbonStocks$`AG Tree (tC/ha)`[2]
 
@@ -396,7 +469,7 @@ AG_Tree_tCO2_ha
 
 ## Compare simulations
 
-```{r, eval=F, fig.show='hold', out.width='50%'}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", eval=F}
 # 10,000 simulations sampling 10 observations
 randtruncnormal_sim_10000_10 = replicate(
   n=10000, rnorm(n=10, mean=MEAN,sd=SD))
@@ -431,7 +504,7 @@ mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 
 ```
 
-```{r, eval=F}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", eval=F}
 #| eval: true
 devtools::session_info()
 #Sys.getenv()
@@ -442,8 +515,7 @@ devtools::session_info()
 
 ## Annex I: SimVoi Functions & Syntax
 
-SimVoi adds seventeen random number generator functions defined with the
-following syntax:
+SimVoi adds seventeen random number generator functions defined with the following syntax:
 
 -   `RandBeta(alpha,beta,,[MinValue],[MaxValue])`
 -   `RandBinomial(trials,probability_s)`
@@ -467,14 +539,28 @@ In the following, we attempt to match the SimVoi Excel formula of
 
 `=[1]!randtruncnormal(CarbonStocks.B2,CarbonStocks.B3,0)`
 
-function, as closely as random seeding allows. According to package
-documentation, the `RandTruncNormal()` function "*Returns a random value from a
-truncated normal probability density function. This function can model an
-uncertain quantity with a bell-shaped density function where extreme values in
-the tails of the distribution are not desired."*
+function, as closely as random seeding allows. According to package documentation, the `RandTruncNormal()` function
+"*Returns a random value from a truncated normal probability density function. This function can model an uncertain
+quantity with a bell-shaped density function where extreme values in the tails of the distribution are not desired."*
 
-In terms of simulation parameters,
-*"RandTruncNormal(Mean,StDev,MinValue,MaxValue)) uses values of RandNormal until
-a value is found between MinValue and MaxValue or until it has made 10,000
-attempts."* The above formula provides a minimum value of `0`, passing to the
-default number of simulations of 10,000.
+In terms of simulation parameters, *"RandTruncNormal(Mean,StDev,MinValue,MaxValue)) uses values of RandNormal until a
+value is found between MinValue and MaxValue or until it has made 10,000 attempts."* The above formula provides a
+minimum value of `0`, passing to the default number of simulations of 10,000.
+
+Annex II: Rapid literature review or Monte Carlo methods in REDD+
+
+###### Table A.2: Search parameters, resource scope, and objectives informing search
+
+-   ART (2021). *TREES: The REDD+ Environmental Excellence Standard*. Architecture for REDD+ Transactions.
+
+-   Bolker, B. (2008). *Ecological Models and Data in R.* Princeton University Press.
+
+-   Hilbe, J. M. (2014). *Modeling Count Data.* Cambridge University Press.
+
+-   Limpert, E., Stahel, W. A., & Abbt, M. (2001). "Log-normal distributions across the sciences: Keys and clues."
+    *BioScience*, 51(5), 341–352.
+
+-   Morgan, M. G., & Henrion, M. (1990). *Uncertainty: A Guide to Dealing with Uncertainty in Quantitative Risk and
+    Policy Analysis.* Cambridge University Press.
+
+-   Ross, S. M. (2019). *Introduction to Probability Models* (12th ed.). Academic Press.
