@@ -1,0 +1,187 @@
+
+
+
++----------------------------+------------------------------------------------------+--------------------------------+
+| Distribution               | Statistical Criteria & Use Cases                     | PDF                            |
++============================+======================================================+================================+
+| Normal (Gaussian)          | Symmetric, bell-shaped distribution used for         | $\displaystyle \begin{aligned} |
+|                            | modeling continuous variables such as biomass/ha.    | f(x) &= \frac{1}{\s            |
+|                            |                                                      | i                              |
+|                            |                                                      | gma\sqrt{2\pi}} \exp\left(-\fr |
+|                            |                                                      | a                              |
+|                            |                                                      | c{(x-\mu)^2}{2\sigma^2}\right) |
+|                            |                                                      | \end{aligned}$                 |
++----------------------------+------------------------------------------------------+--------------------------------+
+| Lognormal                  | Right-skewed distribution suitable for variables     | $\displa                       |
+|                            | constrained to positive values (emission rates).     | y                              |
+|                            |                                                      | style f(x) = \frac{1}{x\sigma\ |
+|                            |                                                      | s                              |
+|                            |                                                      | qrt{2\pi}} \exp\left(-\frac{(\ |
+|                            |                                                      | l                              |
+|                            |                                                      | n x-\mu)^2}{2\sigma^2}\right)$ |
++----------------------------+------------------------------------------------------+--------------------------------+
+| Exponential                | Models waiting times between independent events such | \$ \displaystyle               |
+|                            | as forest fire occurrences or logging events.        |                                |
+|                            |                                                      | \begin{aligned} f              |
+|                            |                                                      | (                              |
+|                            |                                                      | x) &= \lambda e^{-\lambda x}\\ |
+|                            |                                                      | [5pt] &,\; x\ge0 \end{aligned} |
+|                            |                                                      |                                |
+|                            |                                                      | \$                             |
++----------------------------+------------------------------------------------------+--------------------------------+
+| Continuous Uniform         | Assumes all values in an interval [a, b] are equally | $\displaystyle \begin{aligned} |
+|                            | likely, useful for random spatial sampling in        |                                |
+|                            | forests.                                             | f(x) &= \frac{1}{b-a}\\[5pt] & |
+|                            |                                                      | ,                              |
+|                            |                                                      | \; a\le x \le b \end{aligned}$ |
++----------------------------+------------------------------------------------------+--------------------------------+
+| Chi-Square                 | Often used in goodness-of-fit tests to evaluate      | $\displaystyle f(x)=\frac      |
+|                            | model accuracy in biomass estimation.                | {                              |
+|                            |                                                      | 1}{2^{k/2}\Gamma(k/2)}\,x^{\fr |
+|                            |                                                      | a                              |
+|                            |                                                      | c{k}{2}-1}e^{-x/2},\quad x>0.$ |
++----------------------------+------------------------------------------------------+--------------------------------+
+| t-Distribution             | Suitable for small sample sizes and unknown          | $\displaystyle \begin{aligned} |
+|                            | variance, incl. forest carbon stocks of limited      | f(x) &= \frac                  |
+|                            | data.                                                | {                              |
+|                            |                                                      | \Gamma\left(\frac{v+1}{2}\righ |
+|                            |                                                      | t                              |
+|                            |                                                      | )}{\sqrt{v\pi}\,\Gamma\left(\f |
+|                            |                                                      | r                              |
+|                            |                                                      | ac{v}{2}\right)}\left(1+\frac{ |
+|                            |                                                      | x                              |
+|                            |                                                      | ^2}{v}\right)^{-\frac{v+1}{2}} |
+|                            |                                                      | \end{aligned}$                 |
++----------------------------+------------------------------------------------------+--------------------------------+
+| Gamma                      | Models positively skewed data, such as biomass       | $\displ                        |
+|                            | growth rates or carbon accumulation over time.       | a                              |
+|                            |                                                      | ystyle f(x) = \frac{x^{k-1}e^{ |
+|                            |                                                      | -                              |
+|                            |                                                      | x/\theta}}{\theta^k\Gamma(k)}$ |
++----------------------------+------------------------------------------------------+--------------------------------+
+| Weibull                    | Flexible distribution used in reliability analysis,  | \$ \displaystyle f(x) =        |
+|                            | e.g., modeling tree mortality.                       | \frac{k}{\                     |
+|                            |                                                      | lambda}l                       |
+|                            |                                                      | ambda}\left(\frac{x}{\lambda}\ |
+|                            |                                                      | rig                            |
+|                            |                                                      | ht)^{k-1}e^{-(x/\lambda)\^k}\$ |
++----------------------------+------------------------------------------------------+--------------------------------+
+
+
++----------------------------+-----------------------------------------------------+---------------------------------+
+| Distribution               | Statistical Criteria & Use Cases                    | PMF                             |
++============================+=====================================================+=================================+
+| Bernoulli                  | Binary outcome probability, e.g., presence/absence  | $\begi                          |
+|                            | of deforestation in a given area.                   | n                               |
+|                            |                                                     | {aligned}P(X=x)&=p^{x}(1-p)^{1- |
+|                            |                                                     | x                               |
+|                            |                                                     | },\\ x&\in\{0,1\}\end{aligned}$ |
++----------------------------+-----------------------------------------------------+---------------------------------+
+| Binomial                   | Probability of fixed number of successes over       | $\begin{aligned}P(X=            |
+|                            | trials, e.g., count of deforestation events         | k                               |
+|                            | detected from satellite images.                     | )&=\binom{n}{k}p^{k}(1-p)^{n-k} |
+|                            |                                                     | ,                               |
+|                            |                                                     | \\ k&=0,1,\dots,n\end{aligned}$ |
++----------------------------+-----------------------------------------------------+---------------------------------+
+| Poisson                    | Counts of independent events within intervals,      | $\begin{aligned}P(X=k)&=\f      |
+|                            | e.g., number of wildfire incidents per year.        | r                               |
+|                            |                                                     | ac{\lambda^{k}e^{-\lambda}}{k!} |
+|                            |                                                     | ,                               |
+|                            |                                                     | \\ k&=0,1,2,\dots\end{aligned}$ |
++----------------------------+-----------------------------------------------------+---------------------------------+
+| Geometric                  | Models number of trials until first success, e.g.,  | $\                              |
+|                            | number of inspections until identifying             | b                               |
+|                            | deforestation.                                      | egin{aligned}P(X=k)&=(1-p)^{k-1 |
+|                            |                                                     | }                               |
+|                            |                                                     | p,\\ k&=1,2,\dots\end{aligned}$ |
++----------------------------+-----------------------------------------------------+---------------------------------+
+| Negative Binomial          | Counts trials until r successes, useful for         | $\begin{aligned}P(X=k)          |
+|                            | overdispersed data such as repeated deforestation   | &                               |
+|                            | detections.                                         | =\binom{k+r-1}{k}(1-p)^{r}p^{k} |
+|                            |                                                     | ,                               |
+|                            |                                                     | \\ k&=0,1,2,\dots\end{aligned}$ |
++----------------------------+-----------------------------------------------------+---------------------------------+
+| Discrete Uniform           | Models equally likely discrete outcomes, e.g.,      | $\b                             |
+|                            | random sampling of inventory plots across forest.   | e                               |
+|                            |                                                     | gin{aligned}P(X=x)&=\frac{1}{n} |
+|                            |                                                     | ,                               |
+|                            |                                                     | \\ x&=1,2,\dots,n\end{aligned}$ |
++----------------------------+-----------------------------------------------------+---------------------------------+
+
+
+
+
+\begin{table}[ht]
+\footnotesize % **Reduce font size for the table**
+\begin{tabularx}{\textwidth}{l X X} % **l for left-aligned first column, and X for the central and third columns (ensuring wrap)**
+\hline
+\textbf{Distribution} & \textbf{Statistical Criteria \& Use Cases} & \textbf{PDF} \\
+\hline
+Normal (Gaussian) & Symmetric, bell-shaped distribution used for modeling continuous variables such as biomass/ha (e.g., human heights). & $\displaystyle f(x)=\frac{1}{\sigma\sqrt{2\pi}}\exp\Bigl(-\frac{(x-\mu)^2}{2\sigma^2}\Bigr)$ \\
+\hline
+Lognormal & Right-skewed distribution suitable for variables constrained to positive values (e.g., emission rates). & $\displaystyle f(x)=\frac{1}{x\sigma\sqrt{2\pi}}\exp\Bigl(-\frac{(\ln x-\mu)^2}{2\sigma^2}\Bigr)$ \\
+\hline
+Exponential & Models waiting times between independent events, such as forest fire occurrences or logging events. & $\displaystyle \begin{aligned} f(x)&=\lambda e^{-\lambda x},\\[3pt] &\quad x\ge0 \end{aligned}$ \\
+\hline
+Continuous Uniform & Assumes all values in an interval $[a,b]$ are equally likely; useful for random spatial sampling in forests. & $\displaystyle \begin{aligned} f(x)&=\frac{1}{b-a},\\[3pt] &\quad a\le x\le b \end{aligned}$ \\
+\hline
+Chi-Square & Often used in goodness-of-fit tests to evaluate model accuracy in biomass estimation. & $\displaystyle f(x)=\frac{1}{2^{k/2}\Gamma(k/2)}\,x^{\frac{k}{2}-1}e^{-x/2},\quad x>0$ \\
+\hline
+t-Distribution & Suitable for small samples with unknown population standard deviation (e.g., limited forest carbon data). & $\displaystyle \begin{aligned} f(x)&=\frac{\Gamma\left(\frac{v+1}{2}\right)}{\sqrt{v\pi}\,\Gamma\left(\frac{v}{2}\right)}\left(1+\frac{x^2}{v}\right)^{-\frac{v+1}{2}} \end{aligned}$ \\
+\hline
+Gamma & Models positively skewed data, such as biomass growth rates or carbon accumulation over time. & $\displaystyle f(x)=\frac{x^{k-1}e^{-x/\theta}}{\theta^k\Gamma(k)}$ \\
+\hline
+Weibull & Flexible distribution used in reliability analysis, e.g., modeling tree mortality. & $\displaystyle \begin{aligned} f(x)&=\frac{k}{\lambda}\Bigl(\frac{x}{\lambda}\Bigr)^{k-1}e^{-(x/\lambda)^k} \end{aligned}$ \\
+\hline
+\end{tabularx}
+\caption{Continuous data distributions and example use cases for Monte Carlo simulations.}
+\label{tab:continuous}
+\end{table}
+
+
+\begin{table}[ht]
+\footnotesize
+\begin{tabularx}{\textwidth}{l X}  % **Using two columns: left-aligned for distribution name and X for the description**
+\hline
+\textbf{Distribution} & \textbf{Statistical Criteria \& Use Cases} \\
+\hline
+Bernoulli & Models a binary outcome (e.g., presence/absence of deforestation in an area). & 
+$\displaystyle \begin{aligned}
+P(X=x)&=p^x(1-p)^{1-x},\\[3pt]
+x&\in\{0,1\}
+\end{aligned}$ \\
+\hline
+Binomial & Represents the number of successes in $n$ independent Bernoulli trials (e.g., number of heads in 10 coin flips). & 
+$\displaystyle \begin{aligned}
+P(X=k)&=\binom{n}{k}p^k(1-p)^{n-k},\\[3pt]
+k&=0,1,\dots,n
+\end{aligned}$ \\
+\hline
+Poisson & Models counts of independent events within an interval (e.g., number of wildfire incidents per year). & 
+$\displaystyle \begin{aligned}
+P(X=k)&=\frac{\lambda^k e^{-\lambda}}{k!},\\[3pt]
+k&=0,1,2,\dots
+\end{aligned}$ \\
+\hline
+Geometric & Models the number of trials until the first success (e.g., inspections until detecting deforestation). & 
+$\displaystyle \begin{aligned}
+P(X=k)&=(1-p)^{k-1}p,\\[3pt]
+k&=1,2,\dots
+\end{aligned}$ \\
+\hline
+Negative Binomial & Counts the number of failures until $r$ successes occur, useful for overdispersed data (e.g., repeated deforestation detections). & 
+$\displaystyle \begin{aligned}
+P(X=k)&=\binom{k+r-1}{k}(1-p)^r p^k,\\[3pt]
+k&=0,1,2,\dots
+\end{aligned}$ \\
+\hline
+Discrete Uniform & Assumes every outcome in a finite set is equally likely (e.g., random sampling of inventory plots). & 
+$\displaystyle \begin{aligned}
+P(X=x)&=\frac{1}{n},\\[3pt]
+x&=1,2,\dots,n
+\end{aligned}$ \\
+\hline
+\end{tabularx}
+\caption{Discrete data distributions and example use cases for Monte Carlo simulations.}
+\label{tab:discrete}
+\end{table}

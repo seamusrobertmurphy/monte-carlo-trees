@@ -1,3 +1,13 @@
+pdf_document: 
+  highlight: pygments
+toc: true
+toc_depth: 3
+latex_engine: xelatex
+
+bibliography: references.bib
+csl: american-chemical-society.csl
+
+
 Discrete Distributions:
   
   Discrete distributions describe data that can only take on distinct, separate values—often counts, binary (TRUE/FALSE), logical variables, or classification categories.
