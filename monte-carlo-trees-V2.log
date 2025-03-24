@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.12.17)  17 MAR 2025 08:38
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.12.17)  23 MAR 2025 15:49
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -633,8 +633,7 @@ File: bkm-dvipdfm.def 2023-12-10 v1.31 bookmark driver for dvipdfm (HO)
 \BKM@id=\count345
 )) (/usr/local/texlive/2024/texmf-dist/tex/latex/xurl/xurl.sty
 Package: xurl 2022/01/09 v 0.10 modify URL breaks
-)
-No file monte-carlo-trees-V2.aux.
+) (./monte-carlo-trees-V2.aux)
 \openout1 = `monte-carlo-trees-V2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 138.
@@ -975,9 +974,6 @@ File: mt-LatinModernRoman.cfg 2021/02/21 v1.1 microtype config. file: Latin Mod
 ern Roman (RS)
 )
 Package hyperref Info: Link coloring OFF on input line 138.
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
-
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
 (Font)              scaled to size 12.0pt on input line 140.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
@@ -1014,30 +1010,35 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 140
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+) (./monte-carlo-trees-V2.toc
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 7.0pt on input line 1.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
+(Font)              scaled to size 5.0pt on input line 1.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 10.00092pt on input line 1.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 7.00064pt on input line 1.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
+(Font)              scaled to size 5.00046pt on input line 1.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 9.99893pt on input line 1.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 6.99925pt on input line 1.
+LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
+(Font)              scaled to size 4.99947pt on input line 1.
 )
-No file monte-carlo-trees-V2.toc.
 \tf@toc=\write4
 \openout4 = `monte-carlo-trees-V2.toc'.
 
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 5.0pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 10.00092pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 7.00064pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 5.00046pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 9.99893pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 6.99925pt on input line 215.
-LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 4.99947pt on input line 215.
+File: data/PNG/distribution_continuous.png Graphic file (type bmp)
+<data/PNG/distribution_continuous.png>
 [1
 
-] [2] [3]
+]
+File: data/PNG/distribution_discrete.png Graphic file (type bmp)
+<data/PNG/distribution_discrete.png>
+[2] [3]
 
 Package fontspec Info: Helvetica scale = 0.8272579836209012.
 
@@ -1090,7 +1091,7 @@ Package fontspec Info: Font family 'Helvetica(0)' created for font 'Helvetica'
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/Helvetica(0)/m/n' will be
-(Font)              scaled to size 8.0pt on input line 410.
+(Font)              scaled to size 8.0pt on input line 336.
 
 Package fontspec Info: Helvetica scale = 0.9999963390480794.
 
@@ -1127,26 +1128,4357 @@ Package fontspec Info: Font family 'Helvetica(1)' created for font 'Helvetica'
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  non@alpherr\relax \GenericError {               }{LaTeX
- Error: \mathrm allowed only in math mode}{See the LaTeX manual or LaTeX Compan
-ion for explanation.}{You're in trouble here.  Try typing  <return>  to proceed
-.
-(Font)              If that doesn't work, type  X <return>  to quit.}\math@bgro
-up \__um_switch_to:n {literal}\__um_mathgroup_set:n {6}\egroup \math@bgroup \__
-um_switch_to:n {literal}\__um_mathgroup_set:n {6}-\egroup -> TU/Helvetica(1)/m/
-n on input line 410.
-! Extra \else.
-\SetMathAlphabet ...g #1\space \endcsname #1\else 
-                                                  \@latex@error {Encoding sc...
-l.410 ...ont{\global\setmainfont{Helvetica}{x1}}}}
-                                                   & \multicolumn{1}{>{\ragg...
- 
+(Font)                  TU/lmr/m/n --> TU/Helvetica(1)/m/n on input line 336.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  TU/lmr/m/it --> TU/Helvetica(1)/m/it on input line 336.
+
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  TU/lmr/bx/n --> TU/Helvetica(1)/b/n on input line 336.
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 336--336
+ []|[]\TU/Helvetica(0)/m/n/8 ag_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 336--336
+ []|[]\TU/Helvetica(0)/m/n/8 bg_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (3.61781pt too wide) in paragraph at lines 336--336
+ []|[]\TU/Helvetica(0)/m/n/8 saplings_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (50.33266pt too wide) in paragraph at lines 336--336
+ []|[]\TU/Helvetica(0)/m/n/8 standing_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (36.53969pt too wide) in paragraph at lines 336--336
+ []|[]\TU/Helvetica(0)/m/n/8 lying_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (80.5514pt too wide) in paragraph at lines 336--336
+ []|[]\TU/Helvetica(0)/m/n/8 sum_carbon_pools_w_o_litter_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 342--342
+ []|[]\TU/Helvetica(0)/m/n/8 ag_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 342--342
+ []|[]\TU/Helvetica(0)/m/n/8 bg_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (3.61781pt too wide) in paragraph at lines 342--342
+ []|[]\TU/Helvetica(0)/m/n/8 saplings_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (50.33266pt too wide) in paragraph at lines 342--342
+ []|[]\TU/Helvetica(0)/m/n/8 standing_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (36.53969pt too wide) in paragraph at lines 342--342
+ []|[]\TU/Helvetica(0)/m/n/8 lying_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (80.5514pt too wide) in paragraph at lines 342--342
+ []|[]\TU/Helvetica(0)/m/n/8 sum_carbon_pools_w_o_litter_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 397--397
+ []|[]\TU/Helvetica(0)/m/n/8 ag_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 397--397
+ []|[]\TU/Helvetica(0)/m/n/8 bg_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (3.61781pt too wide) in paragraph at lines 397--397
+ []|[]\TU/Helvetica(0)/m/n/8 saplings_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (50.33266pt too wide) in paragraph at lines 397--397
+ []|[]\TU/Helvetica(0)/m/n/8 standing_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (36.53969pt too wide) in paragraph at lines 397--397
+ []|[]\TU/Helvetica(0)/m/n/8 lying_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (80.5514pt too wide) in paragraph at lines 397--397
+ []|[]\TU/Helvetica(0)/m/n/8 sum_carbon_pools_w_o_litter_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 403--403
+ []|[]\TU/Helvetica(0)/m/n/8 ag_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (1.39906pt too wide) in paragraph at lines 403--403
+ []|[]\TU/Helvetica(0)/m/n/8 bg_tree_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (3.61781pt too wide) in paragraph at lines 403--403
+ []|[]\TU/Helvetica(0)/m/n/8 saplings_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (50.33266pt too wide) in paragraph at lines 403--403
+ []|[]\TU/Helvetica(0)/m/n/8 standing_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (36.53969pt too wide) in paragraph at lines 403--403
+ []|[]\TU/Helvetica(0)/m/n/8 lying_dead_wood_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (80.5514pt too wide) in paragraph at lines 403--403
+ []|[]\TU/Helvetica(0)/m/n/8 sum_carbon_pools_w_o_litter_t_c_ha[]|
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (0.94203pt too wide) in paragraph at lines 439--439
+[]|[]\TU/Helvetica(0)/m/n/8 CI_%_of_mean[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (5.82094pt too wide) in paragraph at lines 482--482
+[]|[]\TU/Helvetica(0)/m/n/8 emission_factors[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (5.82094pt too wide) in paragraph at lines 488--488
+[]|[]\TU/Helvetica(0)/m/n/8 emission_factors[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 500--500
+[]|[]\TU/Helvetica(0)/m/n/8 292.62994338644899[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 500--500
+[]|[]\TU/Helvetica(0)/m/n/8 1072.9764590836501[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 506--506
+[]|[]\TU/Helvetica(0)/m/n/8 309.26836333163499[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (14.1686pt too wide) in paragraph at lines 506--506
+[]|[]\TU/Helvetica(0)/m/n/8 1133.98399888266[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 512--512
+[]|[]\TU/Helvetica(0)/m/n/8 292.62994338644899[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 512--512
+[]|[]\TU/Helvetica(0)/m/n/8 1072.9764590836501[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 518--518
+[]|[]\TU/Helvetica(0)/m/n/8 292.62994338644899[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 518--518
+[]|[]\TU/Helvetica(0)/m/n/8 1072.9764590836501[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 524--524
+[]|[]\TU/Helvetica(0)/m/n/8 292.62994338644899[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 524--524
+[]|[]\TU/Helvetica(0)/m/n/8 1072.9764590836501[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+[4]
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (5.82094pt too wide) in paragraph at lines 567--567
+[]|[]\TU/Helvetica(0)/m/n/8 emission_factors[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (5.82094pt too wide) in paragraph at lines 573--573
+[]|[]\TU/Helvetica(0)/m/n/8 emission_factors[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 585--585
+[]|[]\TU/Helvetica(0)/m/n/8 286.72598083121096[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (18.61781pt too wide) in paragraph at lines 585--585
+[]|[]\TU/Helvetica(0)/m/n/8 1051.328596381107[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (31.65688pt too wide) in paragraph at lines 585--585
+[]|[]\TU/Helvetica(0)/m/n/8 4.8281339665925099E- 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (22.47719pt too wide) in paragraph at lines 585--585
+[]|[]\TU/Helvetica(0)/m/n/8 35.368573711171344[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 591--591
+[]|[]\TU/Helvetica(0)/m/n/8 302.83537934967217[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (22.47719pt too wide) in paragraph at lines 591--591
+[]|[]\TU/Helvetica(0)/m/n/8 1110.3963909487979[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (31.65688pt too wide) in paragraph at lines 591--591
+[]|[]\TU/Helvetica(0)/m/n/8 4.8281339665925099E- 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (22.47719pt too wide) in paragraph at lines 591--591
+[]|[]\TU/Helvetica(0)/m/n/8 35.368573711171344[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 597--597
+[]|[]\TU/Helvetica(0)/m/n/8 286.72598083121096[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (18.61781pt too wide) in paragraph at lines 597--597
+[]|[]\TU/Helvetica(0)/m/n/8 1051.328596381107[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (31.65688pt too wide) in paragraph at lines 597--597
+[]|[]\TU/Helvetica(0)/m/n/8 4.8281339665925099E- 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (22.47719pt too wide) in paragraph at lines 597--597
+[]|[]\TU/Helvetica(0)/m/n/8 35.368573711171344[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 603--603
+[]|[]\TU/Helvetica(0)/m/n/8 286.72598083121096[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (18.61781pt too wide) in paragraph at lines 603--603
+[]|[]\TU/Helvetica(0)/m/n/8 1051.328596381107[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (31.65688pt too wide) in paragraph at lines 603--603
+[]|[]\TU/Helvetica(0)/m/n/8 4.8281339665925099E- 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (22.47719pt too wide) in paragraph at lines 603--603
+[]|[]\TU/Helvetica(0)/m/n/8 35.368573711171344[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 609--609
+[]|[]\TU/Helvetica(0)/m/n/8 286.72598083121096[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (18.61781pt too wide) in paragraph at lines 609--609
+[]|[]\TU/Helvetica(0)/m/n/8 1051.328596381107[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (31.65688pt too wide) in paragraph at lines 609--609
+[]|[]\TU/Helvetica(0)/m/n/8 4.8281339665925099E- 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (22.47719pt too wide) in paragraph at lines 609--609
+[]|[]\TU/Helvetica(0)/m/n/8 35.368573711171344[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (123.25063pt too wide) in paragraph at lines 652--652
+[]|[]\TU/Helvetica(0)/m/n/8 change_data_from_wall_to_wall_mapping_by_gfc[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (123.25063pt too wide) in paragraph at lines 658--658
+[]|[]\TU/Helvetica(0)/m/n/8 change_data_from_wall_to_wall_mapping_by_gfc[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (14.75844pt too wide) in paragraph at lines 755--755
+[]|[]\TU/Helvetica(0)/m/n/8 229.322762617862[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 761--761
+[]|[]\TU/Helvetica(0)/m/n/8 881.60601412734502[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 767--767
+[]|[]\TU/Helvetica(0)/m/n/8 12583.070934203801[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 779--779
+[]|[]\TU/Helvetica(0)/m/n/8 142.54724233274399[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+[5]
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 834--834
+[]|[]\TU/Helvetica(0)/m/n/8 329065.85066728649[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 840--840
+[]|[]\TU/Helvetica(0)/m/n/8 420840.23216959444[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.06703pt too wide) in paragraph at lines 846--846
+[]|[]\TU/Helvetica(0)/m/n/8 7130110.5406566672[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 852--852
+[]|[]\TU/Helvetica(0)/m/n/8 228138.30541470021[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 858--858
+[]|[]\TU/Helvetica(0)/m/n/8 8410.6287710488559[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.06703pt too wide) in paragraph at lines 864--864
+[]|[]\TU/Helvetica(0)/m/n/8 1588942.1122516447[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (36.07094pt too wide) in paragraph at lines 992--992
+[]|[]\TU/Helvetica(0)/m/n/8 logging_emission_factors[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (36.07094pt too wide) in paragraph at lines 998--998
+[]|[]\TU/Helvetica(0)/m/n/8 logging_emission_factors[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 1010--1010
+[]|[]\TU/Helvetica(0)/m/n/8 2.4933333333333336[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (28.1061pt too wide) in paragraph at lines 1010--1010
+[]|[]\TU/Helvetica(0)/m/n/8 0.29333333333333333[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (31.65688pt too wide) in paragraph at lines 1016--1016
+[]|[]\TU/Helvetica(0)/m/n/8 3.0000000000000001E- 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 1016--1016
+[]|[]\TU/Helvetica(0)/m/n/8 1.4666666666666668[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (28.1061pt too wide) in paragraph at lines 1016--1016
+[]|[]\TU/Helvetica(0)/m/n/8 0.10999999999999999[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (31.65688pt too wide) in paragraph at lines 1016--1016
+[]|[]\TU/Helvetica(0)/m/n/8 1.0999999999999999E- 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 1022--1022
+[]|[]\TU/Helvetica(0)/m/n/8 46.865095626648298[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 1022--1022
+[]|[]\TU/Helvetica(0)/m/n/8 171.83868396437708[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 1022--1022
+[]|[]\TU/Helvetica(0)/m/n/8 29.626666666666665[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (23.65688pt too wide) in paragraph at lines 1022--1022
+[]|[]\TU/Helvetica(0)/m/n/8 5.8666666666666671[]|  
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+[6]
+Overfull \hbox (6.93588pt too wide) in paragraph at lines 1119--1120
+ []\TU/lmr/m/n/10 vars
+ []
+
+
+Overfull \hbox (2.56174pt too wide) in paragraph at lines 1123--1124
+ []\TU/lmr/m/n/10 mean
+ []
+
+
+Overfull \hbox (15.04294pt too wide) in paragraph at lines 1127--1128
+ []\TU/lmr/m/n/10 median
+ []
+
+
+Overfull \hbox (16.48174pt too wide) in paragraph at lines 1129--1130
+ []\TU/lmr/m/n/10 trimmed
+ []
+
+
+Overfull \hbox (2.11115pt too wide) in paragraph at lines 1133--1134
+ []\TU/lmr/m/n/10 min
+ []
+
+
+Overfull \hbox (3.79115pt too wide) in paragraph at lines 1135--1136
+ []\TU/lmr/m/n/10 max
+ []
+
+
+Overfull \hbox (11.46288pt too wide) in paragraph at lines 1137--1138
+ []\TU/lmr/m/n/10 range
+ []
+
+
+Overfull \hbox (11.46873pt too wide) in paragraph at lines 1141--1142
+ []\TU/lmr/m/n/10 kurtosis
+ []
+
+
+Overfull \hbox (7.01173pt too wide) in paragraph at lines 1149--1149
+ []|\TU/lmr/m/n/10 4.5000|
+ []
+
+
+Overfull \hbox (14.93874pt too wide) in paragraph at lines 1149--1149
+ []|\TU/lmr/m/n/10 2.449490|
+ []
+
+
+Overfull \hbox (1.15294pt too wide) in paragraph at lines 1149--1149
+ []|\TU/lmr/m/n/10 4.50|
+ []
+
+
+Overfull \hbox (7.01173pt too wide) in paragraph at lines 1149--1149
+ []|\TU/lmr/m/n/10 4.5000|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1149--1149
+ []|\TU/lmr/m/n/10 2.96520|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1150--1150
+ []|\TU/lmr/m/n/10 0.0000000|
+ []
+
+
+Overfull \hbox (19.43874pt too wide) in paragraph at lines 1150--1150
+ \TU/lmr/m/n/10 1.6510417|
+ []
+
+
+Overfull \hbox (19.93874pt too wide) in paragraph at lines 1150--1151
+ []|\TU/lmr/m/n/10 0.8660254|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1151--1151
+ []|\TU/lmr/m/n/10 163.8375|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1151--1151
+ []|\TU/lmr/m/n/10 169.683267|
+ []
+
+
+Overfull \hbox (11.15294pt too wide) in paragraph at lines 1151--1151
+ []|\TU/lmr/m/n/10 104.80|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1151--1151
+ []|\TU/lmr/m/n/10 163.8375|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1152--1152
+ []|\TU/lmr/m/n/10 145.73958|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1152--1152
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (10.32288pt too wide) in paragraph at lines 1152--1152
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1152--1152
+ []|\TU/lmr/m/n/10 0.6781874|
+ []
+
+
+Overfull \hbox (19.43874pt too wide) in paragraph at lines 1152--1152
+ \TU/lmr/m/n/10 1.2269063|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1152--1153
+ []|\TU/lmr/m/n/10 59.9920945|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1153--1153
+ []|\TU/lmr/m/n/10 94.8875|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1153--1153
+ []|\TU/lmr/m/n/10 157.922300|
+ []
+
+
+Overfull \hbox (6.15294pt too wide) in paragraph at lines 1153--1153
+ []|\TU/lmr/m/n/10 34.75|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1153--1153
+ []|\TU/lmr/m/n/10 94.8875|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1154--1154
+ []|\TU/lmr/m/n/10 49.88949|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1154--1154
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (10.32288pt too wide) in paragraph at lines 1154--1154
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1154--1154
+ []|\TU/lmr/m/n/10 1.6175633|
+ []
+
+
+Overfull \hbox (19.93874pt too wide) in paragraph at lines 1154--1154
+ []|\TU/lmr/m/n/10 1.1111536|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1154--1155
+ []|\TU/lmr/m/n/10 55.8339644|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1155--1155
+ []|\TU/lmr/m/n/10 76.9250|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1155--1155
+ []|\TU/lmr/m/n/10 164.638060|
+ []
+
+
+Overfull \hbox (1.15294pt too wide) in paragraph at lines 1155--1155
+ []|\TU/lmr/m/n/10 2.85|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1155--1155
+ []|\TU/lmr/m/n/10 76.9250|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1156--1156
+ []|\TU/lmr/m/n/10 3.92889|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1156--1156
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (10.32288pt too wide) in paragraph at lines 1156--1156
+ []|\TU/lmr/m/n/10 471.9|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1156--1156
+ []|\TU/lmr/m/n/10 1.6631166|
+ []
+
+
+Overfull \hbox (19.93874pt too wide) in paragraph at lines 1156--1156
+ []|\TU/lmr/m/n/10 1.1751098|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1156--1157
+ []|\TU/lmr/m/n/10 58.2083442|
+ []
+
+
+Overfull \hbox (50.04265pt too wide) in paragraph at lines 1157--1157
+[]|\TU/lmr/m/n/10 standing_dead_wood_t_c_ha|  
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1157--1157
+ []|\TU/lmr/m/n/10 76.3875|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1157--1157
+ []|\TU/lmr/m/n/10 164.854242|
+ []
+
+
+Overfull \hbox (1.15294pt too wide) in paragraph at lines 1157--1157
+ []|\TU/lmr/m/n/10 3.30|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1158--1158
+ []|\TU/lmr/m/n/10 76.3875|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1158--1158
+ []|\TU/lmr/m/n/10 4.74432|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1158--1158
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (10.32288pt too wide) in paragraph at lines 1158--1158
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1158--1158
+ []|\TU/lmr/m/n/10 1.6639326|
+ []
+
+
+Overfull \hbox (19.93874pt too wide) in paragraph at lines 1158--1158
+ []|\TU/lmr/m/n/10 1.1754532|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1159--1160
+ []|\TU/lmr/m/n/10 58.2847764|
+ []
+
+
+Overfull \hbox (34.15265pt too wide) in paragraph at lines 1160--1160
+[]|\TU/lmr/m/n/10 lying_dead_wood_t_c_ha|  
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1160--1160
+ []|\TU/lmr/m/n/10 81.2875|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1160--1160
+ []|\TU/lmr/m/n/10 162.909725|
+ []
+
+
+Overfull \hbox (1.15294pt too wide) in paragraph at lines 1160--1160
+ []|\TU/lmr/m/n/10 8.35|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1161--1161
+ []|\TU/lmr/m/n/10 81.2875|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1161--1161
+ []|\TU/lmr/m/n/10 12.30558|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1161--1161
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (10.32288pt too wide) in paragraph at lines 1161--1161
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1161--1161
+ []|\TU/lmr/m/n/10 1.6558398|
+ []
+
+
+Overfull \hbox (19.93874pt too wide) in paragraph at lines 1161--1161
+ []|\TU/lmr/m/n/10 1.1692588|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1162--1163
+ []|\TU/lmr/m/n/10 57.5972855|
+ []
+
+
+Overfull \hbox (95.98265pt too wide) in paragraph at lines 1163--1163
+[]|\TU/lmr/m/n/10 sum_carbon_pools_w_o_litter_t_c_ha|  
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1163--1163
+ []|\TU/lmr/m/n/10 157.6167|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1164--1164
+ []|\TU/lmr/m/n/10 182.097890|
+ []
+
+
+Overfull \hbox (6.15294pt too wide) in paragraph at lines 1164--1164
+ []|\TU/lmr/m/n/10 96.60|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1164--1164
+ []|\TU/lmr/m/n/10 157.6167|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1164--1164
+ []|\TU/lmr/m/n/10 134.69421|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1164--1164
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (10.32288pt too wide) in paragraph at lines 1164--1164
+ []|\TU/lmr/m/n/10 472.0|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1165--1165
+ []|\TU/lmr/m/n/10 0.6844433|
+ []
+
+
+Overfull \hbox (19.43874pt too wide) in paragraph at lines 1165--1165
+ \TU/lmr/m/n/10 1.3259625|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1165--1166
+ []|\TU/lmr/m/n/10 74.3411524|
+ []
+
+
+Overfull \hbox (7.01173pt too wide) in paragraph at lines 1166--1166
+ []|\TU/lmr/m/n/10 2.9400|
+ []
+
+
+Overfull \hbox (14.93874pt too wide) in paragraph at lines 1166--1166
+ []|\TU/lmr/m/n/10 3.410718|
+ []
+
+
+Overfull \hbox (1.15294pt too wide) in paragraph at lines 1166--1166
+ []|\TU/lmr/m/n/10 1.30|
+ []
+
+
+Overfull \hbox (7.01173pt too wide) in paragraph at lines 1166--1166
+ []|\TU/lmr/m/n/10 2.9400|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1166--1166
+ []|\TU/lmr/m/n/10 1.63086|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1167--1167
+ []|\TU/lmr/m/n/10 0.8110507|
+ []
+
+
+Overfull \hbox (19.43874pt too wide) in paragraph at lines 1167--1167
+ \TU/lmr/m/n/10 1.2656277|
+ []
+
+
+Overfull \hbox (19.93874pt too wide) in paragraph at lines 1167--1168
+ []|\TU/lmr/m/n/10 1.5253196|
+ []
+
+
+Overfull \hbox (54.22264pt too wide) in paragraph at lines 1168--1168
+[]|\TU/lmr/m/n/10 sum_c_pool_w_litter_t_c_ha|  
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1168--1168
+ []|\TU/lmr/m/n/10 272.3000|
+ []
+
+
+Overfull \hbox (11.15294pt too wide) in paragraph at lines 1168--1168
+ []|\TU/lmr/m/n/10 272.30|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1169--1169
+ []|\TU/lmr/m/n/10 272.3000|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1169--1169
+ []|\TU/lmr/m/n/10 0.00000|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1169--1169
+ []|\TU/lmr/m/n/10 272.3|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1169--1169
+ []|\TU/lmr/m/n/10 272.3|
+ []
+
+
+Overfull \hbox (12.78265pt too wide) in paragraph at lines 1170--1170
+[]|\TU/lmr/m/n/10 sum_co2e_t_co2e_ha|  
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1170--1170
+ []|\TU/lmr/m/n/10 998.5000|
+ []
+
+
+Overfull \hbox (11.15294pt too wide) in paragraph at lines 1170--1170
+ []|\TU/lmr/m/n/10 998.50|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1170--1170
+ []|\TU/lmr/m/n/10 998.5000|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1171--1171
+ []|\TU/lmr/m/n/10 0.00000|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1171--1171
+ []|\TU/lmr/m/n/10 998.5|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1171--1171
+ []|\TU/lmr/m/n/10 998.5|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1172--1172
+ []|\TU/lmr/m/n/10 104.4143|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1172--1172
+ []|\TU/lmr/m/n/10 178.470048|
+ []
+
+
+Overfull \hbox (6.15294pt too wide) in paragraph at lines 1172--1172
+ []|\TU/lmr/m/n/10 58.70|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1172--1172
+ []|\TU/lmr/m/n/10 104.4143|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1173--1173
+ []|\TU/lmr/m/n/10 70.72002|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1173--1173
+ []|\TU/lmr/m/n/10 502.4|
+ []
+
+
+Overfull \hbox (10.32288pt too wide) in paragraph at lines 1173--1173
+ []|\TU/lmr/m/n/10 502.2|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1173--1173
+ []|\TU/lmr/m/n/10 1.5096618|
+ []
+
+
+Overfull \hbox (19.93874pt too wide) in paragraph at lines 1173--1173
+ []|\TU/lmr/m/n/10 0.5723095|
+ []
+
+
+Overfull \hbox (24.93874pt too wide) in paragraph at lines 1173--1174
+ []|\TU/lmr/m/n/10 67.4553377|
+ []
+
+
+Overfull \hbox (34.80264pt too wide) in paragraph at lines 1174--1174
+[]|\TU/lmr/m/n/10 sum_all_pools_t_co2e_ha|  
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1174--1174
+ []|\TU/lmr/m/n/10 1213.7000|
+ []
+
+
+Overfull \hbox (16.15294pt too wide) in paragraph at lines 1174--1174
+ []|\TU/lmr/m/n/10 1213.70|
+ []
+
+
+Overfull \hbox (22.01173pt too wide) in paragraph at lines 1175--1175
+ []|\TU/lmr/m/n/10 1213.7000|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1175--1175
+ []|\TU/lmr/m/n/10 0.00000|
+ []
+
+
+Overfull \hbox (13.22115pt too wide) in paragraph at lines 1175--1175
+ []|\TU/lmr/m/n/10 1213.7|
+ []
+
+
+Overfull \hbox (13.22115pt too wide) in paragraph at lines 1175--1175
+ []|\TU/lmr/m/n/10 1213.7|
+ []
+
+
+Overfull \hbox (127.08264pt too wide) in paragraph at lines 1176--1176
+[]|\TU/lmr/m/n/10 sum_aboveground_and_belowground_live_tree|  
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1176--1176
+ []|\TU/lmr/m/n/10 931.9000|
+ []
+
+
+Overfull \hbox (11.15294pt too wide) in paragraph at lines 1177--1177
+ []|\TU/lmr/m/n/10 931.90|
+ []
+
+
+Overfull \hbox (17.01173pt too wide) in paragraph at lines 1177--1177
+ []|\TU/lmr/m/n/10 931.9000|
+ []
+
+
+Overfull \hbox (12.01173pt too wide) in paragraph at lines 1177--1177
+ []|\TU/lmr/m/n/10 0.00000|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1177--1177
+ []|\TU/lmr/m/n/10 931.9|
+ []
+
+
+Overfull \hbox (8.22115pt too wide) in paragraph at lines 1177--1177
+ []|\TU/lmr/m/n/10 931.9|
+ []
+
+[7] [8]
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 1234.
+File: monte-carlo-trees-V2_files/figure-latex/unnamed-chunk-6-1.pdf Graphic fil
+e (type pdf)
+<use monte-carlo-trees-V2_files/figure-latex/unnamed-chunk-6-1.pdf>
+[9] [10] [11]
+Overfull \hbox (1.49498pt too wide) in paragraph at lines 1429--1431
+[]\TU/lmtt/m/n/10 RandTruncBiVarNormal(mean1,stdev1,mean2,stdev2,correl12, [min
+1],[max1],[min2],[max2]) 
+ []
+
+LaTeX Font Info:    Font shape `TU/Helvetica(1)/m/n' will be
+(Font)              scaled to size 8.0pt on input line 1472.
+LaTeX Font Info:    Font shape `TU/Helvetica(1)/m/n' will be
+(Font)              scaled to size 6.0pt on input line 1472.
+LaTeX Font Info:    Font shape `TU/Helvetica(1)/m/n' will be
+(Font)              scaled to size 5.0pt on input line 1472.
+[12]
+LaTeX Font Info:    Font shape `TU/Helvetica(1)/m/n' will be
+(Font)              scaled to size 10.0pt on input line 1513.
+LaTeX Font Info:    Font shape `TU/Helvetica(1)/m/n' will be
+(Font)              scaled to size 7.0pt on input line 1513.
+
+LaTeX Warning: Hyper reference `0' on page 13 undefined on input line 1534.
+
+
+LaTeX Warning: Hyper reference `0' on page 13 undefined on input line 1539.
+
+[13] [14] [15] [16] [17] [18] (./monte-carlo-trees-V2.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-02-20>
+ ***********
+
+LaTeX Warning: There were undefined references.
+
+ ) 
 Here is how much of TeX's memory you used:
- 21037 strings out of 474773
- 381933 string characters out of 5757723
- 1949839 words of memory out of 5000000
- 42846 multiletter control sequences out of 15000+600000
- 564714 words of font info for 101 fonts, out of 8000000 for 9000
+ 21133 strings out of 474773
+ 384546 string characters out of 5757723
+ 1972839 words of memory out of 5000000
+ 42921 multiletter control sequences out of 15000+600000
+ 564770 words of font info for 108 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 90i,20n,129p,1480b,532s stack positions out of 10000i,1000n,20000p,200000b,200000s
-Output written on monte-carlo-trees-V2.pdf (3 pages).
+ 90i,12n,129p,1480b,531s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+Output written on monte-carlo-trees-V2.pdf (18 pages).

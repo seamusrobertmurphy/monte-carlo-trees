@@ -2,13 +2,14 @@
 title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
 date: 2024-12-19
 output: 
-  word_document:
+  pdf_document:
     toc: TRUE
+    toc_depth: 3
     df_print: kable
-    pandoc_args: "--highlight=tango"
+    highlight: pygments
+    latex_engine: xelatex
 
 always_allow_html: TRUE
-df-print: kable      
 editor_options: 
   markdown: 
     wrap: 130
@@ -26,7 +27,9 @@ easypackages::packages(
   "dataMaid", "DescTools","dplyr",
   "extrafont", "FawR", "flextable", "ForestToolsRS", 
   "formatR", "ggplot2", "htmltools",
-  "janitor", "jsonlite", "lattice", "kableExtra", "kernlab", "latex2exp", "latexpdf",
+  "janitor", "jsonlite", 
+  "kableExtra", "kernlab", 
+  "latex2exp", "latexpdf", "lattice",
   "MASS","rmarkdown", "readxl", "reshape2","stats",
   "tibble", "tidymodels", "tidyverse",
   "tinytex", "truncnorm", "tune", "useful", "webshot", "webshot2", 
@@ -96,32 +99,16 @@ available options in SimVoi.
 To effectively guide practitioners and stakeholders in selecting appropriate statistical distributions for Monte Carlo methods
 within forestry and REDD+ contexts, the following two tables present findings from a rapid review of relevant literature. The
 review identified and summarized statistical distributions frequently encountered in forestry, biomass estimation, and emissions
-analysis, which are disaggregated below between discrete and continuous types and according to their inherent statistical
+analysis, which are dis-aggregated below between discrete and continuous types and according to their inherent statistical
 characteristics.
 
-###### *Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.*
+###### *Table 1: Continuous data distributions, example cases & equations used in Monte Carlo simulations.*
 
-| Distribution | Statistical Criteria & Use Cases | PDF |
-|---------------------------------|------------------------------------------------|-------------------------------------------------|
-| Normal (Gaussian) | Symmetric, bell-shaped distribution used for modeling continuous variables: biomass/ha | $\displaystyle \begin{aligned} f(x)&=\frac{1}{\sigma\sqrt{2\pi}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right) \end{aligned}$ |
-| Lognormal | Right-skewed distribution suitable for variables constrained to positive values (e.g., emission rates). | $\displaystyle f(x)=\frac{1}{x\sigma\sqrt{2\pi}}\exp\left(-\frac{(\ln x-\mu)^2}{2\sigma^2}\right)$ |
-| Exponential | Models waiting times between independent events, such as forest fire occurrences or logging events. | $\displaystyle \begin{aligned} f(x)&=\lambda e^{-\lambda x},\\[3pt] &\quad x\ge0 \end{aligned}$ |
-| Continuous Uniform | Assumes all values in an interval [a, b] are equally likely; useful for random spatial sampling in forests. | $\displaystyle \begin{aligned} f(x)&=\frac{1}{b-a},\\[3pt] &\quad a\le x\le b \end{aligned}$ |
-| Chi-Square | Often used in goodness-of-fit tests to evaluate model accuracy in biomass estimation. | $\displaystyle f(x)=\frac{1}{2^{k/2}\Gamma(k/2)}\,x^{\frac{k}{2}-1}e^{-x/2},\quad x>0$ |
-| t-Distribution | Suitable for small sample sizes with unknown population stdev (e.g., limited forest carbon data). | $\displaystyle \begin{aligned} f(x)&=\frac{\Gamma\left(\frac{v+1}{2}\right)}{\sqrt{v\pi}\,\Gamma\left(\frac{v}{2}\right)}\left(1+\frac{x^2}{v}\right)^{-\frac{v+1}{2}} \end{aligned}$ |
-| Gamma | Models positively skewed data, such as biomass growth rates or carbon accumulation over time. | $\displaystyle f(x)=\frac{x^{k-1}e^{-x/\theta}}{\theta^k\Gamma(k)}$ |
-| Weibull | Flexible distribution used in reliability analysis, e.g., modeling tree mortality. | $\displaystyle \begin{aligned} f(x)&=\frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}e^{-(x/\lambda)^k} \end{aligned}$ |
+![](data/PNG/distribution_continuous.png)
 
-###### *Table 2: Discrete data distributions, and example use cases designed with Monte Carlo simulations.*
+###### *Table 2: Discrete data distributions, example cases & equations used in Monte Carlo simulations.*
 
-| Distribution | Statistical Criteria & Use Cases | PMF |
-|---------------------------------|------------------------------------------------|-------------------------------------------------|
-| Bernoulli | Binary outcome probability, e.g., presence/absence of deforestation in an area. | $\displaystyle \begin{aligned} P(X=x)&=p^{x}(1-p)^{1-x},\\[3pt] x&\in\{0,1\} \end{aligned}$ |
-| Binomial | Probability of fixed #no. of successes over $n$ Bernoulli trials, e.g., no. of heads in 10 coin flips. | $\displaystyle \begin{aligned} P(X=k)&=\binom{n}{k}p^{k}(1-p)^{n-k},\\[3pt] k&=0,1,\dots,n \end{aligned}$ |
-| Poisson | Models counts of independent events within an interval, e.g., number of wildfire incidents per year. | $\displaystyle \begin{aligned} P(X=k)&=\frac{\lambda^{k}e^{-\lambda}}{k!},\\[3pt] k&=0,1,2,\dots \end{aligned}$ |
-| Geometric | Models #no. of trials until the first success, e.g., number of inspections until detecting deforestation. | $\displaystyle \begin{aligned} P(X=k)&=(1-p)^{k-1}p,\\[3pt] k&=1,2,\dots \end{aligned}$ |
-| Negative Binomial | Counts #no. failures until $r$ successes occur, treats overdispersed or repeated deforestation detections. | $\displaystyle \begin{aligned} P(X=k)&=\binom{k+r-1}{k}(1-p)^{r}p^{k},\\[3pt] k&=0,1,2,\dots \end{aligned}$ |
-| Discrete Uniform | Assumes outcome in a finite set is equally likely, e.g., random sampling of inventory across a forest. | $\displaystyle \begin{aligned} P(X=x)&=\frac{1}{n},\\[3pt] x&=1,2,\dots,n \end{aligned}$ |
+![](data/PNG/distribution_discrete.png)
 
 Discrete distributions describe forestry monitoring scenarios where data outcomes are countable and finite. Common examples
 include the number of deforestation events, occurrences of wildfires, or counts of logged trees within a defined monitoring
@@ -158,9 +145,9 @@ the financial and environmental outcomes of national REDD+ monitoring programs.
 
 ***Import***
 
-```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%"}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=T, comment=NA,error=F,warning=F}
 # Point this to the correct path where your file is located:
-workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values.xlsx"
+workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values_V2.xlsx"
 CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") |> 
   janitor::clean_names() |> mutate(across(where(is.numeric), ~ round(.x, 1)))
 CarbonStocks_MC = readxl::read_excel(workbook, "CarbonStocks (MC)") |> 
@@ -181,41 +168,24 @@ ActivityData = readxl::read_excel(workbook, "Activity Data") |> janitor::clean_n
 ActivityData_MC = readxl::read_excel(workbook, "Activity Data (MC)") |> janitor::clean_names() |> 
   mutate(across(where(is.numeric), ~ round(.x, 1)))
 
-Emissions = readxl::read_excel(workbook, "Emissions") |> janitor::clean_names() |> 
-  mutate(across(where(is.numeric), ~ round(.x, 1)))
-Emissions_MC = readxl::read_excel(workbook, "Emissions (MC)") |> janitor::clean_names() |> 
-  mutate(across(where(is.numeric), ~ round(.x, 1)))
-
-Crediting = readxl::read_excel(workbook, "ART Crediting Period") |> janitor::clean_names() |> 
-  mutate(across(where(is.numeric), ~ round(.x, 1)))
-Crediting_MC = readxl::read_excel(workbook, "ART Crediting Period") |> janitor::clean_names() |> 
-  mutate(across(where(is.numeric), ~ round(.x, 1)))
-
-EmissionsReductions = readxl::read_excel(workbook, "Emission Reductions") |> janitor::clean_names() |> 
-  mutate(across(where(is.numeric), ~ round(.x, 1)))
-EmissionsReductions_MC = readxl::read_excel(workbook,"Emission Reductions (MC)")|>janitor::clean_names()|>
-  mutate(across(where(is.numeric), ~ round(.x, 1)))
-
-# Vislualize
-flextable(head(CarbonStocks_MC[, 1:8])) |> fontsize(size = 8, part = "all")
-flextable(head(CarbonStocks[, 1:8])) |> fontsize(size = 8, part = "all")
-flextable(head(DeforestationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+# Tabulate
+#flextable(head(CarbonStocks_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(DeforestationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+#flextable(head(DegradationEF_MC[, 1:3])) |> fontsize(size = 8, part = "all")
+#flextable(head(ActivityData_MC[, 1:8])) |> fontsize(size = 8, part = "all")
+flextable(head(ActivityData[, 1:6])) |> fontsize(size = 8, part = "all")
 flextable(head(DeforestationEF[, 1:8])) |> fontsize(size = 8, part = "all")
-flextable(head(ActivityData[, 1:8])) |> fontsize(size = 8, part = "all")
-flextable(head(ActivityData_MC[, 1:8])) |> fontsize(size = 8, part = "all")
-flextable(head(Emissions[, 1:8])) |> fontsize(size = 8, part = "all")
-flextable(head(Emissions_MC[, 1:8])) |> fontsize(size = 8, part = "all")
 flextable(head(DegradationEF[, 1:8])) |> fontsize(size = 8, part = "all")
-#flextable(head(DegradationEF_MC[, 1:8])) |> fontsize(size = 8, part = "all")
-#dplyr::glimpse(CarbonStocks)
+flextable(head(CarbonStocks[, 1:8])) |> fontsize(size = 8, part = "all")
+dplyr::glimpse(CarbonStocks)
 ```
 
 ### Tidy
 
-Data cleaning tasks often needed for dataframes imported with `readxl::read_exel()` function, as variables, labels and dataframes
-are corrupted in the process. This especially likely with summary statistics in non-standard formats, such as in Guyana's workbook
-data. Re-installing and applying the function `janitor::clean_names()` may sometimes solve this, but more often not. For future
-debugging, I added notes in this Tidy section on the steps identified to complete data cleaning.
+Data cleaning tasks are often needed in dataframes imported with `readxl::read_exel()` function when variable labels and
+dimensions get corrupted in the process. This especially likely with summary statistics in non-standard formats, such as in
+Guyana's workbook data. Re-installing and applying the function `janitor::clean_names()` may sometimes solve this, but more often
+not. For future debugging, I added notes in this Tidy section on the steps identified to complete data cleaning.
 
 We begin by identifying the relevant rows and columns for each pool, specifically those containing mean, standard deviation,
 minimum, maximum, and confidence interval values. Assuming rows in the "CarbonStocks_MC" tab maintain the same order, these
@@ -230,88 +200,27 @@ wide layout to ensure that "Statistic" becomes a distinct column and the carbon 
 represented as separate variable columns. Happy to walk you through this again if you need.
 
 ```{r, class.source =c("numCode","r","numberLines"), fig.show='hold',out.height="50%", eval=F}
-CarbonStocks = CarbonStocks |> 
-  dplyr::rename(Statistic = x1)|>
-  select(
-    `Statistic`           = 1,
-    `AG_Tree`             = 2,
-    `BG_Tree`             = 3,
-    `Saplings`            = 4,
-    `StandingDeadWood`    = 5,
-    `LyingDeadWood`       = 6,
-    `SumCarbonNoLitter`   = 7,
-    `Litter`              = 8,
-    `SumCpoolWLitter`     = 9,
-    `SumCO2e`             = 10,
-    `Soil_tC_ha`          = 11,
-    `SumALL_POOLS_CO2eha` = 12,
-    `SumABGBLiveTree`     = 13
-  ) %>% slice(1:9)
 
-# Convert wide to long, use "Statistic" to define row
-CarbonStocks_long <- CarbonStocks |>
-  tidyr::pivot_longer(
-    cols = -Statistic,
-    names_to = "Pool",
-    values_to = "Value"
-  ) |> mutate(Value = as.numeric(Value))
-
-# Convert from long back to wide format:
-CarbonStocks_wide <- CarbonStocks_long %>%
-  pivot_wider(
-    names_from = Statistic,
-    values_from = Value)
-
-# Transpose to long dataframe: flipping rows w/ columns
-CarbonStocks_long <- CarbonStocks |>
-  tidyr::pivot_longer(
-    cols = -Statistic,
-    names_to = "Pool",
-    values_to = "Value"
-  ) |> mutate(Value = as.numeric(Value))
-
-# Pivot back to wide dataframe & “Statistic” becomes a row:
-CarbonStocks_wide <- CarbonStocks_long %>%
-  pivot_wider(
-    names_from = Statistic,
-    values_from = Value)
 ```
 
 ### Distribution Analysis
 
-```{r}
+```{r, eval=F}
 # Descriptive statistics
 psych::describe(CarbonStocks)
 ```
 
 ```{r, eval=F}
-psych::describe(Emissions)
 psych::describe(DeforestationEF)
 psych::describe(DegradationEF)
 psych::describe(ActivityData)
-psych::describe(EmissionsReductions)
-psych::describe(Crediting)
 
-CarbonStocks$
-MASS::truehist(CarbonStocks$ag_tree_t_c_ha,nbins=30,xlab= "ag_tree_t_c_ha",main=paste("Distribution of", "ag_tree_t_c_ha"),col = "gray")
+MASS::truehist(CarbonStocks$ag_tree_t_c_ha,xlab= "ag_tree_t_c_ha",main=paste("Distribution of", "ag_tree_t_c_ha"),col = "gray")
 MASS::truehist(CarbonStocks$bg_tree_t_c_ha,nbins=30,xlab= "bg_tree_t_c_ha",main=paste("Distribution of", "bg_tree_t_c_ha"),col = "gray")
-MASS::truehist(CarbonStocks$bg_tree_t_c_ha,nbins=30,xlab= "bg_tree_t_c_ha",main=paste("Distribution of", "bg_tree_t_c_ha"),col = "gray")
-MASS::truehist(CarbonStocks$bg_tree_t_c_ha,nbins=30,xlab= "bg_tree_t_c_ha",main=paste("Distribution of", "bg_tree_t_c_ha"),col = "gray")
-MASS::truehist(CarbonStocks$bg_tree_t_c_ha,nbins=30,xlab= "bg_tree_t_c_ha",main=paste("Distribution of", "bg_tree_t_c_ha"),col = "gray")
-MASS::truehist(CarbonStocks$bg_tree_t_c_ha,nbins=30,xlab= "bg_tree_t_c_ha",main=paste("Distribution of", "bg_tree_t_c_ha"),col = "gray")
-MASS::truehist(CarbonStocks$bg_tree_t_c_ha,nbins=30,xlab= "bg_tree_t_c_ha",main=paste("Distribution of", "bg_tree_t_c_ha"),col = "gray")
-MASS::truehist(CarbonStocks$bg_tree_t_c_ha,nbins=30,xlab= "bg_tree_t_c_ha",main=paste("Distribution of", "bg_tree_t_c_ha"),col = "gray")
-
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
+MASS::truehist(CarbonStocks$saplings_t_c_ha,nbins=30,xlab= "saplings_t_c_ha",main=paste("Distribution of", "saplings_t_c_ha"),col = "gray")
 ```
 
-```{r}
+```{r, warning=FALSE}
 # Shapiro–Wilk normality test
 normalityTests <- function(data) {
   numericData <- data[sapply(data, is.numeric)]
@@ -348,119 +257,6 @@ print(norm_results)
 plotKernelDensitiesWithNormality(CarbonStocks)
 ```
 
-```{r, eval=F}
-# Function to plot distribution comparisons for a single numeric vector
-plotDistributionComparison <- function(
-    CarbonStocks, var_name = "Variable", 
-    bw_method = "nrd0", 
-    candidate_dists = c("normal", "gamma", "lognormal", "weibull"),
-    nbins = 30) {
-
-# Remove missing values
-  x <- na.omit(x)
-  if(length(x) < 3) {
-    warning(paste("Not enough data in", var_name, "to perform analysis."))
-    return(NULL)
-  }
-  
-# Set up a plot using MASS-truehist
-truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
-  
-  # Calculate and overlay a kernel density estimate with the specified bandwidth method
-  kd <- density(x, bw = bw_method)
-  lines(kd, col = "blue", lwd = 2)
-  
-  # Prepare a sequence for plotting fitted densities
-  x_seq <- seq(min(x), max(x), length.out = 200)
-  
-  # Initialize vectors for building the legend
-  legend_labels <- c("Kernel Density")
-  legend_colors <- c("blue")
-  legend_lty <- c(1)
-  
-  # Fit and plot a Normal distribution if requested
-  if("normal" %in% candidate_dists) {
-    fit_norm <- try(fitdistr(x, "normal"), silent = TRUE)
-    if(!inherits(fit_norm, "try-error")) {
-      dens_norm <- dnorm(x_seq, mean = fit_norm$estimate["mean"], sd = fit_norm$estimate["sd"])
-      lines(x_seq, dens_norm, col = "red", lwd = 2, lty = 2)
-      legend_labels <- c(legend_labels, "Normal Fit")
-      legend_colors <- c(legend_colors, "red")
-      legend_lty <- c(legend_lty, 2)
-    }
-  }
-  
-  # Fit and plot a Gamma distribution (only if all values > 0)
-  if("gamma" %in% candidate_dists && all(x > 0)) {
-    fit_gamma <- try(fitdistr(x, "gamma"), silent = TRUE)
-    if(!inherits(fit_gamma, "try-error")) {
-      dens_gamma <- dgamma(x_seq, shape = fit_gamma$estimate["shape"], rate = fit_gamma$estimate["rate"])
-      lines(x_seq, dens_gamma, col = "green", lwd = 2, lty = 3)
-      legend_labels <- c(legend_labels, "Gamma Fit")
-      legend_colors <- c(legend_colors, "green")
-      legend_lty <- c(legend_lty, 3)
-    }
-  }
-  
-  # Fit and plot a Lognormal distribution (only if all values > 0)
-  if("lognormal" %in% candidate_dists && all(x > 0)) {
-    fit_lnorm <- try(fitdistr(x, "lognormal"), silent = TRUE)
-    if(!inherits(fit_lnorm, "try-error")) {
-      dens_lnorm <- dlnorm(x_seq, meanlog = fit_lnorm$estimate["meanlog"], sdlog = fit_lnorm$estimate["sdlog"])
-      lines(x_seq, dens_lnorm, col = "purple", lwd = 2, lty = 4)
-      legend_labels <- c(legend_labels, "Lognormal Fit")
-      legend_colors <- c(legend_colors, "purple")
-      legend_lty <- c(legend_lty, 4)
-    }
-  }
-  
-  # Fit and plot a Weibull distribution (only if all values > 0)
-  if("weibull" %in% candidate_dists && all(x > 0)) {
-    fit_weibull <- try(fitdistr(x, "weibull"), silent = TRUE)
-    if(!inherits(fit_weibull, "try-error")) {
-      dens_weibull <- dweibull(x_seq, shape = fit_weibull$estimate["shape"], scale = fit_weibull$estimate["scale"])
-      lines(x_seq, dens_weibull, col = "orange", lwd = 2, lty = 5)
-      legend_labels <- c(legend_labels, "Weibull Fit")
-      legend_colors <- c(legend_colors, "orange")
-      legend_lty <- c(legend_lty, 5)
-    }
-  }
-  
-  # Add legend to the plot
-  legend("topright", legend = legend_labels, col = legend_colors, lwd = 2, lty = legend_lty, bty = "n")
-}
-
-# Function to loop through all numeric variables in a data frame
-exploratoryMASSAnalysis <- function(data, bw_method = "nrd0", 
-                                      candidate_dists = c("normal", "gamma", "lognormal", "weibull"),
-                                      nbins = 30) {
-  # Identify numeric columns
-  num_vars <- names(data)[sapply(data, is.numeric)]
-  
-  # Set up a multi-panel plotting layout (adjust rows/columns as needed)
-  n <- length(num_vars)
-  ncol <- 2
-  nrow <- ceiling(n / ncol)
-  op <- par(mfrow = c(nrow, ncol))
-  
-  # Loop over each numeric variable and generate plots
-  for (var in num_vars) {
-    plotDistributionComparison(data[[var]], var_name = var, bw_method = bw_method,
-                               candidate_dists = candidate_dists, nbins = nbins)
-  }
-  
-  # Reset plotting layout
-  par(op)
-}
-
-# Example usage:
-exploratoryMASSAnalysis(
-  CarbonStocks, bw_method = "nrd0",
-  candidate_dists = c("normal", "gamma", "lognormal", "weibull"),
-  nbins = 30)
-
-```
-
 The Coefficient of Variation `CV` is a standardized, unit-less measure of dispersion defined as the ratio of the standard
 deviation to the mean, typically expressed as a percentage. This standardization enables comparison of variability across datasets
 or scales, regardless of the underlying units, offering helpful tool for assessing novel data from periodic field inventories or
@@ -487,16 +283,14 @@ assess the internal consistency of the reported descriptive statistics.
 # Helper function of derived descriptive statistics:
 calc_derived_stats <- function(df) {
   df %>% mutate(
-      CV_percent = 100 * (`std. dev` / `mean of all plots (calculated)`),
+      CV_percent = 100 * (`std_dev` / `mean of all plots (calculated)`),
       sd_implied_by_90CI = `90% CI` / 1.645,
       SDs_below_mean = (`mean of all plots (calculated)` - minimum) / `std. dev`,
       SDs_above_mean = (maximum - `mean of all plots (calculated)`) / `std. dev`
     )
-  }
+}
 
-CarbonStocks_stats <- calc_derived_stats(CarbonStocks)
-
-
+CarbonStocks_stats <- calc_derived_stats(CarbonStocks) 
 ```
 
 ## Replicating SimVoi
@@ -506,141 +300,65 @@ We utilize the replicate function to repeat a simulation following a randomized 
 parameters only, replication parameters are tested below this in comparisons.
 
 ```{r, eval=FALSE}
-# Custom function to simulate from each row (assuming truncnormal)
-simulate_truncnorm_from_summary <- function(mean_val, sd_val, min_val = 0, max_val = Inf, n_draws = 10000)
-  {draws <- truncnorm::rtruncnorm(
-    n = n_draws,
-    a = min_val,
-    b = max_val,
-    mean = mean_val,
-    sd = sd_val)
-  return(draws)
-}
 
-simulate_truncnorm_from_summary <- function(
-  mean_val, sd_val, min_val=0, max_val=Inf, 
-  n_draws=10000) {
-  draws <- truncnorm::rtruncnorm(
-    n     = n_draws,
-    a     = min_val,
-    b     = max_val,
-    mean  = mean_val,
-    sd    = sd_val
-  )
-  # Return vector of draws
-  return(draws)
-}
-
-# Repeat for AG_Tree
-ag_tree_stats <- CarbonStocks_stats %>% filter(Pool == "AG_Tree")
-AG_mean <- ag_tree_stats$`mean of all plots (calculated)`
-AG_sd   <- ag_tree_stats$`std. dev`
-AG_min  <- ag_tree_stats$minimum
-AG_max  <- ag_tree_stats$maximum
-
-# We may vote to do a = 0 if we never allow negative carbon:
-AG_draws <- simulate_truncnorm_from_summary(
-  mean_val = AG_mean, 
-  sd_val   = AG_sd, 
-  min_val  = 0,     # or AG_min if you prefer
-  max_val  = Inf, 
-  n_draws  = 10000)
-
-# Compare results:
-mean(AG_draws)
-sd(AG_draws)
-min(AG_draws)
-max(AG_draws)
-quantile(AG_draws, probs = c(0.05, 0.95))
-
-
-# Quick histogram of the draws
-hist(AG_draws, breaks=40, col="skyblue", 
-     main="Truncated Normal draws for AG Tree",
-     xlab="AG Tree (tC/ha)")
-
-# If you want to do this for each carbon pool in a loop, 
-# you can add a small function:
-
-simulate_all_pools <- function(df, n_draws=10000) {
-  # df is your cs_stats data frame
-  # Return a named list of random draws
-  out <- list()
-  for (i in seq_len(nrow(df))) {
-    rowi <- df[i, ]
-    pool_name <- rowi$Pool
-    mean_val  <- rowi$`mean of all plots (calculated)`
-    sd_val    <- rowi$`std. dev`
-    # Use zero for min bound; or rowi$minimum if you want to
-    # replicate the workbook min
-    draws <- rtruncnorm(
-      n=n_draws,
-      a=0, 
-      b=Inf,
-      mean=mean_val,
-      sd=sd_val
-    )
-    out[[pool_name]] <- draws
-  }
-  return(out)
-}
-
-all_draws <- simulate_all_pools(CarbonStocks_st_stats, n_draws=10000)
-
-ggplot(data.frame(AG_draws), aes(x = AG_draws)) +
-  geom_histogram(aes(y = ..density..), bins = 50, fill = "skyblue", alpha = 0.7) +
-  geom_density(col = "red") +
-  labs(title = "Monte Carlo Simulation of AG Tree Carbon Pool",
-       x = "Carbon Stock (tC/ha)", y = "Density")
 ```
 
 ## Compare simulations
 
-```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", eval=F}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", eval=F, message=F, warning=F, comment=NA}
+A_MEAN = CarbonStocks$ag_tree_t_c_ha[1]
+A_SD   = CarbonStocks$ag_tree_t_c_ha[2]
+B_MEAN = CarbonStocks$bg_tree_t_c_ha[1]
+B_SD   = CarbonStocks$bg_tree_t_c_ha[2]
+C_MEAN = CarbonStocks$saplings_t_c_ha[1]
+C_SD   = CarbonStocks$saplings_t_c_ha[2]
+D_MEAN = CarbonStocks$standing_dead_wood_t_c_ha[1]
+D_SD   = CarbonStocks$standing_dead_wood_t_c_ha[2]
+E_MEAN = CarbonStocks$lying_dead_wood_t_c_ha[1]
+E_SD   = CarbonStocks$lying_dead_wood_t_c_ha[2]
+F_MEAN = CarbonStocks$sum_carbon_pools_w_o_litter_t_c_ha[1]
+F_SD   = CarbonStocks$sum_carbon_pools_w_o_litter_t_c_ha[2]
+G_MEAN = CarbonStocks$litter_t_c_ha[1]
+G_SD   = CarbonStocks$litter_t_c_ha[2]
+H_MEAN = CarbonStocks$soil_t_c_ha[1]
+H_SD   = CarbonStocks$soil_t_c_ha[2]
 
-MEAN = CarbonStocks$`AG Tree (tC/ha)`[1]
-SD   = CarbonStocks$`AG Tree (tC/ha)`[2]
 
-randtruncnormal_sim_10000 <- rnorm(n=10000,mean=MEAN,sd=SD)
-hist(randtruncnormal_sim_10000, freq=F)
-AG_Tree_tC_ha   = mean(randtruncnormal_sim_10000)
-AG_Tree_tCO2_ha = AG_Tree_tC_ha*(44/12)
-AG_Tree_tC_ha
-AG_Tree_tCO2_ha
-#curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
+# 10,000 simulations sampling 1 observation
+A_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,A_MEAN, A_SD)
+B_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,B_MEAN, B_SD)
+C_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,C_MEAN, C_SD)
+D_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,D_MEAN, D_SD)
+E_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,E_MEAN, E_SD)
+F_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,F_MEAN, F_SD)
+G_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,G_MEAN, G_SD)
+H_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,a=0,b=Inf,H_MEAN, H_SD)
 
-# 10,000 simulations sampling 10 observations
-randtruncnormal_sim_10000_10 = replicate(
-  n=10000, rnorm(n=10, mean=MEAN,sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean)))*(44/12)
+hist(A_rtruncnormal_100, freq=F)
+hist(B_rtruncnormal_100, freq=F)
+hist(C_rtruncnormal_100, freq=F)
+hist(D_rtruncnormal_100, freq=F)
+hist(E_rtruncnormal_100, freq=F)
+hist(F_rtruncnormal_100, freq=F)
+hist(G_rtruncnormal_100, freq=F)
+hist(H_rtruncnormal_100, freq=F)
 
-# 10,000 simulations sampling 100 observations
-randtruncnormal_sim_10000_100 = replicate(
-  n=10000,rnorm(n=100, mean=MEAN,sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean)))*(44/12)
-
-# 10,000 simulations sampling 1,000 observations
-randtruncnormal_sim_10000_1000 = replicate(
-  n=10000, rnorm(n=1000, mean=MEAN, sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean)))*(44/12)
-
-# 10,000 simulations sampling 10,000 observations
-randtruncnormal_sim_10000_10000 = replicate(
-  n=10000, rnorm(n=10000, mean=MEAN, sd=SD))
-hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
-sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
-mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
-(mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean)))*(44/12)
-
+mean(A_rtruncnormal_100)
+mean(A_rtruncnormal_100)*(44/12)
+mean(B_rtruncnormal_100)
+mean(B_rtruncnormal_100)*(44/12)
+mean(C_rtruncnormal_100)
+mean(C_rtruncnormal_100)*(44/12)
+mean(D_rtruncnormal_100)
+mean(D_rtruncnormal_100)*(44/12)
+mean(E_rtruncnormal_100)
+mean(E_rtruncnormal_100)*(44/12)
+mean(F_rtruncnormal_100)
+mean(F_rtruncnormal_100)*(44/12)
+mean(G_rtruncnormal_100)
+mean(G_rtruncnormal_100)*(44/12)
+mean(H_rtruncnormal_100)
+mean(H_rtruncnormal_100)*(44/12)
 ```
 
 ## Annex I: SimVoi Functions & Syntax
@@ -677,12 +395,12 @@ In terms of simulation parameters, *"RandTruncNormal(Mean,StDev,MinValue,MaxValu
 found between MinValue and MaxValue or until it has made 10,000 attempts."* The above formula provides a minimum value of `0`,
 passing to the default number of simulations of 10,000.
 
-## Annex II: Rapid literature review or Monte Carlo methods in REDD+
+## Annex II: Rapid literature review of Monte Carlo methods in REDD+
 
-###### Table A.2: Search parameters, resource scope, and objectives informing search
+###### *Table A.2: Search parameters, resource scope, and objectives informing search*
 
 |  |  |  |  |
-|--------------------------------|:-------------------------------|:-------------------------------|:-----------------------------------|
+|---------------|:------------------------|:-------------------|:-----------------------------------------------------------------|
 | **REDD+**[^1] | **MC Application** | **Region** | **Key Findings** |
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. |
@@ -698,6 +416,46 @@ passing to the default number of simulations of 10,000.
 | NA | Uncertainty in ecosystem nutrient estimate | New Hampshire, USA | Identified 8% uncertainty in nitrogen budgets, mainly from plot variability (6%) and allometric errors (5%). |
 
 [^1]: 1\. ADD: Avoided deforestation degradation, IFM: Improved forest management, JNR: Jurisdictional nested REDD+
+
+## Annex III: Custom simulations using base functions
+
+```{r, eval=F}
+randtruncnormal_sim_10000 <- rnorm(n=10,mean=MEAN,sd=SD)
+hist(randtruncnormal_sim_10000, freq=F)
+AG_Tree_tC_ha   = mean(randtruncnormal_sim_10000)
+AG_Tree_tCO2_ha = AG_Tree_tC_ha*(44/12)
+AG_Tree_tC_ha
+AG_Tree_tCO2_ha
+#curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
+
+# 10,000 simulations sampling 10 observations
+randtruncnormal_sim_10000_10 = replicate(n=10000, rnorm(n=10,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 100 observations
+randtruncnormal_sim_10000_100 = replicate(n=10000,rnorm(n=100,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 1,000 observations
+randtruncnormal_sim_10000_1000 = replicate(n=10000, rnorm(n=1000,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 10,000 observations
+randtruncnormal_sim_10000_10000 = replicate(n=10000,rnorm(n=10000,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean)))*(44/12)
+```
 
 ## References
 
@@ -748,13 +506,13 @@ passing to the default number of simulations of 10,000.
 (14) Yanai, R. D.; Battles, J. J.; Richardson, A. D.; Blodgett, C. A.; Wood, D. M.; Rastetter, E. B. Estimating Uncertainty in
      Ecosystem Budget Calculations. *Ecosystems* 2010, *13*, 239–248. <https://doi.org/10.1007/s10021-010-9315-8>.
 
-Limpert, E., Stahel, W. A., & Abbt, M. (2001). "Log-normal distributions across the sciences: Keys and clues." *BioScience*,
-51(5), 341–352.
+(15) Limpert, E., Stahel, W. A., & Abbt, M. (2001). "Log-normal distributions across the sciences: Keys and clues." *BioScience*,
+     51(5), 341–352.
 
-Morgan, M. G., & Henrion, M. (1990). *Uncertainty: A Guide to Dealing with Uncertainty in Quantitative Risk and Policy Analysis.*
-Cambridge University Press.
+(16) Morgan, M. G., & Henrion, M. (1990). *Uncertainty: A Guide to Dealing with Uncertainty in Quantitative Risk and Policy
+     Analysis.* Cambridge University Press.
 
-Ross, S. M. (2019). *Introduction to Probability Models* (12th ed.). Academic Press.
+(17) Ross, S. M. (2019). *Introduction to Probability Models* (12th ed.). Academic Press.
 
 ```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%"}
 devtools::session_info()

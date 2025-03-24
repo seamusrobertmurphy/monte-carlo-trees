@@ -387,3 +387,273 @@ Poisson
 Geometric
 
 # of failures until first success. E.g., calls until a sale.
+
+
+# --- Replicating SimVoi --- 
+# Custom function to simulate from each row (assuming truncnormal)
+simulate_truncnorm_from_summary <- function(mean_val, sd_val, min_val = 0, max_val = Inf, n_draws = 10000)
+{draws <- truncnorm::rtruncnorm(
+  n = n_draws,
+  a = min_val,
+  b = max_val,
+  mean = mean_val,
+  sd = sd_val)
+return(draws)
+}
+
+simulate_truncnorm_from_summary <- function(
+    mean_val, sd_val, min_val=0, max_val=Inf, 
+    n_draws=10000) {
+  draws <- truncnorm::rtruncnorm(
+    n     = n_draws,
+    a     = min_val,
+    b     = max_val,
+    mean  = mean_val,
+    sd    = sd_val
+  )
+  # Return vector of draws
+  return(draws)
+}
+
+# Repeat for AG_Tree
+ag_tree_stats <- CarbonStocks_stats %>% filter(Pool == "AG_Tree")
+AG_mean <- ag_tree_stats$`mean of all plots (calculated)`
+AG_sd   <- ag_tree_stats$`std. dev`
+AG_min  <- ag_tree_stats$minimum
+AG_max  <- ag_tree_stats$maximum
+
+# We may vote to do a = 0 if we never allow negative carbon:
+AG_draws <- simulate_truncnorm_from_summary(
+  mean_val = AG_mean, 
+  sd_val   = AG_sd, 
+  min_val  = 0, 
+  max_val  = Inf, 
+  n_draws  = 10000)
+
+# Compare results:
+mean(AG_draws)
+sd(AG_draws)
+min(AG_draws)
+max(AG_draws)
+quantile(AG_draws, probs = c(0.05, 0.95))
+
+
+# Quick histogram of the draws
+hist(AG_draws, breaks=40, col="skyblue", 
+     main="Truncated Normal draws for AG Tree",
+     xlab="AG Tree (tC/ha)")
+
+# If you want to do this for each carbon pool in a loop, 
+# you can add a small function:
+
+simulate_all_pools <- function(df, n_draws=10000) {
+  # df is your cs_stats data frame
+  # Return a named list of random draws
+  # out <- list()
+  # for (i in seq_len(nrow(df))) {
+  # rowi <- df[i, ]
+  # pool_name <- rowi$Pool
+  # mean_val  <- rowi$`mean of all plots (calculated)`
+  # sd_val    <- rowi$`std. dev`
+  # Use zero for min bound; or rowi$minimum if you want to
+  # replicate the workbook min
+  # draws <- rtruncnorm(
+  # n=n_draws,
+  # a=0, 
+  # b=Inf,
+  # mean=mean_val,
+  # sd=sd_val
+  # )
+  # out[[pool_name]] <- draws
+  # }
+  # return(out)
+  # }
+  
+  all_draws <- simulate_all_pools(CarbonStocks_st_stats, n_draws=10000)
+  
+  ggplot(data.frame(AG_draws), aes(x = AG_draws)) +
+    geom_histogram(aes(y = ..density..), bins = 50, fill = "skyblue", alpha = 0.7) +
+    geom_density(col = "red") +
+    labs(title = "Monte Carlo Simulation of AG Tree Carbon Pool",
+         x = "Carbon Stock (tC/ha)", y = "Density")
+  
+  
+  
+  # Function to plot distribution comparisons for a single numeric vector
+  plotDistributionComparison <- function(
+    CarbonStocks, var_name = "Variable", 
+    bw_method = "nrd0", 
+    candidate_dists = c("normal", "gamma", "lognormal", "weibull"),
+    nbins = 30) {
+    
+    # Remove missing values
+    x <- na.omit(x)
+    if(length(x) < 3) {
+      warning(paste("Not enough data in", var_name, "to perform analysis."))
+      return(NULL)
+    }
+    
+    # Set up a plot using MASS-truehist
+    truehist(CarbonStocks, nbins = nbins, xlab = var_name, main = paste("Distribution of", var_name), col="gray")
+    # Calculate and overlay a kernel density estimate with the specified bandwidth method
+    kd <- density(x, bw = bw_method)
+    lines(kd, col = "blue", lwd = 2)
+    # Prepare a sequence for plotting fitted densities
+    x_seq <- seq(min(x), max(x), length.out = 200)
+    
+    # Initialize vectors for building the legend
+    legend_labels <- c("Kernel Density")
+    legend_colors <- c("blue")
+    legend_lty <- c(1)
+    
+    # Fit and plot a Normal distribution if requested
+    if("normal" %in% candidate_dists) {
+      fit_norm <- try(fitdistr(x, "normal"), silent = TRUE)
+      if(!inherits(fit_norm, "try-error")) {
+        dens_norm <- dnorm(x_seq, mean = fit_norm$estimate["mean"], sd = fit_norm$estimate["sd"])
+        lines(x_seq, dens_norm, col = "red", lwd = 2, lty = 2)
+        legend_labels <- c(legend_labels, "Normal Fit")
+        legend_colors <- c(legend_colors, "red")
+        legend_lty <- c(legend_lty, 2)
+      }
+    }
+    
+    # Fit and plot a Gamma distribution (only if all values > 0)
+    if("gamma" %in% candidate_dists && all(x > 0)) {
+      fit_gamma <- try(fitdistr(x, "gamma"), silent = TRUE)
+      if(!inherits(fit_gamma, "try-error")) {
+        dens_gamma <- dgamma(x_seq, shape = fit_gamma$estimate["shape"], rate = fit_gamma$estimate["rate"])
+        lines(x_seq, dens_gamma, col = "green", lwd = 2, lty = 3)
+        legend_labels <- c(legend_labels, "Gamma Fit")
+        legend_colors <- c(legend_colors, "green")
+        legend_lty <- c(legend_lty, 3)
+      }
+    }
+    
+    # Fit and plot a Lognormal distribution (only if all values > 0)
+    if("lognormal" %in% candidate_dists && all(x > 0)) {
+      fit_lnorm <- try(fitdistr(x, "lognormal"), silent = TRUE)
+      if(!inherits(fit_lnorm, "try-error")) {
+        dens_lnorm <- dlnorm(x_seq, meanlog = fit_lnorm$estimate["meanlog"], sdlog = fit_lnorm$estimate["sdlog"])
+        lines(x_seq, dens_lnorm, col = "purple", lwd = 2, lty = 4)
+        legend_labels <- c(legend_labels, "Lognormal Fit")
+        legend_colors <- c(legend_colors, "purple")
+        legend_lty <- c(legend_lty, 4)
+      }
+    }
+    
+    # Fit and plot a Weibull distribution (only if all values > 0)
+    if("weibull" %in% candidate_dists && all(x > 0)) {
+      fit_weibull <- try(fitdistr(x, "weibull"), silent = TRUE)
+      if(!inherits(fit_weibull, "try-error")) {
+        dens_weibull <- dweibull(x_seq, shape = fit_weibull$estimate["shape"], scale = fit_weibull$estimate["scale"])
+        lines(x_seq, dens_weibull, col = "orange", lwd = 2, lty = 5)
+        legend_labels <- c(legend_labels, "Weibull Fit")
+        legend_colors <- c(legend_colors, "orange")
+        legend_lty <- c(legend_lty, 5)
+      }
+    }
+    
+    # Add legend to the plot
+    legend("topright", legend = legend_labels, col = legend_colors, lwd = 2, lty = legend_lty, bty = "n")
+  }
+  
+  # Function to loop through all numeric variables in a data frame
+  exploratoryMASSAnalysis <- function(data, bw_method = "nrd0", 
+                                      candidate_dists = c("normal", "gamma", "lognormal", "weibull"),
+                                      nbins = 30) {
+    # Identify numeric columns
+    num_vars <- names(data)[sapply(data, is.numeric)]
+    
+    # Set up a multi-panel plotting layout (adjust rows/columns as needed)
+    n <- length(num_vars)
+    ncol <- 2
+    nrow <- ceiling(n / ncol)
+    op <- par(mfrow = c(nrow, ncol))
+    
+    # Loop over each numeric variable and generate plots
+    for (var in num_vars) {
+      plotDistributionComparison(data[[var]], var_name = var, bw_method = bw_method,
+                                 candidate_dists = candidate_dists, nbins = nbins)
+    }
+    
+    # Reset plotting layout
+    par(op)
+  }
+  
+  
+  
+# --- Tody DaTA --- 
+  CarbonStocks = CarbonStocks |> 
+    dplyr::rename(Statistic = x1)|>
+    select(
+      `Statistic`           = 1,
+      `AG_Tree`             = 2,
+      `BG_Tree`             = 3,
+      `Saplings`            = 4,
+      `StandingDeadWood`    = 5,
+      `LyingDeadWood`       = 6,
+      `SumCarbonNoLitter`   = 7,
+      `Litter`              = 8,
+      `SumCpoolWLitter`     = 9,
+      `SumCO2e`             = 10,
+      `Soil_tC_ha`          = 11,
+      `SumALL_POOLS_CO2eha` = 12,
+      `SumABGBLiveTree`     = 13
+    ) %>% slice(1:9)
+  
+  # Convert wide to long, use "Statistic" to define row
+  CarbonStocks_long <- CarbonStocks |>
+    tidyr::pivot_longer(
+      cols = -Statistic,
+      names_to = "Pool",
+      values_to = "Value"
+    ) |> mutate(Value = as.numeric(Value))
+  
+  # Convert from long back to wide format:
+  CarbonStocks_wide <- CarbonStocks_long %>%
+    pivot_wider(
+      names_from = Statistic,
+      values_from = Value)
+  
+  # Transpose to long dataframe: flipping rows w/ columns
+  CarbonStocks_long <- CarbonStocks |>
+    tidyr::pivot_longer(
+      cols = -Statistic,
+      names_to = "Pool",
+      values_to = "Value"
+    ) |> mutate(Value = as.numeric(Value))
+  
+  # Pivot back to wide dataframe & “Statistic” becomes a row:
+  CarbonStocks_wide <- CarbonStocks_long %>%
+    pivot_wider(
+      names_from = Statistic,
+      values_from = Value)
+  
+  
+  
+
+  
+  ###### *Table 1: Continuous data distributions, and example use cases for Monte Carlo simulations.*
+  
+  | Distribution | Statistical Criteria & Use Cases | PDF |
+    |---------------------------------|------------------------------------------------|-------------------------------------------------|
+    | Normal (Gaussian) | Symmetric, bell-shaped distribution used for modeling continuous variables: biomass/ha | $\displaystyle \begin{aligned} f(x)&=\frac{1}{\sigma\sqrt{2\pi}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right) \end{aligned}$ |
+    | Lognormal | Right-skewed distribution suitable for variables constrained to positive values (e.g., emission rates). | $\displaystyle f(x)=\frac{1}{x\sigma\sqrt{2\pi}}\exp\left(-\frac{(\ln x-\mu)^2}{2\sigma^2}\right)$ |
+    | Exponential | Models waiting times between independent events, such as forest fire occurrences or logging events. | $\displaystyle \begin{aligned} f(x)&=\lambda e^{-\lambda x},\\[3pt] &\quad x\ge0 \end{aligned}$ |
+    | Continuous Uniform | Assumes all values in an interval [a, b] are equally likely; useful for random spatial sampling in forests. | $\displaystyle \begin{aligned} f(x)&=\frac{1}{b-a},\\[3pt] &\quad a\le x\le b \end{aligned}$ |
+    | Chi-Square | Often used in goodness-of-fit tests to evaluate model accuracy in biomass estimation. | $\displaystyle f(x)=\frac{1}{2^{k/2}\Gamma(k/2)}\,x^{\frac{k}{2}-1}e^{-x/2},\quad x>0$ |
+    | t-Distribution | Suitable for small sample sizes with unknown population stdev (e.g., limited forest carbon data). | $\displaystyle \begin{aligned} f(x)&=\frac{\Gamma\left(\frac{v+1}{2}\right)}{\sqrt{v\pi}\,\Gamma\left(\frac{v}{2}\right)}\left(1+\frac{x^2}{v}\right)^{-\frac{v+1}{2}} \end{aligned}$ |
+    | Gamma | Models positively skewed data, such as biomass growth rates or carbon accumulation over time. | $\displaystyle f(x)=\frac{x^{k-1}e^{-x/\theta}}{\theta^k\Gamma(k)}$ |
+    | Weibull | Flexible distribution used in reliability analysis, e.g., modeling tree mortality. | $\displaystyle \begin{aligned} f(x)&=\frac{k}{\lambda}\left(\frac{x}{\lambda}\right)^{k-1}e^{-(x/\lambda)^k} \end{aligned}$ |
+    
+    ###### *Table 2: Discrete data distributions, and example use cases designed with Monte Carlo simulations.*
+    
+    | Distribution | Statistical Criteria & Use Cases | PMF |
+    |---------------------------------|------------------------------------------------|-------------------------------------------------|
+    | Bernoulli | Binary outcome probability, e.g., presence/absence of deforestation in an area. | $\displaystyle \begin{aligned} P(X=x)&=p^{x}(1-p)^{1-x},\\[3pt] x&\in\{0,1\} \end{aligned}$ |
+    | Binomial | Probability of fixed #no. of successes over $n$ Bernoulli trials, e.g., no. of heads in 10 coin flips. | $\displaystyle \begin{aligned} P(X=k)&=\binom{n}{k}p^{k}(1-p)^{n-k},\\[3pt] k&=0,1,\dots,n \end{aligned}$ |
+  | Poisson | Models counts of independent events within an interval, e.g., number of wildfire incidents per year. | $\displaystyle \begin{aligned} P(X=k)&=\frac{\lambda^{k}e^{-\lambda}}{k!},\\[3pt] k&=0,1,2,\dots \end{aligned}$ |
+    | Geometric | Models #no. of trials until the first success, e.g., number of inspections until detecting deforestation. | $\displaystyle \begin{aligned} P(X=k)&=(1-p)^{k-1}p,\\[3pt] k&=1,2,\dots \end{aligned}$ |
+  | Negative Binomial | Counts #no. failures until $r$ successes occur, treats overdispersed or repeated deforestation detections. | $\displaystyle \begin{aligned} P(X=k)&=\binom{k+r-1}{k}(1-p)^{r}p^{k},\\[3pt] k&=0,1,2,\dots \end{aligned}$ |
+  | Discrete Uniform | Assumes outcome in a finite set is equally likely, e.g., random sampling of inventory across a forest. | $\displaystyle \begin{aligned} P(X=x)&=\frac{1}{n},\\[3pt] x&=1,2,\dots,n \end{aligned}$ |
