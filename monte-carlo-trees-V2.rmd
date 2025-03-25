@@ -363,7 +363,7 @@ mean(H_rtruncnormal_100)*(44/12)
 
 ## Annex I: SimVoi Functions & Syntax
 
-SimVoi adds seventeen random number generator functions defined with the following syntax:
+SimVoi provides seventeen random number generator functions defined with the following syntax:
 
 -   `RandBeta(alpha,beta,,[MinValue],[MaxValue])`
 -   `RandBinomial(trials,probability_s)`
@@ -400,7 +400,7 @@ passing to the default number of simulations of 10,000.
 ###### *Table A.2: Search parameters, resource scope, and objectives informing search*
 
 |  |  |  |  |
-|---------------|:------------------------|:-------------------|:-----------------------------------------------------------------|
+|---------------------------------|:--------------------------------|:--------------------------------|:--------------------------------|
 | **REDD+**[^1] | **MC Application** | **Region** | **Key Findings** |
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. |

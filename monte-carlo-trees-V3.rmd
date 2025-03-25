@@ -1,0 +1,1287 @@
+---
+title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
+date: 2024-12-19
+output: 
+  pdf_document:
+    toc: TRUE
+    toc_depth: 2
+    df_print: kable
+    highlight: pygments
+    latex_engine: xelatex
+
+always_allow_html: TRUE
+editor_options: 
+  markdown: 
+    wrap: 70
+---
+
+```{r setup-1}
+#| warning: false
+#| message: false
+#| error: false
+#| include: false
+#| echo: false
+
+easypackages::packages(
+  "animation", "allodb", "BIOMASS", "c2z", "caret", 
+  "dataMaid", "DescTools","dplyr",
+  "extrafont", "FawR", "flextable", "ForestToolsRS", 
+  "formatR", "ggplot2", "htmltools",
+  "janitor", "jsonlite", 
+  "kableExtra", "kernlab", "knitr",
+  "latex2exp", "latexpdf", "lattice",
+  "MASS", "magrittr", "moments", "officer",
+  "rmarkdown", "readxl", "reshape2","stats",
+  "tibble", "tidymodels", "tidyverse",
+  "tinytex", "truncnorm", "tune", "useful", "webshot", "webshot2", 
+  prompt = F
+  )
+  
+knitr::opts_chunk$set(
+  echo    = TRUE, 
+  message = FALSE, 
+  warning = FALSE,
+  error   = FALSE, 
+  cache   = FALSE,
+  comment = NA, 
+  tidy.opts = list(width.cutoff = 60)
+)
+
+options(htmltools.dir.version = FALSE, htmltools.preserve.raw = FALSE)
+```
+
+```{css, echo=FALSE, class.source = 'foldable'}
+div.column {
+    display: inline-block;
+    vertical-align: top;
+    width: 50%;
+}
+
+#TOC::before {
+  content: "";
+  display: block;
+  height: 80px;
+  width: 210px;
+  background-image: url(https://winrock.org/wp-content/uploads/2021/12/Winrock-logo-R.png);
+  background-size: contain;
+  background-position: center;
+  background-position: 50% 50%;
+  padding-top: 80px !important;
+  background-repeat: no-repeat;
+}
+```
+
+## Objective
+
+Using an R-based approach, this analysis replicates the Monte Carlo
+simulations originally performed with SimVoi in Excel. It details the
+code used in the analysis, compares simulation results between R and
+Excel, and proposes next steps for enhancement based on statistical
+tests. Specifically, we identified updates needed to address empirical
+distributions of the input data. Such updates are recommended to both
+strengthen compliance with REDD+ requirements and VVB audits, and to
+provide an effective basis for reducing uncertainty and increasing
+revenue from emissions credits.
+
+## SimVoi Syntax
+
+SimVoi provides seventeen random number generator functions[^1] that
+are operated with the following syntax:
+
+[^1]: [SimVoi-313-Guide.pdf](https://winrockintl-my.sharepoint.com/:b:/g/personal/seamus_murphy_winrock_org/EWbRF84sqtNGnjIRQSUENgIB_afC2L7oZkYI-GmmSBDiSA?e=enaHVv)
+
+-   `RandBeta(alpha,beta,,[MinValue],[MaxValue])`
+-   `RandBinomial(trials,probability_s)`
+-   `RandBiVarNormal(mean1,stdev1,mean2,stdev2,correl12)`
+-   `RandCumulative(value_cumulative_table)`
+-   `RandDiscrete(value_discrete_table)`
+-   `RandExponential(lambda)`
+-   `RandInteger(bottom,top)`
+-   `RandLogNormal(Mean,StDev)`
+-   `RandNormal(mean,standard_dev)`
+-   `RandPoisson(mean)`
+-   `RandSample(population)`
+-   `RandTriangular(minimum,most_likely,maximum)`
+-   `RandTriBeta(minimum,most_likely,maximum,[shape])`
+-   `RandTruncBiVarNormal(mean1,stdev1,mean2,stdev2,correl12, [min1],[max1],[min2],[max2])`
+-   `RandTruncLogNormal(Mean,StDev,[MinValue],[MaxValue])`
+-   `RandTruncNormal(Mean,StDev,[MinValue],[MaxValue])`
+-   `RandUniform(minimum,maximum)`
+
+In this workflow, we attempt to replicate the following SimVoi
+function as identified in Guyana's emissions workbook:
+
+`=[1]!randtruncnormal(CarbonStocks.B2,CarbonStocks.B3,0)`
+
+According to the documentation, *RandTruncNormal()* returns a random
+value from a truncated normal distribution, modeling an uncertain
+quantity with a bell-shaped density while excluding extreme tail
+values. If no simulation count is provided, the function repeatedly
+samples until a value falls between the specified minimum and
+maximum—or until it reaches 10,000 attempts. In the above example,
+only a minimum value of 0 is provided, so the default iteration limit
+is used.
+
+***Import data***
+
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=T, comment=NA,error=F,warning=F, eval=F}
+workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values_V2.xlsx"
+CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") |> 
+  janitor::clean_names() |> mutate(across(where(is.numeric), ~ round(.x, 1)))
+DegradationEF = readxl::read_excel(workbook,"Degradation EFs") |> janitor::clean_names()|> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+ActivityData = readxl::read_excel(workbook, "Activity Data") |> janitor::clean_names() |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+flextable(head(CarbonStocks[, 1:8]))|>fontsize(size=8,part="all")
+flextable(DegradationEF[, 1:8])|>fontsize(size=8,part="all")
+flextable(ActivityData[, 1:8])|>fontsize(size=8,part="all")
+```
+
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=T, comment=NA,error=F,warning=F, echo=F}
+# Point this to the correct path where your file is located:
+workbook  = "./data/art/GuyanaARTWorkbookMC-thru2022-April2024_values_V2.xlsx"
+CarbonStocks = readxl::read_excel(workbook, "CarbonStocks") |> 
+  janitor::clean_names() |> mutate(across(where(is.numeric), ~ round(.x, 1)))
+DegradationEF = readxl::read_excel(workbook,"Degradation EFs") |> janitor::clean_names()|> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+ActivityData = readxl::read_excel(workbook, "Activity Data") |> janitor::clean_names() |> 
+  mutate(across(where(is.numeric), ~ round(.x, 1)))
+```
+
+### *Table 1: Input values from CarbonStocks tabsheet*
+
+```{r, class.source = c("numCode", "r", "numberLines"), message=F, comment=NA,error=F,warning=F, echo=F}
+# Tabulate
+CarbonStocks_input = flextable(head(CarbonStocks[, 1:9])) |>
+  set_header_labels(CarbonStocks_input,
+  values = list(
+    statistic                 = "Statistic",
+    ag_tree_t_c_ha            = "AG Tree",
+    bg_tree_t_c_ha            = "BG Tree",
+    saplings_t_c_ha           = "Saplings",
+    standing_dead_wood_t_c_ha = "Standing Dead",
+    lying_dead_wood_t_c_ha    = "Lying Dead",
+    litter_t_c_ha             = "Litter",
+    sum_pools_w_o_soil        = "Sum w/o Soil",
+    soil_t_c_ha               = "Soil"
+  )) |> width(width = 1) |> fit_to_width(max_width = 6.5) |>
+  colformat_double(big.mark = ",", digits = 1, na_str = "N/A")
+
+CarbonStocks_input
+```
+
+### *Table 2: Input values from Degradation EFs tabsheet*
+
+```{r, class.source = c("numCode", "r", "numberLines"), message=F, comment=NA,error=F,warning=F, echo=F}
+Degradation_input = flextable(DegradationEF[, 1:8]) |>
+  colformat_num(j = c(
+    "statistic", "ldf", "wood_density", "lif", "forestry_infrastructure", 
+    "mining", "mining_infrastructure", "infrastructure"), digits = 1) |>
+  set_header_labels(values = list(
+    statistic               = "Statistic",
+    ldf                     = "LDF",
+    wood_density            = "Wood Density",
+    lif                     = "LIF",
+    forestry_infrastructure = "For. Infrastr.",
+    mining                  = "Mining",
+    mining_infrastructure   = "Mining Infrastr.",
+    infrastructure          = "Infrast."
+  )) |> width(width = 1) |> fit_to_width(max_width = 6.5) |>
+  colformat_double(big.mark = ",", digits = 1, na_str = "N/A")
+  
+Degradation_input
+```
+
+### *Table 3: Absolute input values from Activity Data tabsheet*
+
+```{r, class.source = c("numCode", "r", "numberLines"), message=F, comment=NA,error=F,warning=F, echo=F}
+ActivityData_input = flextable(head(ActivityData[, 1:15])) |> fontsize(size=8,part="all") |> 
+  set_table_properties(layout = "autofit")
+ActivityData_input
+```
+
+## SimVoi Replication
+
+We utilize the replicate function to repeat a simulation assuming a
+truncated normal distribution.
+
+***CarbonStocks data***
+
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=F, warning=F, error=F, comment=NA}
+A_MEAN = CarbonStocks$ag_tree_t_c_ha[1]
+A_SD   = CarbonStocks$ag_tree_t_c_ha[2]
+B_MEAN = CarbonStocks$bg_tree_t_c_ha[1]
+B_SD   = CarbonStocks$bg_tree_t_c_ha[2]
+C_MEAN = CarbonStocks$saplings_t_c_ha[1]
+C_SD   = CarbonStocks$saplings_t_c_ha[2]
+D_MEAN = CarbonStocks$standing_dead_wood_t_c_ha[1]
+D_SD   = CarbonStocks$standing_dead_wood_t_c_ha[2]
+E_MEAN = CarbonStocks$lying_dead_wood_t_c_ha[1]
+E_SD   = CarbonStocks$lying_dead_wood_t_c_ha[2]
+F_MEAN = CarbonStocks$litter_t_c_ha[1]
+F_SD   = CarbonStocks$litter_t_c_ha[2]
+G_MEAN = CarbonStocks$sum_pools_w_o_soil[1]
+G_SD   = CarbonStocks$sum_pools_w_o_soil[2]
+H_MEAN = CarbonStocks$soil_t_c_ha[1]
+H_SD   = CarbonStocks$soil_t_c_ha[2]
+
+# 100 simulations sampling 1 observation each iteration. 
+# NOTE: #no. of simulations reduced to match estimates (see "Observations")
+A_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,91.6,353.7,A_MEAN, A_SD)
+B_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,21.2,83.1,B_MEAN, B_SD)
+C_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0.5,18.8,C_MEAN, C_SD)
+D_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0.0,13.7,D_MEAN, D_SD)
+E_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0.0,42.3,E_MEAN, E_SD)
+F_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,1.2,8.7,F_MEAN,F_SD)
+G_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,114.4,520.3,G_MEAN, G_SD)
+H_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,10.1,502.4,H_MEAN, H_SD)
+
+# --- Simulation Estimates ---
+AG_tree_tC_ha            = mean(A_rtruncnormal_100)
+AG_tree_tCO2_ha          = mean(A_rtruncnormal_100)*(44/12)
+BG_tree_tC_ha            = mean(B_rtruncnormal_100)
+BG_tree_tCO2_ha          = mean(B_rtruncnormal_100)*(44/12)
+Saplings_tC_ha           = mean(C_rtruncnormal_100)
+Saplings_tCO2_ha         = mean(C_rtruncnormal_100)*(44/12)
+StandDead_tC_ha          = mean(D_rtruncnormal_100)
+StandDead_tCO2_ha        = mean(D_rtruncnormal_100)*(44/12)
+LyingDead_tC_ha          = mean(E_rtruncnormal_100)
+LyingDead_tCO2_ha        = mean(E_rtruncnormal_100)*(44/12)
+Litter_tC_ha             = mean(F_rtruncnormal_100)
+Litter_tCO2_ha           = mean(F_rtruncnormal_100)*(44/12)
+Sum_wo_Soil_tC_ha        = mean(G_rtruncnormal_100)
+Sum_wo_Soil_tCO2_ha      = mean(G_rtruncnormal_100)*(44/12)
+Soil_tC_ha               = mean(H_rtruncnormal_100)
+Soil_tCO2_ha             = mean(H_rtruncnormal_100)*(44/12)
+
+CarbonStocks_MC_R_df <- data.frame(
+  Units                   = c("tC/ha", "tCO2/ha"),
+  `AG Tree`               = c(AG_tree_tC_ha,  AG_tree_tCO2_ha),
+  `BG Tree`               = c(BG_tree_tC_ha,  BG_tree_tCO2_ha),
+  `Saplings`              = c(Saplings_tC_ha, Saplings_tCO2_ha),
+  `Standing Dead`         = c(StandDead_tC_ha, StandDead_tCO2_ha),
+  `Lying Dead`            = c(LyingDead_tC_ha, LyingDead_tCO2_ha),
+  `Litter`                = c(Litter_tC_ha, Litter_tCO2_ha),
+  `Sum w/o Soil`          = c(Sum_wo_Soil_tC_ha, Sum_wo_Soil_tCO2_ha),
+  `Soil`                  = c(Soil_tC_ha, Soil_tCO2_ha)
+  )
+```
+
+***Degradation data***
+
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=F, warning=F, error=F, comment=NA}
+A_MEAN = DegradationEF$ldf[4]
+A_SD   = DegradationEF$ldf[5]
+B_MEAN = DegradationEF$wood_density[4]
+B_SD   = DegradationEF$wood_density[5]
+C_MEAN = DegradationEF$lif[4]
+C_SD   = DegradationEF$lif[5]
+D_MEAN = DegradationEF$forestry_infrastructure[7]
+D_SD   = DegradationEF$forestry_infrastructure[8]
+E_MEAN = DegradationEF$mining[7]
+E_SD   = DegradationEF$mining[8]
+F_MEAN = DegradationEF$mining_infrastructure[7]
+F_SD   = DegradationEF$mining_infrastructure[8]
+G_MEAN = DegradationEF$infrastructure[7]
+G_SD   = DegradationEF$infrastructure[8]
+
+# 100 simulations sampling 1 observation each iteration. 
+A_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0,Inf,A_MEAN, A_SD)
+B_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0,Inf,B_MEAN, B_SD)
+C_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0,Inf,C_MEAN, C_SD)
+D_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0,Inf,D_MEAN, D_SD)
+E_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0,Inf,E_MEAN, E_SD)
+F_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0,Inf,F_MEAN,F_SD)
+G_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0,Inf,G_MEAN, G_SD)
+
+LDF_EF_tCO2_m2           = mean(A_rtruncnormal_100)
+WD_EF_tCO2_m2            = mean(B_rtruncnormal_100)
+LIF_EF_tCO2_km           = mean(C_rtruncnormal_100)
+ForInfr_EF_tCO2_ha       = mean(D_rtruncnormal_100)
+Mining_EF_tCO2_ha        = mean(E_rtruncnormal_100)
+MiningInfr_EF_tCO2_ha    = mean(F_rtruncnormal_100)
+Infrastructure_EF_tCO2_ha= mean(G_rtruncnormal_100)
+  
+df_logging <- data.frame(
+  component = c("LDF", "Wood Density of Harvest", "LIF (Skid Trails)"),
+  unit      = c("per m3", "per m3", "per km"),
+  tco2      = c(LDF_EF_tCO2_m2, WD_EF_tCO2_m2, LIF_EF_tCO2_km)
+  )
+
+df_degrading <- data.frame(degrading_activity = c(
+    "Forestry infrastructure", "Mining (medium & large scale)",
+    "Mining infrastructure", "Infrastructure"),
+  ef_tco2_ha = c(ForInfr_EF_tCO2_ha, Mining_EF_tCO2_ha, 
+    MiningInfr_EF_tCO2_ha, Infrastructure_EF_tCO2_ha)
+  )
+
+max_rows <- max(nrow(df_logging), nrow(df_degrading))
+logging_nas         = rep(NA, max_rows - nrow(df_logging))
+degrading_nas       = rep(NA, max_rows - nrow(df_degrading))
+Degradation_MC_R_df = data.frame(
+  Component         = c(df_logging$component, logging_nas),
+  Unit              = c(df_logging$unit, logging_nas),
+  tCO2              = c(df_logging$tco2, logging_nas),
+  Degrading_Activity= c(df_degrading$degrading_activity, degrading_nas),
+  EF_tCO2_ha        = c(df_degrading$ef_tco2_ha, degrading_nas)
+  )
+```
+
+***Activity data***
+
+Please note that for purpose of saving space, columns and cells C1-M8
+were implemented with `echo-F` settings, and can be located in the
+R-markdown.rmd file used to derive this PDF.
+
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=F, warning=F, error=F, comment=NA}
+A1_MEAN = ActivityData$x2011[1]
+A1_SD   = ActivityData$x2011[17]
+A2_MEAN = ActivityData$x2011[2]
+A2_SD   = ActivityData$x2011[18]
+A3_MEAN = ActivityData$x2011[3]
+A3_SD   = ActivityData$x2011[19]
+A4_MEAN = ActivityData$x2011[4]
+A4_SD   = ActivityData$x2011[20]
+A5_MEAN = ActivityData$x2011[5]
+A5_SD   = ActivityData$x2011[21]
+A6_MEAN = ActivityData$x2011[6]
+A6_SD   = ActivityData$x2011[22]
+A7_MEAN = ActivityData$x2011[7]
+A7_SD   = ActivityData$x2011[23]
+A8_MEAN = ActivityData$x2011[8]
+A8_SD   = ActivityData$x2011[24]
+
+B1_MEAN = ActivityData$x2012[1]
+B1_SD   = ActivityData$x2012[17]
+B2_MEAN = ActivityData$x2012[2]
+B2_SD   = ActivityData$x2012[18]
+B3_MEAN = ActivityData$x2012[3]
+B3_SD   = ActivityData$x2012[19]
+B4_MEAN = ActivityData$x2012[4]
+B4_SD   = ActivityData$x2012[20]
+B5_MEAN = ActivityData$x2012[5]
+B5_SD   = ActivityData$x2012[21]
+B6_MEAN = ActivityData$x2012[6]
+B6_SD   = ActivityData$x2012[22]
+B7_MEAN = ActivityData$x2012[7]
+B7_SD   = ActivityData$x2012[23]
+B8_MEAN = ActivityData$x2012[8]
+B8_SD   = ActivityData$x2012[24]
+
+A1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A1_MEAN, A1_SD)
+A2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A2_MEAN, A2_SD)
+A3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A3_MEAN, A3_SD)
+A4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A4_MEAN, A4_SD)
+A5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A5_MEAN, A5_SD)
+A6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A6_MEAN, A6_SD)
+A7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A7_MEAN, A7_SD)
+A8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, A8_MEAN, A8_SD)
+
+B1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B1_MEAN, B1_SD)
+B2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B2_MEAN, B2_SD)
+B3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B3_MEAN, B3_SD)
+B4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B4_MEAN, B4_SD)
+B5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B5_MEAN, B5_SD)
+B6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B6_MEAN, B6_SD)
+B7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B7_MEAN, B7_SD)
+B8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, B8_MEAN, B8_SD)
+
+# --- Simulation Estimates ---
+A1 = mean(A1_rtruncnormal_100)
+A2 = mean(A2_rtruncnormal_100)
+A3 = mean(A3_rtruncnormal_100)
+A4 = mean(A4_rtruncnormal_100)
+A5 = mean(A5_rtruncnormal_100)
+A6 = mean(A6_rtruncnormal_100)
+A7 = mean(A7_rtruncnormal_100)
+A8 = mean(A8_rtruncnormal_100)
+
+B1 = mean(B1_rtruncnormal_100)
+B2 = mean(B2_rtruncnormal_100)
+B3 = mean(B3_rtruncnormal_100)
+B4 = mean(B4_rtruncnormal_100)
+B5 = mean(B5_rtruncnormal_100)
+B6 = mean(B6_rtruncnormal_100)
+B7 = mean(B7_rtruncnormal_100)
+B8 = mean(B8_rtruncnormal_100)
+```
+
+```{r, echo=F}
+
+C1_MEAN = ActivityData$x2013[1]
+C1_SD   = ActivityData$x2013[17]
+C2_MEAN = ActivityData$x2013[2]
+C2_SD   = ActivityData$x2013[18]
+C3_MEAN = ActivityData$x2013[3]
+C3_SD   = ActivityData$x2013[19]
+C4_MEAN = ActivityData$x2013[4]
+C4_SD   = ActivityData$x2013[20]
+C5_MEAN = ActivityData$x2013[5]
+C5_SD   = ActivityData$x2013[21]
+C6_MEAN = ActivityData$x2013[6]
+C6_SD   = ActivityData$x2013[22]
+C7_MEAN = ActivityData$x2013[7]
+C7_SD   = ActivityData$x2013[23]
+C8_MEAN = ActivityData$x2013[8]
+C8_SD   = ActivityData$x2013[24]
+
+D1_MEAN = ActivityData$x2014[1]
+D1_SD   = ActivityData$x2014[17]
+D2_MEAN = ActivityData$x2014[2]
+D2_SD   = ActivityData$x2014[18]
+D3_MEAN = ActivityData$x2014[3]
+D3_SD   = ActivityData$x2014[19]
+D4_MEAN = ActivityData$x2014[4]
+D4_SD   = ActivityData$x2014[20]
+D5_MEAN = ActivityData$x2014[5]
+D5_SD   = ActivityData$x2014[21]
+D6_MEAN = ActivityData$x2014[6]
+D6_SD   = ActivityData$x2014[22]
+D7_MEAN = ActivityData$x2014[7]
+D7_SD   = ActivityData$x2014[23]
+D8_MEAN = ActivityData$x2014[8]
+D8_SD   = ActivityData$x2014[24]
+
+E1_MEAN = ActivityData$x2015[1]
+E1_SD   = ActivityData$x2015[17]
+E2_MEAN = ActivityData$x2015[2]
+E2_SD   = ActivityData$x2015[18]
+E3_MEAN = ActivityData$x2015[3]
+E3_SD   = ActivityData$x2015[19]
+E4_MEAN = ActivityData$x2015[4]
+E4_SD   = ActivityData$x2015[20]
+E5_MEAN = ActivityData$x2015[5]
+E5_SD   = ActivityData$x2015[21]
+E6_MEAN = ActivityData$x2015[6]
+E6_SD   = ActivityData$x2015[22]
+E7_MEAN = ActivityData$x2015[7]
+E7_SD   = ActivityData$x2015[23]
+E8_MEAN = ActivityData$x2015[8]
+E8_SD   = ActivityData$x2015[24]
+
+F1_MEAN = ActivityData$x2016[1]
+F1_SD   = ActivityData$x2016[17]
+F2_MEAN = ActivityData$x2016[2]
+F2_SD   = ActivityData$x2016[18]
+F3_MEAN = ActivityData$x2016[3]
+F3_SD   = ActivityData$x2016[19]
+F4_MEAN = ActivityData$x2016[4]
+F4_SD   = ActivityData$x2016[20]
+F5_MEAN = ActivityData$x2016[5]
+F5_SD   = ActivityData$x2016[21]
+F6_MEAN = ActivityData$x2016[6]
+F6_SD   = ActivityData$x2016[22]
+F7_MEAN = ActivityData$x2016[7]
+F7_SD   = ActivityData$x2016[23]
+F8_MEAN = ActivityData$x2016[8]
+F8_SD   = ActivityData$x2016[24]
+
+G1_MEAN = ActivityData$x2017[1]
+G1_SD   = ActivityData$x2017[17]
+G2_MEAN = ActivityData$x2017[2]
+G2_SD   = ActivityData$x2017[18]
+G3_MEAN = ActivityData$x2017[3]
+G3_SD   = ActivityData$x2017[19]
+G4_MEAN = ActivityData$x2017[4]
+G4_SD   = ActivityData$x2017[20]
+G5_MEAN = ActivityData$x2017[5]
+G5_SD   = ActivityData$x2017[21]
+G6_MEAN = ActivityData$x2017[6]
+G6_SD   = ActivityData$x2017[22]
+G7_MEAN = ActivityData$x2017[7]
+G7_SD   = ActivityData$x2017[23]
+G8_MEAN = ActivityData$x2017[8]
+G8_SD   = ActivityData$x2017[24]
+
+H1_MEAN = ActivityData$x2018[1]
+H1_SD   = ActivityData$x2018[17]
+H2_MEAN = ActivityData$x2018[2]
+H2_SD   = ActivityData$x2018[18]
+H3_MEAN = ActivityData$x2018[3]
+H3_SD   = ActivityData$x2018[19]
+H4_MEAN = ActivityData$x2018[4]
+H4_SD   = ActivityData$x2018[20]
+H5_MEAN = ActivityData$x2018[5]
+H5_SD   = ActivityData$x2018[21]
+H6_MEAN = ActivityData$x2018[6]
+H6_SD   = ActivityData$x2018[22]
+H7_MEAN = ActivityData$x2018[7]
+H7_SD   = ActivityData$x2018[23]
+H8_MEAN = ActivityData$x2018[8]
+H8_SD   = ActivityData$x2018[24]
+
+I1_MEAN = ActivityData$x2019[1]
+I1_SD   = ActivityData$x2019[17]
+I2_MEAN = ActivityData$x2019[2]
+I2_SD   = ActivityData$x2019[18]
+I3_MEAN = ActivityData$x2019[3]
+I3_SD   = ActivityData$x2019[19]
+I4_MEAN = ActivityData$x2019[4]
+I4_SD   = ActivityData$x2019[20]
+I5_MEAN = ActivityData$x2019[5]
+I5_SD   = ActivityData$x2019[21]
+I6_MEAN = ActivityData$x2019[6]
+I6_SD   = ActivityData$x2019[22]
+I7_MEAN = ActivityData$x2019[7]
+I7_SD   = ActivityData$x2019[23]
+I8_MEAN = ActivityData$x2019[8]
+I8_SD   = ActivityData$x2019[24]
+
+J1_MEAN = ActivityData$x2020[1]
+J1_SD   = ActivityData$x2020[17]
+J2_MEAN = ActivityData$x2020[2]
+J2_SD   = ActivityData$x2020[18]
+J3_MEAN = ActivityData$x2020[3]
+J3_SD   = ActivityData$x2020[19]
+J4_MEAN = ActivityData$x2020[4]
+J4_SD   = ActivityData$x2020[20]
+J5_MEAN = ActivityData$x2020[5]
+J5_SD   = ActivityData$x2020[21]
+J6_MEAN = ActivityData$x2020[6]
+J6_SD   = ActivityData$x2020[22]
+J7_MEAN = ActivityData$x2020[7]
+J7_SD   = ActivityData$x2020[23]
+J8_MEAN = ActivityData$x2020[8]
+J8_SD   = ActivityData$x2020[24]
+
+K1_MEAN = ActivityData$x2021[1]
+K1_SD   = ActivityData$x2021[17]
+K2_MEAN = ActivityData$x2021[2]
+K2_SD   = ActivityData$x2021[18]
+K3_MEAN = ActivityData$x2021[3]
+K3_SD   = ActivityData$x2021[19]
+K4_MEAN = ActivityData$x2021[4]
+K4_SD   = ActivityData$x2021[20]
+K5_MEAN = ActivityData$x2021[5]
+K5_SD   = ActivityData$x2021[21]
+K6_MEAN = ActivityData$x2021[6]
+K6_SD   = ActivityData$x2021[22]
+K7_MEAN = ActivityData$x2021[7]
+K7_SD   = ActivityData$x2021[23]
+K8_MEAN = ActivityData$x2021[8]
+K8_SD   = ActivityData$x2021[24]
+
+L1_MEAN = ActivityData$x2022[1]
+L1_SD   = ActivityData$x2022[17]
+L2_MEAN = ActivityData$x2022[2]
+L2_SD   = ActivityData$x2022[18]
+L3_MEAN = ActivityData$x2022[3]
+L3_SD   = ActivityData$x2022[19]
+L4_MEAN = ActivityData$x2022[4]
+L4_SD   = ActivityData$x2022[20]
+L5_MEAN = ActivityData$x2022[5]
+L5_SD   = ActivityData$x2022[21]
+L6_MEAN = ActivityData$x2022[6]
+L6_SD   = ActivityData$x2022[22]
+L7_MEAN = ActivityData$x2022[7]
+L7_SD   = ActivityData$x2022[23]
+L8_MEAN = ActivityData$x2022[8]
+L8_SD   = ActivityData$x2022[24]
+
+M1_MEAN = ActivityData$x2023[1]
+M1_SD   = ActivityData$x2023[17]
+M2_MEAN = ActivityData$x2023[2]
+M2_SD   = ActivityData$x2023[18]
+M3_MEAN = ActivityData$x2023[3]
+M3_SD   = ActivityData$x2023[19]
+M4_MEAN = ActivityData$x2023[4]
+M4_SD   = ActivityData$x2023[20]
+M5_MEAN = ActivityData$x2023[5]
+M5_SD   = ActivityData$x2023[21]
+M6_MEAN = ActivityData$x2023[6]
+M6_SD   = ActivityData$x2023[22]
+M7_MEAN = ActivityData$x2023[7]
+M7_SD   = ActivityData$x2023[23]
+M8_MEAN = ActivityData$x2023[8]
+M8_SD   = ActivityData$x2023[24]
+
+
+C1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C1_MEAN, C1_SD)
+C2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C2_MEAN, C2_SD)
+C3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C3_MEAN, C3_SD)
+C4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C4_MEAN, C4_SD)
+C5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C5_MEAN, C5_SD)
+C6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C6_MEAN, C6_SD)
+C7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C7_MEAN, C7_SD)
+C8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, C8_MEAN, C8_SD)
+
+D1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D1_MEAN, D1_SD)
+D2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D2_MEAN, D2_SD)
+D3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D3_MEAN, D3_SD)
+D4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D4_MEAN, D4_SD)
+D5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D5_MEAN, D5_SD)
+D6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D6_MEAN, D6_SD)
+D7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D7_MEAN, D7_SD)
+D8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, D8_MEAN, D8_SD)
+
+E1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E1_MEAN, E1_SD)
+E2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E2_MEAN, E2_SD)
+E3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E3_MEAN, E3_SD)
+E4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E4_MEAN, E4_SD)
+E5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E5_MEAN, E5_SD)
+E6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E6_MEAN, E6_SD)
+E7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E7_MEAN, E7_SD)
+E8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, E8_MEAN, E8_SD)
+
+F1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F1_MEAN, F1_SD)
+F2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F2_MEAN, F2_SD)
+F3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F3_MEAN, F3_SD)
+F4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F4_MEAN, F4_SD)
+F5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F5_MEAN, F5_SD)
+F6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F6_MEAN, F6_SD)
+F7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F7_MEAN, F7_SD)
+F8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, F8_MEAN, F8_SD)
+
+G1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G1_MEAN, G1_SD)
+G2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G2_MEAN, G2_SD)
+G3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G3_MEAN, G3_SD)
+G4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G4_MEAN, G4_SD)
+G5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G5_MEAN, G5_SD)
+G6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G6_MEAN, G6_SD)
+G7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G7_MEAN, G7_SD)
+G8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, G8_MEAN, G8_SD)
+
+H1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H1_MEAN, H1_SD)
+H2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H2_MEAN, H2_SD)
+H3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H3_MEAN, H3_SD)
+H4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H4_MEAN, H4_SD)
+H5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H5_MEAN, H5_SD)
+H6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H6_MEAN, H6_SD)
+H7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H7_MEAN, H7_SD)
+H8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, H8_MEAN, H8_SD)
+
+I1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I1_MEAN, I1_SD)
+I2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I2_MEAN, I2_SD)
+I3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I3_MEAN, I3_SD)
+I4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I4_MEAN, I4_SD)
+I5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I5_MEAN, I5_SD)
+I6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I6_MEAN, I6_SD)
+I7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I7_MEAN, I7_SD)
+I8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, I8_MEAN, I8_SD)
+
+J1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J1_MEAN, J1_SD)
+J2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J2_MEAN, J2_SD)
+J3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J3_MEAN, J3_SD)
+J4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J4_MEAN, J4_SD)
+J5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J5_MEAN, J5_SD)
+J6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J6_MEAN, J6_SD)
+J7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J7_MEAN, J7_SD)
+J8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, J8_MEAN, J8_SD)
+
+K1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K1_MEAN, K1_SD)
+K2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K2_MEAN, K2_SD)
+K3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K3_MEAN, K3_SD)
+K4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K4_MEAN, K4_SD)
+K5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K5_MEAN, K5_SD)
+K6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K6_MEAN, K6_SD)
+K7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K7_MEAN, K7_SD)
+K8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, K8_MEAN, K8_SD)
+
+L1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L1_MEAN, L1_SD)
+L2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L2_MEAN, L2_SD)
+L3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L3_MEAN, L3_SD)
+L4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L4_MEAN, L4_SD)
+L5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L5_MEAN, L5_SD)
+L6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L6_MEAN, L6_SD)
+L7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L7_MEAN, L7_SD)
+L8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, L8_MEAN, L8_SD)
+
+M1_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M1_MEAN, M1_SD)
+M2_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M2_MEAN, M2_SD)
+M3_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M3_MEAN, M3_SD)
+M4_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M4_MEAN, M4_SD)
+M5_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M5_MEAN, M5_SD)
+M6_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M6_MEAN, M6_SD)
+M7_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M7_MEAN, M7_SD)
+M8_rtruncnormal_100 = truncnorm::rtruncnorm(n=100, 0, Inf, M8_MEAN, M8_SD)
+
+
+C1 = mean(C1_rtruncnormal_100)
+C2 = mean(C2_rtruncnormal_100)
+C3 = mean(C3_rtruncnormal_100)
+C4 = mean(C4_rtruncnormal_100)
+C5 = mean(C5_rtruncnormal_100)
+C6 = mean(C6_rtruncnormal_100)
+C7 = mean(C7_rtruncnormal_100)
+C8 = mean(C8_rtruncnormal_100)
+
+D1 = mean(D1_rtruncnormal_100)
+D2 = mean(D2_rtruncnormal_100)
+D3 = mean(D3_rtruncnormal_100)
+D4 = mean(D4_rtruncnormal_100)
+D5 = mean(D5_rtruncnormal_100)
+D6 = mean(D6_rtruncnormal_100)
+D7 = mean(D7_rtruncnormal_100)
+D8 = mean(D8_rtruncnormal_100)
+
+E1 = mean(E1_rtruncnormal_100)
+E2 = mean(E2_rtruncnormal_100)
+E3 = mean(E3_rtruncnormal_100)
+E4 = mean(E4_rtruncnormal_100)
+E5 = mean(E5_rtruncnormal_100)
+E6 = mean(E6_rtruncnormal_100)
+E7 = mean(E7_rtruncnormal_100)
+E8 = mean(E8_rtruncnormal_100)
+
+F1 = mean(F1_rtruncnormal_100)
+F2 = mean(F2_rtruncnormal_100)
+F3 = mean(F3_rtruncnormal_100)
+F4 = mean(F4_rtruncnormal_100)
+F5 = mean(F5_rtruncnormal_100)
+F6 = mean(F6_rtruncnormal_100)
+F7 = mean(F7_rtruncnormal_100)
+F8 = mean(F8_rtruncnormal_100)
+
+G1 = mean(G1_rtruncnormal_100)
+G2 = mean(G2_rtruncnormal_100)
+G3 = mean(G3_rtruncnormal_100)
+G4 = mean(G4_rtruncnormal_100)
+G5 = mean(G5_rtruncnormal_100)
+G6 = mean(G6_rtruncnormal_100)
+G7 = mean(G7_rtruncnormal_100)
+G8 = mean(G8_rtruncnormal_100)
+
+H1 = mean(H1_rtruncnormal_100)
+H2 = mean(H2_rtruncnormal_100)
+H3 = mean(H3_rtruncnormal_100)
+H4 = mean(H4_rtruncnormal_100)
+H5 = mean(H5_rtruncnormal_100)
+H6 = mean(H6_rtruncnormal_100)
+H7 = mean(H7_rtruncnormal_100)
+H8 = mean(H8_rtruncnormal_100)
+
+I1 = mean(I1_rtruncnormal_100)
+I2 = mean(I2_rtruncnormal_100)
+I3 = mean(I3_rtruncnormal_100)
+I4 = mean(I4_rtruncnormal_100)
+I5 = mean(I5_rtruncnormal_100)
+I6 = mean(I6_rtruncnormal_100)
+I7 = mean(I7_rtruncnormal_100)
+I8 = mean(I8_rtruncnormal_100)
+
+J1 = mean(J1_rtruncnormal_100)
+J2 = mean(J2_rtruncnormal_100)
+J3 = mean(J3_rtruncnormal_100)
+J4 = mean(J4_rtruncnormal_100)
+J5 = mean(J5_rtruncnormal_100)
+J6 = mean(J6_rtruncnormal_100)
+J7 = mean(J7_rtruncnormal_100)
+J8 = mean(J8_rtruncnormal_100)
+
+K1 = mean(K1_rtruncnormal_100)
+K2 = mean(K2_rtruncnormal_100)
+K3 = mean(K3_rtruncnormal_100)
+K4 = mean(K4_rtruncnormal_100)
+K5 = mean(K5_rtruncnormal_100)
+K6 = mean(K6_rtruncnormal_100)
+K7 = mean(K7_rtruncnormal_100)
+K8 = mean(K8_rtruncnormal_100)
+
+L1 = mean(L1_rtruncnormal_100)
+L2 = mean(L2_rtruncnormal_100)
+L3 = mean(L3_rtruncnormal_100)
+L4 = mean(L4_rtruncnormal_100)
+L5 = mean(L5_rtruncnormal_100)
+L6 = mean(L6_rtruncnormal_100)
+L7 = mean(L7_rtruncnormal_100)
+L8 = mean(L8_rtruncnormal_100)
+
+M1 = mean(M1_rtruncnormal_100)
+M2 = mean(M2_rtruncnormal_100)
+M3 = mean(M3_rtruncnormal_100)
+M4 = mean(M4_rtruncnormal_100)
+M5 = mean(M5_rtruncnormal_100)
+M6 = mean(M6_rtruncnormal_100)
+M7 = mean(M7_rtruncnormal_100)
+M8 = mean(M8_rtruncnormal_100)
+```
+
+Below, we presented organize our results into a table and compare with
+absolute input values (CarbonStocks), and Monte Carlo estimates
+generated with SimVoi (CarbonStocks (MC)). For external comparisons,
+we have also saved these results in a new excel tab called
+"CarbonStocks (MC-R)".
+
+```{r, class.source = c("numCode", "r", "numberLines"), message=F, warning=F, error=F, comment=NA, eval=F}
+CarbonStocks_MC_R = flextable(head(CarbonStocks_MC_R_df[, 1:8])) |> 
+  fontsize(size = 8, part = "all")
+CarbonStocks_MC_R
+
+Degradation_MC_R = flextable(head(Degradation_MC_R_df[, 1:8])) |> 
+  fontsize(size = 8, part = "all")
+Degradation_MC_R
+```
+
+### *Table 4: Results of Monte Carlo simulations of CarbonStocks tabsheet using R*
+
+```{r, class.source = c("numCode", "r", "numberLines"), echo=T, warning=F, message=F, error=F, comment=NA}
+CarbonStocks_MC_R = flextable(CarbonStocks_MC_R_df) |> 
+  width(width = 1) |> fit_to_width(max_width = 6) |>
+  colformat_double(big.mark = ",", digits = 1, na_str = "N/A")
+CarbonStocks_MC_R
+```
+
+### *Table 5: Results of Monte Carlo simulations of CarbonStocks tabsheet using SimVoi*
+
+![](data/PNG/carbonstocks_mc.png)
+
+### *Table 6: Results of Monte Carlo simulations of DegradationEFs tabsheet using R*
+
+```{r, class.source = c("numCode", "r", "numberLines"), echo=F, warning=F, message=F, error=F, comment=NA}
+Degradation_MC_R = flextable(Degradation_MC_R_df) |> 
+  fontsize(size = 8, part = "all") |>
+  set_table_properties(width = 1, layout = "autofit")|>
+  colformat_double(big.mark = ",", digits = 1, na_str = "N/A")
+Degradation_MC_R
+```
+
+### *Table 7: Results of Monte Carlo simulations of Degradation EFs tabsheet using SimVoi*
+
+![](data/PNG/degradation_mc.png)
+
+### *Table 8: Results of Monte Carlo simulations of Activity Data tabsheet using R*
+
+```{r, class.source = c("numCode", "r", "numberLines"), echo=F, warning=F, message=F, error=F, comment=NA}
+driver_names <- c(
+  "Forestry infrastructure",
+  "Agriculture",
+  "Mining (med & large scale)",
+  "Mining infrastructure",
+  "Infrastructure",
+  "Settlements",
+  "Fire-Biomass burning",
+  "Shifting Cultivation"
+)
+
+ActivityData_df <- data.frame(
+  Drivers = driver_names,
+  units   = rep("ha", length(driver_names)),
+  `2011`  = c(A1, A2, A3, A4, A5, A6, A7, A8),
+  `2012`  = c(B1, B2, B3, B4, B5, B6, B7, B8),
+  `2013`  = c(C1, C2, C3, C4, C5, C6, C7, C8),
+  `2014`  = c(D1, D2, D3, D4, D5, D6, D7, D8),
+  `2015`  = c(E1, E2, E3, E4, E5, E6, E7, E8),
+  `2016`  = c(F1, F2, F3, F4, F5, F6, F7, F8),
+  `2017`  = c(G1, G2, G3, G4, G5, G6, G7, G8),
+  `2018`  = c(H1, H2, H3, H4, H5, H6, H7, H8),
+  `2019`  = c(I1, I2, I3, I4, I5, I6, I7, I8),
+  `2020`  = c(J1, J2, J3, J4, J5, J6, J7, J8),
+  `2021`  = c(K1, K2, K3, K4, K5, K6, K7, K8),
+  `2022`  = c(L1, L2, L3, L4, L5, L6, L7, L8),
+  `2023`  = c(M1, M2, M3, M4, M5, M6, M7, M8)
+)
+
+ActivityData_MC_R <- flextable(ActivityData_df[, 1:7]) |> 
+  width(width = 1) |> fit_to_width(max_width = 6.2) |>
+  colformat_double(big.mark = ",", digits = 0, na_str = "N/A")
+ActivityData_MC_R
+```
+
+### *Table 8: Results of Monte Carlo simulations of Activity Data tabsheet using SimVoi* 
+
+![](data/PNG/activitydata_mc.png)
+
+## Replication Results
+
+In the following chunk, we compute the final uncertainty estimates for
+the simulated emission reductions (GHG ER) using a truncated normal
+distribution. With 10,000 simulation trials, we calculate key
+statistics, mean, standard deviation, and mean standard error, along
+with distributional percentiles. By extracting the 5th and 95th
+percentiles, we form a 90% confidence interval (CI) from which we
+derive the margin of error (ME) and its corresponding percentage error
+relative to the mean. These computed metrics replicate the SimVoi
+univariate summary and provide a statistical summary of the
+uncertainty associated with the emissions reduction estimates.
+
+```{r}
+# Emission Reductions (MC-R)
+ER_values <- c(7715885, 10371977, 10040723, 6358705, 7174999, 6977178, 9223423, 7299024)
+ER_mean_emp <- mean(ER_values)
+ER_sd_emp   <- sd(ER_values)
+n_sim <- 10000
+
+# Simulate a truncated normal distribution & compute stats
+sim_ER <- rtruncnorm(n = n_sim, a = 0, b = Inf, mean = ER_mean_emp, sd = ER_sd_emp)
+sim_mean <- mean(sim_ER)
+sim_sd   <- sd(sim_ER)
+sim_se   <- sim_sd / sqrt(length(sim_ER))
+sim_skew <- moments::skewness(sim_ER)
+sim_quant <- quantile(sim_ER, probs = c(0, 0.25, 0.5, 0.75, 1))
+lower90 <- quantile(sim_ER, probs = 0.05)
+upper90 <- quantile(sim_ER, probs = 0.95)
+ci90 <- upper90 - lower90  
+ME <- ci90 / 2
+pct_error <- ME / sim_mean * 100
+
+ER_summary <- data.frame(
+  Metric = c("Mean", "St. Dev.", "Mean St. Error", "Skewness",
+             "Minimum", "1st Quartile", "Median", "3rd Quartile", "Maximum",
+             "5th Percentile", "95th Percentile", "90% CI", "Margin of Error", "% Error"),
+  Value  = c(round(sim_mean),     round(sim_sd),
+             round(sim_se),       round(sim_skew, 3),
+             round(sim_quant[1]), round(sim_quant[2]),
+             round(sim_quant[3]), round(sim_quant[4]),
+             round(sim_quant[5]), round(lower90),
+             round(upper90), round(ci90),
+             round(ME), round(pct_error, 2))
+  )
+```
+
+### Table 9: Simulated Univariate Summary of Emission Reductions (GHG ER)
+
+```{r, echo=F}
+flextable(ER_summary)  |> fontsize(size=8,part="all") |> 
+  set_table_properties(layout = "autofit")
+```
+
+## Distribution analysis
+
+This distribution analysis is a critical step in our Monte Carlo
+simulation process (Bhanti, 2025). It visually and statistically
+confirms that the simulations accurately reflect the empirical
+characteristics of the input data. Normality tests (Shapiro, Sandford
+& Wilk, 1965) and visualizations below (Figures 9-16) guide necessary
+parameter adjustments and monitor for systematic errors. Failure to
+perform this step risks masking or exaggerating inherent biases, which
+could undermine the reliability of our estimates. Figures 1–8 display
+the simulated distributions, while Figures 9–16 show the original data
+distributions. Discrepancies between them highlight opportunities for
+effectively reducing uncertainty. We recommend to refine the current
+simulation approach by incorporating data-specific models fitted with
+log-normal or beta distributions.
+
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.width="50%", message=F, warning=F, error=F, comment=NA}
+# Distribution of Monte Carlo derived estimates
+hist(A_rtruncnormal_100, freq=F, main="Aboveground Tree Biomass (tC/ha)")
+hist(B_rtruncnormal_100, freq=F, main="Belowground Tree Biomass (tC/ha)")
+hist(C_rtruncnormal_100, freq=F, main="Saplings Biomass (tC/ha)")
+hist(D_rtruncnormal_100, freq=F, main="Standing Dead Wood (tC/ha)")
+hist(E_rtruncnormal_100, freq=F, main="Lying Dead Wood (tC/ha)")
+hist(F_rtruncnormal_100, freq=F, main="Litter Biomass (tC/ha)")
+hist(G_rtruncnormal_100, freq=F, main="Sum Pools w/o Soil (tC/ha)")
+hist(H_rtruncnormal_100, freq=F, main="Soil Biomass (tC/ha)")
+```
+
+### *Figures 1-8: Distribution analysis of simulated estimates of carbon stock variables*
+
+![](data/PNG/distribution_histograms_mb.png)
+
+### *Figures 9-16: Distribution analysis of carbon stock input variables (Bhanti, 2025-03-17)*
+
+When preparing for Monte Carlo simulations, it is best practice to
+start by examining descriptive statistics to characterize the
+empirical distributions of input variables. This preliminary analysis
+typically includes statistical tests for normality and visualizations
+of univariate distributions, such as histograms, kernel density plots,
+and Q-Q plots. Together, these tools provide critical insights into
+the shape, spread, symmetry, skewness, and presence of potential
+outliers in the data. Although this preliminary step may seem minor,
+it substantially influences uncertainty estimates, which can directly
+translate into increased financial returns, particularly within forest
+project landscapes exhibiting non-normal data distributions.
+
+Accurately characterizing data distributions also helps in identifying
+and addressing biases, thereby ensuring high data quality and
+increasing confidence in subsequent estimations of biomass and carbon
+emissions. Selecting appropriate statistical distributions, informed
+by exploratory analyses, significantly enhances the reliability and
+precision of Monte Carlo simulations. Consequently, such careful
+statistical characterizations reduce overall uncertainty in forest
+biomass and emissions estimates. In turn, this strengthens the
+credibility of jurisdictional claims made under REDD+ programs and
+maximizes potential financial returns for Guyana from carbon financing
+initiatives.
+
+Univariate distribution visualizations additionally provide auditors
+with useful diagnostic resources, enabling rapid identification and
+characterization of biases commonly encountered in biomass data. These
+diagrams help auditors efficiently assess the technical rigor and
+statistical approaches implemented by the project to monitor and
+manage uncertainty (ART, 2021: 8). Winrock strongly recommends
+incorporating distribution analyses early in a project's quantitative
+planning and throughout its technical standard operating procedures
+(SOPs). Such early integration represents a low hanging fruit with
+cost-effective strategy and significant potential in reducing audit
+findings, lowering uncertainty, and enhancing financial outcomes for
+Guyana's REDD+ activities. Specifically, early attention to data
+distributions directly informs appropriate simulation selection from
+the available options in SimVoi.
+
+To effectively guide practitioners and stakeholders in selecting
+appropriate statistical distributions for Monte Carlo methods within
+forestry and REDD+ contexts, the following two tables present findings
+from a rapid review of relevant literature. The review identified and
+summarized statistical distributions frequently encountered in
+forestry, biomass estimation, and emissions analysis, which are
+dis-aggregated below between discrete and continuous types and
+according to their inherent statistical characteristics.
+
+### *Table 9: Continuous data distributions, example cases & equations used in Monte Carlo simulations.*
+
+![](data/PNG/distribution_continuous.png)
+
+### *Table 10: Discrete data distributions, example cases & equations used in Monte Carlo simulations.*
+
+![](data/PNG/distribution_discrete.png)
+
+Discrete distributions describe forestry monitoring scenarios where
+data outcomes are countable and finite. Common examples include the
+number of deforestation events, occurrences of wildfires, or counts of
+logged trees within a defined monitoring interval. Accurate
+representation of discrete events using appropriate distributions such
+as Binomial, Poisson, or Negative Binomial significantly enhances the
+accuracy of model predictions and uncertainty assessments. For
+instance, employing a Poisson distribution to model occurrences of
+illegal logging events can improve the precision of estimated
+deforestation emissions and reduce uncertainty around compliance
+risks.
+
+In contrast, continuous distributions capture variables capable of
+taking any value within a specified range and are particularly
+relevant in forestry when modeling measurements such as tree heights,
+carbon stock densities, or biomass values. Continuous distributions
+like the Normal (Gaussian), Lognormal, Weibull, and Gamma
+distributions frequently arise in ecological modeling and biomass
+estimations due to their ability to realistically represent ecological
+variability and complex environmental factors. For example, using a
+Lognormal distribution for tree biomass data often provides more
+reliable estimates, particularly when the dataset is right-skewed due
+to natural variability in tree growth and forest conditions.
+
+Central to these distributions are two mathematical concepts:
+Probability Mass Functions (PMFs) for discrete data and Probability
+Density Functions (PDFs) for continuous data. PMFs allocate specific
+probabilities to discrete outcomes, essential for accurately
+simulating events such as species occurrences or forest disturbances.
+PDFs describe the relative likelihood of continuous data points,
+enabling the robust estimation of variables like forest carbon content
+or annual biomass increment.
+
+In Monte Carlo simulations, precise definition and utilization of PMFs
+and PDFs are crucial. These functions underpin random sampling
+processes that directly influence the reliability, precision, and
+credibility of uncertainty estimates. Given that forestry data is
+known to exhibit non-normal distributions due to inherent ecological
+heterogeneity that, informed selection and rigorous application of
+these functions are vital. Accurate modeling of the underlying data
+distribution enhances biomass and emissions estimates, significantly
+reduces uncertainty, and bolsters the financial and ecological
+credibility of REDD+ reporting initiatives (Morgan & Henrion, 1990;
+IPCC, 2019; ART, 2021).
+
+Practitioners are encouraged to conduct exploratory data analysis
+early in their project planning stages, integrating statistical tests
+of normality and visual assessments (histograms, kernel density plots,
+Q-Q plots). Such preliminary analyses assist in diagnosing data
+distributions accurately, improving model selection, reducing
+potential auditor findings, and ultimately enhancing the financial and
+environmental outcomes of national REDD+ monitoring programs.
+
+## Recommendations
+
+-   Regarding simulation parameters,
+    *"RandTruncNormal(Mean,StDev,MinValue,MaxValue)) uses values of
+    RandNormal until a value is found between MinValue and MaxValue or
+    until it has made 10,000 attempts."* The formula applied in
+    Guyana's verified workbook uses a minimum value of `0`.
+    Considering the levels of quantitative variance between input
+    values in the "CarbonStocks" tabsheet and SimVoi-simulated
+    estimates in "CarbonStocks (MC)" tabsheet, we may assume that
+    approximately less than \~100 simulations were completed before
+    values were reached "*between MinValue and MaxValue"* . It is
+    useful to consider that with increasing numbers of simulations the
+    closer the mean values generated should be to absolute input
+    values. Therefore, in order to test this assumption we simply ran
+    10,000 simulations, which generated mean estimates of within
+    `2 tC ha-1` of input values (`205 tC ha-1`) 10 times of 10 reruns.
+    By reducing the number of iterations per simulation, we confirm
+    our assumptions that the current SimVoi setup provided estimates
+    from \~\<100 simulations.
+
+-   We recommend increasing the number of simulation iterations from
+    100 to a higher number, in order to reduce variance in and
+    beteween simulated estimates, which thereby provide more robust
+    uncertainty quantification.
+
+-   It is advised to consider performing sensitivity analyses in order
+    to identify which input parameters contribute most to overall
+    uncertainty, thereby informing targeted data collection and model
+    refinement efforts.
+
+-   Furthermore, distribution analysis confirms that our simulation
+    outputs approximate the expected statistical distributions of the
+    underlying data. In the next phase, we recommend incorporating the
+    observed distributional characteristics into the Monte Carlo
+    simulation framework. This adjustment—using distribution-specific
+    models (e.g., log-normal, beta, etc.)—is essential for reducing
+    uncertainty and ensuring that our estimates carry statistical
+    significance.
+
+## References
+
+(1) ART, S. *The REDD+ Environmental Excellence Standard*; 2021.
+    <https://www.artredd.org/wp-content/uploads/2021/12/TREES-2.0-August-2021-Clean.pdf>.
+
+(2) Bolker, B. (2008). *Ecological Models and Data in R.* Princeton
+    University Press.
+
+(3) Brown, I. F.; Foster Brown, I.; Martinelli, L. A.; Wayt Thomas,
+    W.; Moreira, M. Z.; Cid Ferreira, C. A.; Victoria, R. A.
+    Uncertainty in the Biomass of Amazonian Forests: An Example from
+    Rondônia, Brazil. *Forest Ecology and Management* 1995, *75*
+    (1–3), 175–189.
+    [https://doi.org/10.1016/0378-1127(94)03512-u](https://doi.org/10.1016/0378-1127(94)03512-u).
+
+(4) Cohen, R.; Kaino, J.; Okello, J. A.; Bosire, J. O.; Kairo, J. G.;
+    Huxham, M.; Mencuccini, M. Uncertainty to Estimates of
+    Above-Ground Biomass for Kenyan Mangroves: A Scaling Procedure
+    from Tree to Landscape Level. In *Forest ecology and management*;
+    2013; Vol. 310, pp 968–982.
+    <https://doi.org/10.1016/j.foreco.2013.09.047>.
+
+(5) Chen, Q.; Laurin, G. V.; Valentini, R. Uncertainty of Remotely
+    Sensed Aboveground Biomass over an African Tropical Forest:
+    Propagating Errors from Trees to Plots to Pixels. *Remote Sensing
+    of Environment* 2015, *160*, 134–143.
+    [https://doi.org/10.1016/j.rse.2015.01.009](#0).
+
+(6) Holdaway, R. J.; McNeill, S. J.; Mason, N. W. H.; Carswell, F. E.
+    Propagating Uncertainty in Plot-Based Estimates of Forest Carbon
+    Stock and Carbon Stock Change. *Ecosystems* 2014, *17*, 627–640.
+    [https://doi.org/10.1007/s10021-014-9749-5](#0).
+
+(7) Chen, Q.; McRoberts, R. E.; Wang, C.; Radtke, P. J. Forest
+    Aboveground Biomass Mapping and Estimation Across Multiple Spatial
+    Scales Using Model-Based Inference. *Remote Sensing of
+    Environment* 2016, *184*, 350–360.
+    <https://doi.org/10.1016/j.rse.2016.07.023>.
+
+(8) Chave, J.; Condit, R.; Aguilar, S.; Hernandez, A.; Lao, S.;
+    Perez, R. Error Propagation and Scaling for Tropical Forest
+    Biomass Estimates. *Philosophical Transactions of the Royal
+    Society of London. Series B: Biological Sciences* 2004, *359*
+    (1443), 409–420.
+
+(9) Keller, M.; Palace, M.; Hurtt, G. Biomass Estimation in the
+    Tapajos National Forest, Brazil. *Forest Ecology and Management*
+    2001, *154*, 371–382.
+
+(10) McRoberts, R. E.; Moser, P.; Oliveira, L. Z.; Vibrans, A. C. A
+     General Method for Assessing the Effects of Uncertainty in
+     Individual-Tree Volume Model Predictions on Large-Area Volume
+     Estimates 222 with a Subtropical Forest Illustration. *Canadian
+     Journal of Forest Research* 2015, *45*.
+
+(11) Melson, S. L.; Harmon, M. E.; Fried, J. S.; Domingo, J. B.
+     Estimates of Live-Tree Carbon Stores in the Pacific Northwest Are
+     Sensitive to Model Selection. *Carbon Balance and Management*
+     2011, *6*, 2.
+
+(12) Molto, Q.; Rossi, V.; Blanc, L. Error Propagation in Biomass
+     Estimation in Tropical Forests. *Methods in Ecology and
+     Evolution* 2013, *4*, 175–183.
+     <https://doi.org/10.1111/j.2041-210x.2012.00266.x>.
+
+(13) Picard, N.; Bosela, F. B.; Rossi, V. Reducing the Error in
+     Biomass Estimates Strongly Depends on Model Selection. *Annals of
+     Forest Science* 2015, *72* (6), 811–823.
+     <https://doi.org/10.1007/s13595-014-0434-9>.
+
+(14) Yanai, R. D.; Battles, J. J.; Richardson, A. D.; Blodgett, C. A.;
+     Wood, D. M.; Rastetter, E. B. Estimating Uncertainty in Ecosystem
+     Budget Calculations. *Ecosystems* 2010, *13*, 239–248.
+     <https://doi.org/10.1007/s10021-010-9315-8>.
+
+(15) Limpert, E., Stahel, W. A., & Abbt, M. (2001). "Log-normal
+     distributions across the sciences: Keys and clues." *BioScience*,
+     51(5), 341–352.
+
+(16) Morgan, M. G., & Henrion, M. (1990). *Uncertainty: A Guide to
+     Dealing with Uncertainty in Quantitative Risk and Policy
+     Analysis.* Cambridge University Press.
+
+(17) Ross, S. M. (2019). *Introduction to Probability Models* (12th
+     ed.). Academic Press.
+
+(18) Shapiro, Samuel Sanford, and Martin B. Wilk. "An analysis of
+     variance test for normality (complete samples)." *Biometrika* 52,
+     no. 3-4 (1965): 591-611.
+
+### Annex I: SimVoi replication in base-R
+
+Using the following base functions from R avoids need for any package
+installations and limits risk of bugs or common problems with R
+versioning arising in the workflow. However, the base functions below
+are a little clunkier and may require additional guidance. Regarding R
+and package versions, please consult the Annex II which presents
+record of the current runtime used in this analysis.
+
+```{r, eval=F}
+randtruncnormal_sim_10000 <- rnorm(n=10,mean=MEAN,sd=SD)
+hist(randtruncnormal_sim_10000, freq=F)
+AG_Tree_tC_ha   = mean(randtruncnormal_sim_10000)
+AG_Tree_tCO2_ha = AG_Tree_tC_ha*(44/12)
+AG_Tree_tC_ha
+AG_Tree_tCO2_ha
+#curve(dnorm(x, mean=MEAN, sd=SD), from=0, to=450, add=T, col="red")
+
+# 10,000 simulations sampling 10 observations
+randtruncnormal_sim_10000_10 = replicate(n=10000, rnorm(n=10,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 100 observations
+randtruncnormal_sim_10000_100 = replicate(n=10000,rnorm(n=100,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_100, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 1,000 observations
+randtruncnormal_sim_10000_1000 = replicate(n=10000, rnorm(n=1000,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_1000, MARGIN=2, FUN=mean)))*(44/12)
+
+# 10,000 simulations sampling 10,000 observations
+randtruncnormal_sim_10000_10000 = replicate(n=10000,rnorm(n=10000,mean=MEAN,sd=SD))
+hist(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+sd(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
+(mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean)))*(44/12)
+```
+
+### Annex II: Rapid literature review of Monte Carlo methods in REDD+
+
+###### *Table A.2: Search parameters, resource scope, and objectives informing search*
+
+|  |  |  |  |
+|------------------|:-----------------|:-----------------|:-----------------|
+| **REDD+**[^2] | **MC Application** | **Region** | **Key Findings** |
+| ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. |
+| ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. |
+| ADD | Blanket uncertainty propagation | Ghana | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing. |
+| ADD | Plot-based uncertainty | New Zealand | Cross-plot variance greatest magnitude of uncertainty |
+| JNR | Multi-scale AGB uncertainty modeling | Minnesota, USA | Cross-scale tests showing effects of spatial resolution on AGB uncertainty. |
+| N/A | Allometric uncertainty modeling | Panama | Allometric models identified as largest source of biomass estimation error. |
+| ADD | Sampling and allometric uncertainty | Tapajos Nat Forest, Brazil | Significance of allometric models on uncertainty of root biomass, 95% CI, 21 plots. |
+| ADD | Uncertainty of volume estimates | Santa Catarina, Brazil | Negligible effects of residual uncertainty on large-area estimates |
+| N/A | Uncertainty metrics in model selection | Oregon, USA | Uncertainty estimates call for local validation or new local model development |
+| ADD | AGB model uncertainty | French Guiana | AGB sub-model errors dominate uncertainty; height and wood-specific gravity errors are minor but can cause bias. |
+| IFM | Emission factor uncertainty | Central Africa | Model selection is the largest error source (40%); weighting models reduces uncertainty in emission factors. |
+| NA | Uncertainty in ecosystem nutrient estimate | New Hampshire, USA | Identified 8% uncertainty in nitrogen budgets, mainly from plot variability (6%) and allometric errors (5%). |
+
+[^2]: 1\. ADD: Avoided deforestation degradation, IFM: Improved forest
+    management, JNR: Jurisdictional nested REDD+
+
+### Annex III: Runtime snapshot
+
+```{r, class.source = c("numCode", "r", "numberLines")}
+devtools::session_info()
+#Sys.getenv()
+#.libPaths()
+```
