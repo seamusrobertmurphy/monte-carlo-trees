@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.12.17)  25 MAR 2025 02:13
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.12.17)  25 MAR 2025 03:58
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -636,26 +636,26 @@ Package: xurl 2022/01/09 v 0.10 modify URL breaks
 ) (./monte-carlo-trees-V3.aux)
 \openout1 = `monte-carlo-trees-V3.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 138.
-LaTeX Font Info:    ... okay on input line 138.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 139.
+LaTeX Font Info:    ... okay on input line 139.
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -691,19 +691,19 @@ LaTeX Font Info:    ... okay on input line 138.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/lmr/m/n --> TU/lmr/m/n on input line 138.
+(Font)                  OT1/lmr/m/n --> TU/lmr/m/n on input line 139.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/lmr/m/it --> TU/lmr/m/it on input line 138.
+(Font)                  OT1/lmr/m/it --> TU/lmr/m/it on input line 139.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/lmr/bx/n --> TU/lmr/bx/n on input line 138.
+(Font)                  OT1/lmr/bx/n --> TU/lmr/bx/n on input line 139.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 138.
+(Font)                  OT1/lmss/m/n --> TU/lmss/m/n on input line 139.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/lmss/bx/n --> TU/lmss/bx/n on input line 138.
+(Font)                  OT1/lmss/bx/n --> TU/lmss/bx/n on input line 139.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 138.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/m/n on input line 139.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/lmtt/m/n --> TU/lmtt/bx/n on input line 138.
+(Font)                  OT1/lmtt/m/n --> TU/lmtt/bx/n on input line 139.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -732,7 +732,7 @@ pt=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(0)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 138.
+(Font)              scaled to size 10.0pt on input line 139.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -771,18 +771,18 @@ pt=math;language=dflt;"
 (fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 10.0pt on input line 138.
+(Font)              scaled to size 10.0pt on input line 139.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 138.
+(Font)              `operators' in the math version `normal' on input line 139.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/lmr/m/n --> TU/latinmodern-math.otf(1)/m/n on input
- line 138.
+ line 139.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 138.
+(Font)              `operators' in the math version `bold' on input line 139.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
 (Font)                  OT1/lmr/bx/n --> TU/latinmodern-math.otf(1)/b/n on inpu
-t line 138.
+t line 139.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -869,15 +869,15 @@ t=math;language=dflt;"
 (fontspec)             \fontdimen 21\font =0pt\relax 
 
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `normal' on input line 138.
+(Font)              `symbols' in the math version `normal' on input line 139.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `normal'
 (Font)                  OMS/lmsy/m/n --> TU/latinmodern-math.otf(2)/m/n on inpu
-t line 138.
+t line 139.
 LaTeX Font Info:    Encoding `OMS' has changed to `TU' for symbol font
-(Font)              `symbols' in the math version `bold' on input line 138.
+(Font)              `symbols' in the math version `bold' on input line 139.
 LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
 (Font)                  OMS/lmsy/b/n --> TU/latinmodern-math.otf(2)/b/n on inpu
-t line 138.
+t line 139.
 
 Package fontspec Info: latinmodern-math scale = 0.9999964596882403.
 
@@ -947,22 +947,22 @@ pt=math;language=dflt;"
 
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
 (Font)              `largesymbols' in the math version `normal' on input line 1
-38.
+39.
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `normal'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/m/n on inpu
-t line 138.
+t line 139.
 LaTeX Font Info:    Encoding `OMX' has changed to `TU' for symbol font
-(Font)              `largesymbols' in the math version `bold' on input line 138
+(Font)              `largesymbols' in the math version `bold' on input line 139
 .
 LaTeX Font Info:    Overwriting symbol font `largesymbols' in version `bold'
 (Font)                  OMX/lmex/m/n --> TU/latinmodern-math.otf(3)/b/n on inpu
-t line 138.
-LaTeX Info: Redefining \microtypecontext on input line 138.
-Package microtype Info: Applying patch `item' on input line 138.
-Package microtype Info: Applying patch `toc' on input line 138.
-Package microtype Info: Applying patch `eqnum' on input line 138.
-Package microtype Info: Applying patch `footnote' on input line 138.
-Package microtype Info: Applying patch `verbatim' on input line 138.
+t line 139.
+LaTeX Info: Redefining \microtypecontext on input line 139.
+Package microtype Info: Applying patch `item' on input line 139.
+Package microtype Info: Applying patch `toc' on input line 139.
+Package microtype Info: Applying patch `eqnum' on input line 139.
+Package microtype Info: Applying patch `footnote' on input line 139.
+Package microtype Info: Applying patch `verbatim' on input line 139.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: No adjustment of tracking.
@@ -973,38 +973,38 @@ Package microtype Info: No adjustment of kerning.
 File: mt-LatinModernRoman.cfg 2021/02/21 v1.1 microtype config. file: Latin Mod
 ern Roman (RS)
 )
-Package hyperref Info: Link coloring OFF on input line 138.
+Package hyperref Info: Link coloring OFF on input line 139.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 12.0pt on input line 140.
+(Font)              scaled to size 12.0pt on input line 141.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 8.0pt on input line 140.
+(Font)              scaled to size 8.0pt on input line 141.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(1)/m/n' will be
-(Font)              scaled to size 6.0pt on input line 140.
+(Font)              scaled to size 6.0pt on input line 141.
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-40.
+41.
 (/usr/local/texlive/2024/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 12.0011pt on input line 140.
+(Font)              scaled to size 12.0011pt on input line 141.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 8.00073pt on input line 140.
+(Font)              scaled to size 8.00073pt on input line 141.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(2)/m/n' will be
-(Font)              scaled to size 6.00055pt on input line 140.
+(Font)              scaled to size 6.00055pt on input line 141.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 11.99872pt on input line 140.
+(Font)              scaled to size 11.99872pt on input line 141.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 7.99915pt on input line 140.
+(Font)              scaled to size 7.99915pt on input line 141.
 LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
-(Font)              scaled to size 5.99936pt on input line 140.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 140
+(Font)              scaled to size 5.99936pt on input line 141.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 141
 .
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 140
+LaTeX Font Info:    Trying to load font information for U+msb on input line 141
 .
 (/usr/local/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1032,7 +1032,7 @@ LaTeX Font Info:    Font shape `TU/latinmodern-math.otf(3)/m/n' will be
 \openout4 = `monte-carlo-trees-V3.toc'.
 
 
-Overfull \hbox (1.49498pt too wide) in paragraph at lines 191--193
+Overfull \hbox (1.49498pt too wide) in paragraph at lines 192--194
 []\TU/lmtt/m/n/10 RandTruncBiVarNormal(mean1,stdev1,mean2,stdev2,correl12, [min
 1],[max1],[min2],[max2]) 
  []
@@ -1092,7 +1092,7 @@ Package fontspec Info: Font family 'Helvetica(0)' created for font 'Helvetica'
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 
 LaTeX Font Info:    Font shape `TU/Helvetica(0)/m/n' will be
-(Font)              scaled to size 8.0pt on input line 252.
+(Font)              scaled to size 8.0pt on input line 253.
 
 Package fontspec Info: Helvetica scale = 0.9999963390480794.
 
@@ -1129,12 +1129,12 @@ Package fontspec Info: Font family 'Helvetica(1)' created for font 'Helvetica'
 (fontspec)             - 'bold italic small caps'  (b/scit) with NFSS spec.: 
 
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  TU/lmr/m/n --> TU/Helvetica(1)/m/n on input line 252.
+(Font)                  TU/lmr/m/n --> TU/Helvetica(1)/m/n on input line 253.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  TU/lmr/m/it --> TU/Helvetica(1)/m/it on input line 252.
+(Font)                  TU/lmr/m/it --> TU/Helvetica(1)/m/it on input line 253.
 
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  TU/lmr/bx/n --> TU/Helvetica(1)/b/n on input line 252.
+(Font)                  TU/lmr/bx/n --> TU/Helvetica(1)/b/n on input line 253.
 
 Package fontspec Info: Helvetica scale = 0.8272579836209012.
 
@@ -1184,7 +1184,7 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (12.15067pt too wide) in alignment at lines 246--254
+Overfull \hbox (12.15067pt too wide) in alignment at lines 247--255
  [] [] [] [] [] [] [] [] [] 
  []
 
@@ -1243,7 +1243,7 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (12.15067pt too wide) in alignment at lines 254--260
+Overfull \hbox (12.15067pt too wide) in alignment at lines 255--261
  [] [] [] [] [] [] [] [] [] 
  []
 
@@ -1572,7 +1572,7 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (12.15067pt too wide) in alignment at lines 260--300
+Overfull \hbox (12.15067pt too wide) in alignment at lines 261--301
  [] [] [] [] [] [] [] [] [] 
  []
 
@@ -1625,7 +1625,7 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (21.15878pt too wide) in alignment at lines 328--336
+Overfull \hbox (21.15878pt too wide) in alignment at lines 329--337
  [] [] [] [] [] [] [] [] 
  []
 
@@ -1678,396 +1678,7 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (21.15878pt too wide) in alignment at lines 336--342
- [] [] [] [] [] [] [] [] 
- []
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Package fontspec Info: Helvetica scale = 0.8272579836209012.
-
-
-Package fontspec Info: Helvetica scale = 1.
-
-
-Overfull \hbox (21.15878pt too wide) in alignment at lines 342--394
+Overfull \hbox (21.15878pt too wide) in alignment at lines 337--343
  [] [] [] [] [] [] [] [] 
  []
 
@@ -2162,7 +1773,396 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (11.7567pt too wide) in alignment at lines 422--430
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (21.15878pt too wide) in alignment at lines 343--395
+ [] [] [] [] [] [] [] [] 
+ []
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Package fontspec Info: Helvetica scale = 0.8272579836209012.
+
+
+Package fontspec Info: Helvetica scale = 1.
+
+
+Overfull \hbox (11.7567pt too wide) in alignment at lines 423--431
  [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
  []
 
@@ -2257,7 +2257,7 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (11.7567pt too wide) in alignment at lines 430--436
+Overfull \hbox (11.7567pt too wide) in alignment at lines 431--437
  [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
  []
 
@@ -2802,13 +2802,13 @@ Package fontspec Info: Helvetica scale = 0.8272579836209012.
 Package fontspec Info: Helvetica scale = 1.
 
 
-Overfull \hbox (11.7567pt too wide) in alignment at lines 436--476
+Overfull \hbox (11.7567pt too wide) in alignment at lines 437--477
  [] [] [] [] [] [] [] [] [] [] [] [] [] [] [] 
  []
 
 [2]
 LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 515.
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 513.
 [3] [4] [5] [6]
 
 Package fontspec Info: Helvetica scale = 0.8272575509708841.
@@ -2817,7 +2817,7 @@ Package fontspec Info: Helvetica scale = 0.8272575509708841.
 Package fontspec Info: Helvetica scale = 1.
 
 LaTeX Font Info:    Font shape `TU/Helvetica(0)/m/n' will be
-(Font)              scaled to size 7.0pt on input line 749.
+(Font)              scaled to size 7.0pt on input line 747.
 
 Package fontspec Info: Helvetica scale = 0.8272575509708841.
 
@@ -3853,22 +3853,22 @@ File: monte-carlo-trees-V3_files/figure-latex/unnamed-chunk-17-8.pdf Graphic fi
 le (type pdf)
 <use monte-carlo-trees-V3_files/figure-latex/unnamed-chunk-17-8.pdf>
 
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 1176--1184
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 1173--1181
 [][] []
  []
 
 
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 1176--1184
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 1173--1181
 [] []
  []
 
 
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 1176--1184
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 1173--1181
 [] []
  []
 
 
-Overfull \hbox (2.21999pt too wide) in paragraph at lines 1176--1184
+Overfull \hbox (2.21999pt too wide) in paragraph at lines 1173--1181
 [] [] 
  []
 
@@ -3881,17 +3881,16 @@ Overfull \vbox (19.49477pt too high) has occurred while \output is active []
 [11]
 File: data/PNG/distribution_continuous.png Graphic file (type bmp)
 <data/PNG/distribution_continuous.png>
-[12]
 File: data/PNG/distribution_discrete.png Graphic file (type bmp)
 <data/PNG/distribution_discrete.png>
-[13] [14]
+[12] [13]
 
-LaTeX Warning: Hyper reference `0' on page 15 undefined on input line 1375.
+LaTeX Warning: Hyper reference `0' on page 14 undefined on input line 1318.
 
 
-LaTeX Warning: Hyper reference `0' on page 15 undefined on input line 1380.
+LaTeX Warning: Hyper reference `0' on page 14 undefined on input line 1323.
 
-[15] [16] [17] [18] [19] [20] [21] (./monte-carlo-trees-V3.aux)
+[14] [15] [16] [17] [18] [19] [20] (./monte-carlo-trees-V3.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -3901,12 +3900,12 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 21244 strings out of 474773
- 391667 string characters out of 5757723
- 1966839 words of memory out of 5000000
- 43023 multiletter control sequences out of 15000+600000
+ 21248 strings out of 474773
+ 391831 string characters out of 5757723
+ 1965839 words of memory out of 5000000
+ 43027 multiletter control sequences out of 15000+600000
  564754 words of font info for 106 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  90i,12n,129p,1855b,530s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on monte-carlo-trees-V3.pdf (21 pages).
+Output written on monte-carlo-trees-V3.pdf (20 pages).

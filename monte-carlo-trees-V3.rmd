@@ -1,6 +1,6 @@
 ---
-title: "Monte Carlo Simulation Tools for REDD+ Uncertainty Estimates"
-date: 2024-12-19
+title: "Replication in R of SimVoi's Monte Carlo Simulations of Guyana's REDD+ Uncertainty Esimates"
+date: 2024-03-24
 output: 
   pdf_document:
     toc: TRUE
@@ -83,7 +83,7 @@ strengthen compliance with REDD+ requirements and VVB audits, and to
 provide an effective basis for reducing uncertainty and increasing
 revenue from emissions credits.
 
-## SimVoi Syntax
+## SimVoi syntax
 
 SimVoi provides seventeen random number generator functions[^1] that
 are operated with the following syntax:
@@ -200,10 +200,7 @@ ActivityData_input = flextable(head(ActivityData[, 1:15])) |> fontsize(size=8,pa
 ActivityData_input
 ```
 
-## SimVoi Replication
-
-We utilize the replicate function to repeat a simulation assuming a
-truncated normal distribution.
+## SimVoi replication
 
 ***CarbonStocks data***
 
@@ -877,11 +874,11 @@ ActivityData_MC_R <- flextable(ActivityData_df[, 1:7]) |>
 ActivityData_MC_R
 ```
 
-### *Table 8: Results of Monte Carlo simulations of Activity Data tabsheet using SimVoi* 
+### *Table 8: Results of Monte Carlo simulations of Activity Data tabsheet using SimVoi*
 
 ![](data/PNG/activitydata_mc.png)
 
-## Replication Results
+## Replication results
 
 In the following chunk, we compute the final uncertainty estimates for
 the simulated emission reductions (GHG ER) using a truncated normal
@@ -937,15 +934,14 @@ flextable(ER_summary)  |> fontsize(size=8,part="all") |>
 
 ## Distribution analysis
 
-This distribution analysis is a critical step in our Monte Carlo
-simulation process (Bhanti, 2025). It visually and statistically
-confirms that the simulations accurately reflect the empirical
-characteristics of the input data. Normality tests (Shapiro, Sandford
-& Wilk, 1965) and visualizations below (Figures 9-16) guide necessary
-parameter adjustments and monitor for systematic errors. Failure to
-perform this step risks masking or exaggerating inherent biases, which
-could undermine the reliability of our estimates. Figures 1–8 display
-the simulated distributions, while Figures 9–16 show the original data
+Distribution analysis is critical for ensuring Monte Carlo simulations
+accurately reflect the empirical characteristics of input data. Visual
+and statistical checks, such as normality tests (Shapiro, Sandford &
+Wilk, 1965) and distribution plots (Figures 9–16), verify data shape,
+spread, skewness, and outliers. Failure to perform this step risks
+masking or exaggerating inherent biases, which could undermine the
+reliability of our estimates. Figures 1–8 display the simulated
+distributions, while Figures 9–16 show the original data
 distributions. Discrepancies between them highlight opportunities for
 effectively reducing uncertainty. We recommend to refine the current
 simulation approach by incorporating data-specific models fitted with
@@ -967,55 +963,22 @@ hist(H_rtruncnormal_100, freq=F, main="Soil Biomass (tC/ha)")
 
 ![](data/PNG/distribution_histograms_mb.png)
 
-### *Figures 9-16: Distribution analysis of carbon stock input variables (Bhanti, 2025-03-17)*
+### *Figures 9-16: Distribution analysis of carbon stock input variables (Bhanti, 2025-03-17)* {#sec-figures-9-16-distribution-analysis-of-carbon-stock-input-variables-(bhanti-2025-03-17}
 
-When preparing for Monte Carlo simulations, it is best practice to
-start by examining descriptive statistics to characterize the
-empirical distributions of input variables. This preliminary analysis
-typically includes statistical tests for normality and visualizations
-of univariate distributions, such as histograms, kernel density plots,
-and Q-Q plots. Together, these tools provide critical insights into
-the shape, spread, symmetry, skewness, and presence of potential
-outliers in the data. Although this preliminary step may seem minor,
-it substantially influences uncertainty estimates, which can directly
-translate into increased financial returns, particularly within forest
-project landscapes exhibiting non-normal data distributions.
+In addition, these distributional visualizations above offer auditors
+useful diagnostic tools, enabling rapid identification and
+characterization of biases commonly encountered in biomass data. Such
+diagrams help auditors efficiently assess the statistical approaches
+implemented by the project to monitor and manage uncertainty. Winrock
+recommends incorporating distribution analyses early in a project's
+reporting lifecycle with the aim of reducing audit findings, lowering
+uncertainty, and enhancing financial outcomes for Guyana's REDD+
+activities. Early distribution analysis likewise informs simulations &
+parameters in SimVoi.
 
-Accurately characterizing data distributions also helps in identifying
-and addressing biases, thereby ensuring high data quality and
-increasing confidence in subsequent estimations of biomass and carbon
-emissions. Selecting appropriate statistical distributions, informed
-by exploratory analyses, significantly enhances the reliability and
-precision of Monte Carlo simulations. Consequently, such careful
-statistical characterizations reduce overall uncertainty in forest
-biomass and emissions estimates. In turn, this strengthens the
-credibility of jurisdictional claims made under REDD+ programs and
-maximizes potential financial returns for Guyana from carbon financing
-initiatives.
-
-Univariate distribution visualizations additionally provide auditors
-with useful diagnostic resources, enabling rapid identification and
-characterization of biases commonly encountered in biomass data. These
-diagrams help auditors efficiently assess the technical rigor and
-statistical approaches implemented by the project to monitor and
-manage uncertainty (ART, 2021: 8). Winrock strongly recommends
-incorporating distribution analyses early in a project's quantitative
-planning and throughout its technical standard operating procedures
-(SOPs). Such early integration represents a low hanging fruit with
-cost-effective strategy and significant potential in reducing audit
-findings, lowering uncertainty, and enhancing financial outcomes for
-Guyana's REDD+ activities. Specifically, early attention to data
-distributions directly informs appropriate simulation selection from
-the available options in SimVoi.
-
-To effectively guide practitioners and stakeholders in selecting
-appropriate statistical distributions for Monte Carlo methods within
-forestry and REDD+ contexts, the following two tables present findings
-from a rapid review of relevant literature. The review identified and
-summarized statistical distributions frequently encountered in
-forestry, biomass estimation, and emissions analysis, which are
-dis-aggregated below between discrete and continuous types and
-according to their inherent statistical characteristics.
+To guide practitioners in appropriate simulation designs, the
+following two tables present findings from a rapid literature review
+of Monte Carlo methods in forestry and REDD+ contexts (Annex II).
 
 ### *Table 9: Continuous data distributions, example cases & equations used in Monte Carlo simulations.*
 
@@ -1025,58 +988,35 @@ according to their inherent statistical characteristics.
 
 ![](data/PNG/distribution_discrete.png)
 
-Discrete distributions describe forestry monitoring scenarios where
-data outcomes are countable and finite. Common examples include the
-number of deforestation events, occurrences of wildfires, or counts of
-logged trees within a defined monitoring interval. Accurate
-representation of discrete events using appropriate distributions such
-as Binomial, Poisson, or Negative Binomial significantly enhances the
-accuracy of model predictions and uncertainty assessments. For
-instance, employing a Poisson distribution to model occurrences of
-illegal logging events can improve the precision of estimated
-deforestation emissions and reduce uncertainty around compliance
-risks.
+Discrete distributions model countable events in forestry, such as
+deforestation counts, wildfire occurrences, or logged trees, using
+tools like the Binomial, Poisson, or Negative Binomial distributions
+to improve prediction accuracy and uncertainty assessments. For
+example, a Poisson distribution can enhance precision in estimating
+deforestation emissions from illegal logging.
 
-In contrast, continuous distributions capture variables capable of
-taking any value within a specified range and are particularly
-relevant in forestry when modeling measurements such as tree heights,
-carbon stock densities, or biomass values. Continuous distributions
-like the Normal (Gaussian), Lognormal, Weibull, and Gamma
-distributions frequently arise in ecological modeling and biomass
-estimations due to their ability to realistically represent ecological
-variability and complex environmental factors. For example, using a
-Lognormal distribution for tree biomass data often provides more
-reliable estimates, particularly when the dataset is right-skewed due
-to natural variability in tree growth and forest conditions.
+Continuous distributions apply to variables that assume any value
+within a range, such as tree heights, carbon stock densities, or
+biomass. Common models, including Normal, Lognormal, Weibull, and
+Gamma distributions, capture ecological variability effectively; for
+instance, a Lognormal distribution often provides more reliable
+biomass estimates for right-skewed data.
 
-Central to these distributions are two mathematical concepts:
-Probability Mass Functions (PMFs) for discrete data and Probability
-Density Functions (PDFs) for continuous data. PMFs allocate specific
-probabilities to discrete outcomes, essential for accurately
-simulating events such as species occurrences or forest disturbances.
-PDFs describe the relative likelihood of continuous data points,
-enabling the robust estimation of variables like forest carbon content
-or annual biomass increment.
+The core mathematical concepts are the Probability Mass Function (PMF)
+for discrete data and the Probability Density Function (PDF) for
+continuous data. Accurate use of PMFs and PDFs is essential in Monte
+Carlo simulations, as they underpin random sampling processes that
+directly influence the reliability of uncertainty estimates. Rigorous
+selection of these functions enhances biomass and emissions estimates,
+reduces uncertainty, and supports the credibility of REDD+ reporting
+(Morgan & Henrion, 1990; IPCC, 2019; ART, 2021).
 
-In Monte Carlo simulations, precise definition and utilization of PMFs
-and PDFs are crucial. These functions underpin random sampling
-processes that directly influence the reliability, precision, and
-credibility of uncertainty estimates. Given that forestry data is
-known to exhibit non-normal distributions due to inherent ecological
-heterogeneity that, informed selection and rigorous application of
-these functions are vital. Accurate modeling of the underlying data
-distribution enhances biomass and emissions estimates, significantly
-reduces uncertainty, and bolsters the financial and ecological
-credibility of REDD+ reporting initiatives (Morgan & Henrion, 1990;
-IPCC, 2019; ART, 2021).
-
-Practitioners are encouraged to conduct exploratory data analysis
-early in their project planning stages, integrating statistical tests
-of normality and visual assessments (histograms, kernel density plots,
-Q-Q plots). Such preliminary analyses assist in diagnosing data
-distributions accurately, improving model selection, reducing
-potential auditor findings, and ultimately enhancing the financial and
-environmental outcomes of national REDD+ monitoring programs.
+Early exploratory data analysis, including statistical normality tests
+and visual assessments (histograms, kernel density plots, Q-Q plots),
+is recommended to diagnose data distributions, optimize model
+selection, and reduce audit findings, ultimately improving the
+financial and environmental outcomes of national REDD+ monitoring
+programs.
 
 ## Recommendations
 
@@ -1113,8 +1053,8 @@ environmental outcomes of national REDD+ monitoring programs.
     outputs approximate the expected statistical distributions of the
     underlying data. In the next phase, we recommend incorporating the
     observed distributional characteristics into the Monte Carlo
-    simulation framework. This adjustment—using distribution-specific
-    models (e.g., log-normal, beta, etc.)—is essential for reducing
+    simulation framework. This adjustment, using distribution-specific
+    models (e.g., log-normal, beta, etc.), is essential for reducing
     uncertainty and ensuring that our estimates carry statistical
     significance.
 
@@ -1208,7 +1148,7 @@ environmental outcomes of national REDD+ monitoring programs.
      variance test for normality (complete samples)." *Biometrika* 52,
      no. 3-4 (1965): 591-611.
 
-### Annex I: SimVoi replication in base-R
+## Annex I: SimVoi replication in base-R
 
 Using the following base functions from R avoids need for any package
 installations and limits risk of bugs or common problems with R
@@ -1255,9 +1195,9 @@ mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 (mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean)))*(44/12)
 ```
 
-### Annex II: Rapid literature review of Monte Carlo methods in REDD+
+## Annex II: Review of Monte Carlo methods in REDD+
 
-###### *Table A.2: Search parameters, resource scope, and objectives informing search*
+### *Table A.2: Search parameters, resource scope, and objectives informing search*
 
 |  |  |  |  |
 |------------------|:-----------------|:-----------------|:-----------------|
@@ -1278,7 +1218,7 @@ mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 [^2]: 1\. ADD: Avoided deforestation degradation, IFM: Improved forest
     management, JNR: Jurisdictional nested REDD+
 
-### Annex III: Runtime snapshot
+## Annex III: Runtime snapshot
 
 ```{r, class.source = c("numCode", "r", "numberLines")}
 devtools::session_info()
