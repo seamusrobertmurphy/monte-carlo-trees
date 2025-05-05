@@ -1,5 +1,7 @@
 ---
 title: "Review of SimVoi's Monte Carlo Simulations of Guyana's REDD+ Uncertainty Esimates"
+author:
+  - Winrock International^[seamus.murphy@winrock.org, pedro.piffer@winrock.org, meyru.bhanti@winrock.org]
 date: 2024-03-24
 output: 
   pdf_document:
@@ -24,7 +26,7 @@ editor_options:
 
 easypackages::packages(
   "animation", "allodb", "BIOMASS", "c2z", "caret", 
-  "dataMaid", "DescTools","dplyr",
+  "dataMaid", "DescTools","dplyr", "distill",
   "extrafont", "FawR", "flextable", "ForestToolsRS", 
   "formatR", "ggplot2", "htmltools",
   "janitor", "jsonlite", 
@@ -74,21 +76,25 @@ div.column {
 ## Objective
 
 Using an R-based approach, this analysis replicates the Monte Carlo
-simulations originally performed with SimVoi in Excel. It details the
-code used in the analysis, compares simulation results between R and
-Excel, and proposes next steps for enhancement based on statistical
-tests. Specifically, we identified updates needed to address empirical
-distributions of the input data. Such updates are recommended to both
-strengthen compliance with REDD+ requirements and VVB audits, and to
-provide an effective basis for reducing uncertainty and increasing
-revenue from emissions credits.
+simulations originally performed with the SimVoi add-in in Excel.[^1].
+It details the code used in the analysis, compares simulation results
+between R and Excel, and proposes next steps for enhancement based on
+statistical tests. Such updates are targeted to provide an effective
+basis for reducing uncertainty and increasing revenue from emissions
+credits.
+
+[^1]: Mac Add-in:
+    <https://treeplan.com/wp-content/uploads/How-To-Install-Mac-Excel-Addin.pdf>
+
+    Windows Add-in:
+    <https://treeplan.com/wp-content/uploads/How-To-Install-Windows-Excel-Addin.pdf>
 
 ## SimVoi syntax
 
-SimVoi provides seventeen random number generator functions[^1] that
+SimVoi provides seventeen random number generator functions[^2] that
 are operated with the following syntax:
 
-[^1]: [SimVoi-313-Guide.pdf](https://winrockintl-my.sharepoint.com/:b:/g/personal/seamus_murphy_winrock_org/EWbRF84sqtNGnjIRQSUENgIB_afC2L7oZkYI-GmmSBDiSA?e=enaHVv)
+[^2]: [SimVoi-313-Guide.pdf](https://treeplan.com/wp-content/uploads/SimVoi-311-Guide.pdf)
 
 -   `RandBeta(alpha,beta,,[MinValue],[MaxValue])`
 -   `RandBinomial(trials,probability_s)`
@@ -117,10 +123,10 @@ According to the documentation, *RandTruncNormal()* returns a random
 value from a truncated normal distribution, modeling an uncertain
 quantity with a bell-shaped density while excluding extreme tail
 values. If no simulation count is provided, the function repeatedly
-samples until a value falls between the specified minimum and
-maximum—or until it reaches 10,000 attempts. In the above example,
-only a minimum value of 0 is provided, so the default iteration limit
-is used.
+samples until a value falls between the specified minimum and maximum,
+or until it reaches 10,000 attempts. In the above example, only a
+minimum value of 0 is provided, so the default iteration limit is
+used.
 
 ***Import data***
 
@@ -202,6 +208,10 @@ ActivityData_input
 
 ## SimVoi replication
 
+Please note that the number of iterations per simulation were reduced
+in the following tests specifically to explore treatment of
+convergence in SimVoi defaults operations.
+
 ***CarbonStocks data***
 
 ```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=F, warning=F, error=F, comment=NA}
@@ -223,7 +233,6 @@ H_MEAN = CarbonStocks$soil_t_c_ha[1]
 H_SD   = CarbonStocks$soil_t_c_ha[2]
 
 # 100 simulations sampling 1 observation each iteration. 
-# NOTE: #no. of simulations reduced to match estimates (see "Observations")
 A_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,91.6,353.7,A_MEAN, A_SD)
 B_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,21.2,83.1,B_MEAN, B_SD)
 C_rtruncnormal_100 = truncnorm::rtruncnorm(n=100,0.5,18.8,C_MEAN, C_SD)
@@ -326,9 +335,10 @@ Degradation_MC_R_df = data.frame(
 
 ***Activity data***
 
-Please note that for purpose of saving space, columns and cells C1-M8
-were implemented with `echo-F` settings, and can be located in the
-R-markdown.rmd file used to derive this PDF.
+For purpose of saving space, columns and cells C1-M8 were implemented
+in the full script but omitted in the final render with chunk settings
+applied with `echo-F`. These, and can be located in the associated
+markdown.Rmd file provided with this PDF.
 
 ```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.height="50%", message=F, warning=F, error=F, comment=NA}
 A1_MEAN = ActivityData$x2011[1]
@@ -933,20 +943,20 @@ flextable(ER_summary)  |> fontsize(size=8,part="all") |>
 
 ## Distribution analysis
 
-Distribution analysis is critical for ensuring Monte Carlo simulations
-accurately reflect the empirical characteristics of input data. Visual
-and statistical checks, such as normality tests (Shapiro, Sandford &
-Wilk, 1965) and distribution plots (Figures 9–16), verify data shape,
-spread, skewness, and outliers. Failure to perform this step risks
-masking or exaggerating inherent biases, which could undermine the
-reliability of our estimates. Figures 1–8 display the simulated
+Distribution analysis is a critical to ensuring Monte Carlo
+simulations accurately reflect the empirical characteristics of input
+data. Visual and statistical checks, such as normality tests (Shapiro,
+Sandford & Wilk, 1965) and distribution plots (Figures 9–16), verify
+data shape, spread, skewness, and outliers. Overlooking this step
+risks masking or exaggerating inherent biases, thereby undermining
+reliability of estimates. Figures 1–8 display the simulated
 distributions, while Figures 9–16 show the original data
 distributions. Discrepancies between them highlight opportunities for
-effectively reducing uncertainty. We recommend to refine the current
-simulation approach by incorporating data-specific models fitted with
-log-normal or beta distributions.
+reducing uncertainty. We recommend to refine the current simulation
+approach by incorporating data-specific models, such as simulations
+fitted with log-normal and beta distributions.
 
-```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.width="50%", message=F, warning=F, error=F, comment=NA}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.width="50%", out.height="20%", message=F, warning=F, error=F, comment=NA}
 # Distribution of Monte Carlo derived estimates
 hist(A_rtruncnormal_100, freq=F, main="Aboveground Tree Biomass (tC/ha)")
 hist(B_rtruncnormal_100, freq=F, main="Belowground Tree Biomass (tC/ha)")
@@ -960,20 +970,51 @@ hist(H_rtruncnormal_100, freq=F, main="Soil Biomass (tC/ha)")
 
 ### *Figures 1-8: Distribution analysis of simulated estimates of carbon stock variables*
 
-![](data/PNG/distribution_histograms_mb.png)
 
-### *Figures 9-16: Distribution analysis of carbon stock input variables (Bhanti, 2025-03-17)* {#sec-figures-9-16-distribution-analysis-of-carbon-stock-input-variables-(bhanti-2025-03-17}
+```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.width="50%", out.height="20%", message=F, warning=F, error=F, comment=NA}
+inventory_dataset  = "./data/art/AllBiomassDataCombined_Master_September2019_ANALYSIS_2021_DescStat_Histo.xlsx"
+tree_data = readxl::read_excel(inventory_dataset, "Distribution_R") |> 
+  janitor::clean_names() |> mutate(across(where(is.numeric), ~ round(.x, 1)))
 
-In addition, these distributional visualizations above offer auditors
-useful diagnostic tools, enabling rapid identification and
+sw_trees_agb = stats::shapiro.test(tree_data$trees_agb_t_c_ha)
+sw_trees_bgb = stats::shapiro.test(tree_data$trees_bgb_t_c_ha)
+sw_saplings = stats::shapiro.test(tree_data$saplings_t_c_ha)
+sw_litter = stats::shapiro.test(tree_data$litter_t_c_ha)
+sw_standing_dead = stats::shapiro.test(tree_data$standing_dead_t_c_ha)
+sw_lying_dead = stats::shapiro.test(tree_data$lying_dead_t_c_ha)
+sw_agb_pools = stats::shapiro.test(tree_data$sum_agb_pools_no_soil_t_c_ha)
+sw_all_pools = stats::shapiro.test(tree_data$sum_all_pools_t_c_ha)
+
+MASS::truehist(tree_data$trees_agb_t_c_ha, xlab = "Above-ground biomass (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_trees_agb$p.value))
+MASS::truehist(tree_data$trees_bgb_t_c_ha, xlab = "Below-ground biomass (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_trees_bgb$p.value))
+MASS::truehist(tree_data$saplings_t_c_ha, xlab = "Sapling (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_saplings$p.value))
+MASS::truehist(tree_data$litter_t_c_ha, xlab = "Litter (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_litter$p.value))
+MASS::truehist(tree_data$standing_dead_t_c_ha, xlab = "Standing dead (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_standing_dead$p.value))
+MASS::truehist(tree_data$lying_dead_t_c_ha, xlab = "Lying dead (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_lying_dead$p.value))
+MASS::truehist(tree_data$sum_agb_pools_no_soil_t_c_ha, xlab = "Sum AGB Pools w/o SOC (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_agb_pools$p.value))
+MASS::truehist(tree_data$sum_all_pools_t_c_ha, xlab = "Sum All Pools (t C/ha)",
+  main = sprintf("Shapiro–Wilk p = %.3g", sw_agb_pools$p.value))
+```
+
+### *Figures 9-16: Distribution analysis of carbon stock input variables* 
+
+```{r, eval=F, echo=F}
+flextable(slice_head(tree_data, n = 8))|>fontsize(size=8,part="all")
+```
+
+
+In addition, these distributional visualizations may above offer
+auditors useful diagnostic tools, enabling rapid identification and
 characterization of biases commonly encountered in biomass data. Such
 diagrams help auditors efficiently assess the statistical approaches
-implemented by the project to monitor and manage uncertainty. Winrock
-recommends incorporating distribution analyses early in a project's
-reporting lifecycle with the aim of reducing audit findings, lowering
-uncertainty, and enhancing financial outcomes for Guyana's REDD+
-activities. Early distribution analysis likewise informs simulations &
-parameters in SimVoi.
+implemented to monitor and manage uncertainty in the project's data.
 
 To guide practitioners in appropriate simulation designs, the
 following two tables present findings from a rapid literature review
@@ -1200,7 +1241,7 @@ mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 
 |  |  |  |  |
 |------------------|:-----------------|:-----------------|:-----------------|
-| **REDD+**[^2] | **MC Application** | **Region** | **Key Findings** |
+| **REDD+**[^3] | **MC Application** | **Region** | **Key Findings** |
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. |
 | ADD | Blanket uncertainty propagation | Ghana | AGB prediction error \>20%; addressed error propagation from trees to pixels in remote sensing. |
@@ -1214,7 +1255,7 @@ mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 | IFM | Emission factor uncertainty | Central Africa | Model selection is the largest error source (40%); weighting models reduces uncertainty in emission factors. |
 | NA | Uncertainty in ecosystem nutrient estimate | New Hampshire, USA | Identified 8% uncertainty in nitrogen budgets, mainly from plot variability (6%) and allometric errors (5%). |
 
-[^2]: 1\. ADD: Avoided deforestation degradation, IFM: Improved forest
+[^3]: 1\. ADD: Avoided deforestation degradation, IFM: Improved forest
     management, JNR: Jurisdictional nested REDD+
 
 ## Annex III: Runtime snapshot
