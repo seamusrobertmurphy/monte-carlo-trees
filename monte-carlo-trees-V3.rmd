@@ -404,7 +404,6 @@ B8 = mean(B8_rtruncnormal_100)
 ```
 
 ```{r, echo=F}
-
 C1_MEAN = ActivityData$x2013[1]
 C1_SD   = ActivityData$x2013[17]
 C2_MEAN = ActivityData$x2013[2]
@@ -874,7 +873,7 @@ ActivityData_MC_R <- flextable(ActivityData_df[, 1:7]) |>
 ActivityData_MC_R
 ```
 
-### *Table 8: Results of Monte Carlo simulations of Activity Data tabsheet using SimVoi*
+### *Table 9: Results of Monte Carlo simulations of Activity Data tabsheet using SimVoi*
 
 ![](data/PNG/activitydata_mc.png)
 
@@ -925,7 +924,7 @@ ER_summary <- data.frame(
   )
 ```
 
-### Table 9: Simulated Univariate Summary of Emission Reductions (GHG ER)
+### Table 10: Simulated Univariate Summary of Emission Reductions (GHG ER)
 
 ```{r, echo=F}
 flextable(ER_summary)  |> fontsize(size=8,part="all") |> 
