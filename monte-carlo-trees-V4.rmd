@@ -2,7 +2,7 @@
 title: "Review of SimVoi's Monte Carlo Simulations of Guyana's REDD+ Uncertainty Esimates"
 author:
   - Winrock International^[seamus.murphy@winrock.org, pedro.piffer@winrock.org, meyru.bhanti@winrock.org]
-date: 2024-03-24
+date: Sys.Date()
 output: 
   pdf_document:
     toc: TRUE
