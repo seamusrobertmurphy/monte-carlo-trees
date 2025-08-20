@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.12.17)  5 MAY 2025 14:21
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.12.17)  9 MAY 2025 10:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -3853,12 +3853,12 @@ File: monte-carlo-trees-V4_files/figure-latex/unnamed-chunk-17-8.pdf Graphic fi
 le (type pdf)
 <use monte-carlo-trees-V4_files/figure-latex/unnamed-chunk-17-8.pdf>
 
-Overfull \hbox (2.21983pt too wide) in paragraph at lines 1183--1191
+Overfull \hbox (2.21834pt too wide) in paragraph at lines 1183--1191
 [][] []
  []
 
 
-Overfull \hbox (2.21605pt too wide) in paragraph at lines 1183--1191
+Overfull \hbox (2.21983pt too wide) in paragraph at lines 1183--1191
 [] []
  []
 
@@ -3925,13 +3925,12 @@ File: data/PNG/distribution_discrete.png Graphic file (type bmp)
 <data/PNG/distribution_discrete.png>
 [13]
 
-LaTeX Warning: Hyper reference `0' on page 14 undefined on input line 1364.
+LaTeX Warning: Hyper reference `0' on page 14 undefined on input line 1354.
 
-[14]
 
-LaTeX Warning: Hyper reference `0' on page 15 undefined on input line 1369.
+LaTeX Warning: Hyper reference `0' on page 14 undefined on input line 1359.
 
-[15] [16] [17] [18] [19] [20] [21] (./monte-carlo-trees-V4.aux)
+[14] [15] [16] [17] [18] [19] [20] [21] (./monte-carlo-trees-V4.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -3942,7 +3941,7 @@ LaTeX Warning: There were undefined references.
  ) 
 Here is how much of TeX's memory you used:
  21322 strings out of 474773
- 396926 string characters out of 5757723
+ 396931 string characters out of 5757723
  1958839 words of memory out of 5000000
  43096 multiletter control sequences out of 15000+600000
  564746 words of font info for 105 fonts, out of 8000000 for 9000

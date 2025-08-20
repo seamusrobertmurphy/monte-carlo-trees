@@ -2,7 +2,7 @@
 title: "Review of SimVoi's Monte Carlo Simulations of Guyana's REDD+ Uncertainty Esimates"
 author:
   - Winrock International^[seamus.murphy@winrock.org, pedro.piffer@winrock.org, meyru.bhanti@winrock.org]
-date: Sys.Date()
+date: '2025-04-23'
 output: 
   pdf_document:
     toc: TRUE
@@ -970,7 +970,6 @@ hist(H_rtruncnormal_100, freq=F, main="Soil Biomass (tC/ha)")
 
 ### *Figures 1-8: Distribution analysis of simulated estimates of carbon stock variables*
 
-
 ```{r, class.source = c("numCode", "r", "numberLines"), fig.show='hold', out.width="50%", out.height="20%", message=F, warning=F, error=F, comment=NA}
 inventory_dataset  = "./data/art/AllBiomassDataCombined_Master_September2019_ANALYSIS_2021_DescStat_Histo.xlsx"
 tree_data = readxl::read_excel(inventory_dataset, "Distribution_R") |> 
@@ -1003,12 +1002,11 @@ MASS::truehist(tree_data$sum_all_pools_t_c_ha, xlab = "Sum All Pools (t C/ha)",
   main = sprintf("Shapiro–Wilk p = %.3g", sw_agb_pools$p.value))
 ```
 
-### *Figures 9-16: Distribution analysis of carbon stock input variables* 
+### *Figures 9-16: Distribution analysis of carbon stock input variables*
 
 ```{r, eval=F, echo=F}
 flextable(slice_head(tree_data, n = 8))|>fontsize(size=8,part="all")
 ```
-
 
 In addition, these distributional visualizations may above offer
 auditors useful diagnostic tools, enabling rapid identification and
@@ -1058,45 +1056,35 @@ selection, and reduce audit findings, ultimately improving the
 financial and environmental outcomes of national REDD+ monitoring
 programs.
 
-## Recommendations
+## Potential Next Steps
 
--   Regarding simulation parameters,
-    *"RandTruncNormal(Mean,StDev,MinValue,MaxValue)) uses values of
-    RandNormal until a value is found between MinValue and MaxValue or
-    until it has made 10,000 attempts."* The formula applied in
-    Guyana's verified workbook uses a minimum value of `0`.
-    Considering the levels of quantitative variance between input
+-   Revisit the default use of `RandTruncNormal()` to be informed by
+    distribution probability analysis: The formula applied in Guyana's
+    verified workbook uses a minimum value of `0`.
+
+-   Considering the levels of quantitative variance between input
     values in the "CarbonStocks" tabsheet and SimVoi-simulated
     estimates in "CarbonStocks (MC)" tabsheet, we may assume that
-    approximately less than \~100 simulations were completed before
+    lower than target number of simulations were completed before
     values were reached "*between MinValue and MaxValue"* . It is
     useful to consider that with increasing numbers of simulations the
     closer the mean values generated should be to absolute input
     values. Therefore, in order to test this assumption we simply ran
     10,000 simulations, which generated mean estimates of within
     `2 tC ha-1` of input values (`205 tC ha-1`) 10 times of 10 reruns.
-    By reducing the number of iterations per simulation, we confirm
-    our assumptions that the current SimVoi setup provided estimates
-    from \~\<100 simulations.
 
--   We recommend increasing the number of simulation iterations from
-    100 to a higher number, in order to reduce variance in and
-    beteween simulated estimates, which thereby provide more robust
-    uncertainty quantification.
+-   For future improvements consider adopting a sensitvity analysis in
+    order to identify which input parameters contribute most to
+    overall uncertainty, thereby informing targeted data collection
+    and model refinement efforts.
 
--   It is advised to consider performing sensitivity analyses in order
-    to identify which input parameters contribute most to overall
-    uncertainty, thereby informing targeted data collection and model
-    refinement efforts.
-
--   Furthermore, distribution analysis confirms that our simulation
-    outputs approximate the expected statistical distributions of the
-    underlying data. In the next phase, we recommend incorporating the
-    observed distributional characteristics into the Monte Carlo
-    simulation framework. This adjustment, using distribution-specific
-    models (e.g., log-normal, beta, etc.), is essential for reducing
-    uncertainty and ensuring that our estimates carry statistical
-    significance.
+-   Based on this analysis, the adoption of different distribution
+    probabilities within SimVoi could be explored. In the next phase,
+    we recommend incorporating the observed distributional
+    characteristics into the Monte Carlo simulation framework. This
+    adjustment, using distribution-specific models (e.g., log-normal,
+    beta, etc.), is essential for reducing uncertainty and ensuring
+    that our estimates carry statistical significance.
 
 ## References
 
@@ -1240,7 +1228,7 @@ mean(apply(X = randtruncnormal_sim_10000_10000, MARGIN=2, FUN=mean))
 ### *Table A.2: Search parameters, resource scope, and objectives informing search*
 
 |  |  |  |  |
-|------------------|:-----------------|:-----------------|:-----------------|
+|----|:---|:---|:---|
 | **REDD+**[^3] | **MC Application** | **Region** | **Key Findings** |
 | ADD | Uncertainty of SAAB estimate | Rondônia, Brazil | Estimated ± 20% measurement error in SAAB using Monte Carlo simulations; emphasized large trees’ role in biomass. |
 | ADD | AGB Uncertainty | Kenya, Mozambique | Assessed mixed-effects models in estimating mangrove biomass. |
